@@ -37,7 +37,9 @@ class AdminController extends Controller
     {
         // Implement delete user functionality
         $user->delete();
-        return response(null, 204)->with('success', 'User deleted successfully.');
-        // return redirect()->route('admin.users')->with('success', 'User deleted successfully.');
+        session()->flash('success', 'User deleted successfully.');
+        return response()->json(['message' => 'User deleted successfully']);
+        // return response(null, 204)->with('success', 'User deleted successfully.');
+        // return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
     }
 }

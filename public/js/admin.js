@@ -1,33 +1,38 @@
 $(document).ready(function () {
     // Handle the "Delete" button click
     $('.delete-user').on('click', function () {
-        const userId = $(this).data('user-id'); // Get the user ID from the clicked button's data
+        // Show the modal
+        $('#confirmDeleteModal').css('display', 'block');
 
-        // Set the user ID in the modal's "Confirm Delete" button
-        $('.confirm-delete').data('user-id', userId);
-
-        // Display the confirmation modal
-        $('#confirmDeleteModal').modal('show');
+        // Store the user ID in a data attribute
+        const userId = $(this).data('user-id');
+        $('#confirmDeleteModal').data('user-id', userId);
     });
 
     // Handle the "Confirm Delete" button click within the modal
-    $('.confirm-delete').on('click', function () {
-        const userId = $(this).data('user-id'); // Get the user ID from the "Confirm Delete" button's data
-        const url = `/admin/delete-user/${userId}`;
+    $('#confirmDelete').on('click', function () {
+        const userId = $('#confirmDeleteModal').data('user-id');
+        const url = `/admin/users/${userId}`;
 
         $.ajax({
             url: url,
             type: 'DELETE',
             data: {
-                _token: $('meta[name="csrf-token"]').attr('content') // Get the CSRF token
+                _token: $('meta[name="csrf-token"]').attr('content')
             },
             success: function (data) {
-                // Handle success, e.g., refresh the user list
+                $('#confirmDeleteModal').css('display', 'none');
                 location.reload();
+            },
+            error: function (data) {
+                console.log('Error:', data);
             }
         });
+    });
 
-        // Close the modal
-        $('#confirmDeleteModal').modal('hide');
+    // Handle the "Cancel" button click within the modal
+    $('#cancelDelete').on('click', function () {
+        // Hide the modal
+        $('#confirmDeleteModal').css('display', 'none');
     });
 });
