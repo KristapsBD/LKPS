@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -18,13 +19,37 @@ class AdminController extends Controller
         return view('admin.users', ['users' => $users]);
     }
 
-    public function editUser(User $user)
+    public function createUserForm()
+    {
+        return view('admin.createUser');
+    }
+
+    public function createUser(Request $request)
+    {
+        // Validation rules go here
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        // Create the new user
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+        ]);
+
+        return redirect()->route('admin.users')->with('success', 'User created successfully.');
+    }
+
+    public function editUserForm(User $user)
     {
         // Implement edit user functionality
         return view('admin.editUser', ['user' => $user]);
     }
 
-    public function updateUser(Request $request, User $user)
+    public function editUser(Request $request, User $user)
     {
         $user->update([
             'name' => $request->input('name'),

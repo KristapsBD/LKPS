@@ -32,9 +32,14 @@ Route::middleware('auth')->group(function () {
 Route::middleware("admin")->group( function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/users', [AdminController::class, 'viewAllUsers'])->name('admin.users');
-    Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.updateUser');
-    Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.editUser');
-    Route::delete('/admin/users/{user}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+
+    Route::get('/admin/edit-user/{user}', [AdminController::class, 'editUserForm'])->name('admin.editUserForm');
+    Route::put('/admin/edit-user/{user}', [AdminController::class, 'editUser'])->name('admin.editUser');
+
+    Route::delete('/admin/delete-user/{user}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+
+    Route::get('/admin/create-user', [AdminController::class, 'createUserForm'])->name('admin.createUserForm');
+    Route::post('/admin/create-user', [AdminController::class, 'createUser'])->name('admin.createUser');
 
 });
 

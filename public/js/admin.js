@@ -12,7 +12,7 @@ $(document).ready(function () {
     // Handle the "Confirm Delete" button click within the modal
     $('#confirmDelete').on('click', function () {
         const userId = $('#confirmDeleteModal').data('user-id');
-        const url = `/admin/users/${userId}`;
+        const url = `/admin/delete-user/${userId}`;
 
         $.ajax({
             url: url,
