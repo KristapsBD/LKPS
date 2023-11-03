@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ParcelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,23 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::get('/create-parcel', [ParcelController::class, 'create'])->name('parcel.create');
+// Route::post('/create-parcel', [ParcelController::class, 'store'])->name('parcel.store');
+
+Route::get('/create-parcel', [ParcelController::class, 'step1'])->name('parcel.step1');
+Route::post('/create-parcel', [ParcelController::class, 'storeStep1'])->name('parcel.storeStep1');
+Route::get('/create-parcel/contact', [ParcelController::class, 'step2'])->name('parcel.step2');
+Route::post('/create-parcel/contact', [ParcelController::class, 'storeStep2'])->name('parcel.storeStep2');
+Route::get('/create-parcel/overview', [ParcelController::class, 'step3'])->name('parcel.step3');
+Route::post('/create-parcel/overview', [ParcelController::class, 'storeAllData'])->name('parcel.storeAllData');
+Route::get('/create-parcel/success', [ParcelController::class, 'success'])->name('parcel.success');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
