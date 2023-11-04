@@ -16,7 +16,18 @@ return new class extends Migration
             $table->string('parcel_size');
             $table->float('parcel_weight');
             $table->text('additional_notes')->nullable();
-            $table->foreignId('client_id')
+            $table->unsignedBigInteger('sender_user_id')->nullable();
+            $table->foreign('sender_user_id')
+                ->references('id')
+                ->on('users')
+                ->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('sender_client_id')->nullable();
+            $table->foreign('sender_client_id')
+                ->references('id')
+                ->on('clients')
                 ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
@@ -31,7 +42,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('parcels', function (Blueprint $table) {
-            $table->dropForeign(['client_id']);
+            $table->dropForeign(['sender_client_id']);
+        });
+
+        Schema::table('parcels', function (Blueprint $table) {
+            $table->dropForeign(['sender_user_id']);
         });
 
         Schema::dropIfExists('parcels');

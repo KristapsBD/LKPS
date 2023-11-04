@@ -15,8 +15,8 @@ class Client extends Model
         'phone',
     ];
 
-    public function parcel()
+    public function parcels()
     {
-        return $this->hasMany(Parcel::class);
+        return $this->hasMany(Parcel::class, 'sender_client_id');
     }
 }
