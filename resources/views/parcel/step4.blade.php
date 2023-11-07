@@ -17,17 +17,17 @@
                 <h3 class="text-lg font-semibold dark:text-white">Parcel Information</h3>
                 <div class="mb-4">
                     <label class="block dark:text-white">Parcel Size:</label>
-                    <span class="dark:text-white">{{ $step1Data ? $step1Data['parcel_size'] : '' }}</span>
+                    <span class="dark:text-white">{{ $step1Data ? $step1Data['size'] : '' }}</span>
                 </div>
 
                 <div class="mb-4">
                     <label class="block dark:text-white">Parcel Weight (kg):</label>
-                    <span class="dark:text-white">{{ $step1Data ? $step1Data['parcel_weight'] : '' }}</span>
+                    <span class="dark:text-white">{{ $step1Data ? $step1Data['weight'] : '' }}</span>
                 </div>
 
                 <div class="mb-4">
                     <label class="block dark:text-white">Additional Notes:</label>
-                    <span class="dark:text-white">{{ $step1Data ? $step1Data['additional_notes'] : 'N/A' }}</span>
+                    <span class="dark:text-white">{{ $step1Data ? $step1Data['notes'] : 'N/A' }}</span>
                 </div>
             </section>
 

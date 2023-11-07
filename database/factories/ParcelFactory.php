@@ -17,9 +17,9 @@ class ParcelFactory extends Factory
     public function definition(): array
     {
         return [
-            'parcel_size' => $this->faker->randomElement(['s', 'm', 'l', 'xl']),
-            'parcel_weight' => $this->faker->numberBetween(1, 100),
-            'additional_notes' => $this->faker->text,
+            'size' => $this->faker->randomElement(['s', 'm', 'l', 'xl']),
+            'weight' => $this->faker->numberBetween(1, 100),
+            'notes' => $this->faker->text,
         ];
     }
 }

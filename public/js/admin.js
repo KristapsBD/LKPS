@@ -6,12 +6,16 @@ $(document).ready(function () {
 
         // Store the user ID in a data attribute
         const userId = $(this).data('user-id');
+        const deleteRoute = $(this).data('delete-route');
+        console.log(deleteRoute);
         $('#confirmDeleteModal').data('user-id', userId);
     });
 
     // Handle the "Confirm Delete" button click within the modal
     $('#confirmDelete').on('click', function () {
         const userId = $('#confirmDeleteModal').data('user-id');
+        const deleteRoute = $(this).data('delete-route');
+        console.log(deleteRoute);
         const url = `/admin/delete-user/${userId}`;
 
         $.ajax({

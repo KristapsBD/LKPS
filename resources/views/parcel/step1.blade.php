@@ -14,8 +14,8 @@
             @csrf
 
             <div class="mb-4">
-                <label for="parcel_size" class="block text-gray-700 dark:text-gray-300">Parcel Size</label>
-                <select id="parcel_size" name="parcel_size" class="form-select" value="{{ old('parcel_size', $step1Data['parcel_size'] ?? '') }}">
+                <label for="size" class="block text-gray-700 dark:text-gray-300">Parcel Size</label>
+                <select id="size" name="size" class="form-select" value="{{ old('size', $step1Data['size'] ?? '') }}">
                     <option value="s">Small</option>
                     <option value="m">Medium</option>
                     <option value="l">Large</option>
@@ -24,13 +24,13 @@
             </div>
 
             <div class="mb-4">
-                <label for="parcel_weight" class="block text-gray-700 dark:text-gray-300">Parcel Weight (kg)</label>
-                <input type="number" id="parcel_weight" name="parcel_weight" class="form-input" min="0" max="100" required value="{{ old('parcel_weight', $step1Data['parcel_weight'] ?? '') }}">
+                <label for="weight" class="block text-gray-700 dark:text-gray-300">Parcel Weight (kg)</label>
+                <input type="number" id="weight" name="weight" class="form-input" min="0" max="100" required value="{{ old('weight', $step1Data['weight'] ?? '') }}">
             </div>
 
             <div class="mb-4">
-                <label for="additional_notes" class="block text-gray-700 dark:text-gray-300">Additional Notes</label>
-                <textarea id="additional_notes" name="additional_notes" class="form-textarea" placeholder="Enter additional notes...">{{ old('additional_notes', $step1Data['additional_notes'] ?? '') }}</textarea>
+                <label for="notes" class="block text-gray-700 dark:text-gray-300">Additional Notes</label>
+                <textarea id="notes" name="notes" class="form-textarea" placeholder="Enter additional notes...">{{ old('notes', $step1Data['notes'] ?? '') }}</textarea>
             </div>
 
             <div class="mt-4">

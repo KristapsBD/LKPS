@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
         $user = User::factory()->create([
             'name' => 'John Doe',
@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $parcel = Parcel::factory()->create([
-            'parcel_size' => 's',
-            'parcel_weight' => 10.0,
-            'additional_notes' => 'Sample parcel',
+            'size' => 's',
+            'weight' => 10.0,
+            'notes' => 'Sample parcel',
             'sender_user_id' => $user->id,
         ]);
     }

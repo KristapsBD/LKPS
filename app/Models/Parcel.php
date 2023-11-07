@@ -10,9 +10,9 @@ class Parcel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'parcel_size',
-        'parcel_weight',
-        'additional_notes',
+        'size',
+        'weight',
+        'notes',
     ];
 
     public function client()

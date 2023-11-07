@@ -19,6 +19,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/'); // Redirect non-admin users
+        return back()->with('error', '403 Forbidden. You have no access to this route.'); // Redirect non-admin users
     }
 }

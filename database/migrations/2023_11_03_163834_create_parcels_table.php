@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('parcels', function (Blueprint $table) {
             $table->id();
-            $table->string('parcel_size');
-            $table->float('parcel_weight');
-            $table->text('additional_notes')->nullable();
+            $table->string('size');
+            $table->float('weight');
+            $table->text('notes')->nullable();
             $table->unsignedBigInteger('sender_user_id')->nullable();
             $table->foreign('sender_user_id')
                 ->references('id')

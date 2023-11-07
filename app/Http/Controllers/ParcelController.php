@@ -19,9 +19,9 @@ class ParcelController extends Controller
     public function storeStep1(Request $request)
     {
         $this->validate($request, [
-            'parcel_size' => 'required|in:s,m,l,xl',
-            'parcel_weight' => 'required|numeric|min:0|max:100',
-            'additional_notes' => 'nullable|string',
+            'size' => 'required|in:s,m,l,xl',
+            'weight' => 'required|numeric|min:0|max:100',
+            'notes' => 'nullable|string',
         ]);
 
         $request->session()->put('step1Data', $request->all());
@@ -122,9 +122,9 @@ class ParcelController extends Controller
         ]);
 
         $parcel = new Parcel([
-            'parcel_size' => $step1Data['parcel_size'],
-            'parcel_weight' => $step1Data['parcel_weight'],
-            'additional_notes' => $step1Data['additional_notes'],
+            'size' => $step1Data['size'],
+            'weight' => $step1Data['weight'],
+            'notes' => $step1Data['notes'],
         ]);
 
         if($alreadyRegistered){
@@ -137,12 +137,7 @@ class ParcelController extends Controller
 
         $request->session()->forget(['step1Data', 'step2Data', 'step3Data']);
 
-        return redirect()->route('home')->with('success', 'Parcel created successfully.');
-    }
-
-    public function success()
-    {
-        return view('parcel.success');
+        return redirect()->route('dashboard')->with('success', 'Parcel created successfully.');
     }
 
     public function parcelHistory()

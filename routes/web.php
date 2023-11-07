@@ -32,10 +32,8 @@ Route::get('/create-parcel/contact-receiver', [ParcelController::class, 'step3']
 Route::post('/create-parcel/contact-receiver', [ParcelController::class, 'storeStep3'])->name('parcel.storeStep3');
 Route::get('/create-parcel/overview', [ParcelController::class, 'step4'])->name('parcel.step4');
 Route::post('/create-parcel/overview', [ParcelController::class, 'storeAllData'])->name('parcel.storeAllData');
-Route::get('/create-parcel/success', [ParcelController::class, 'success'])->name('parcel.success');
 
-
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group( function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -45,7 +43,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware("admin")->group( function () {
+
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // User CRUD routes
     Route::get('/admin/users', [AdminController::class, 'viewAllUsers'])->name('admin.users');
 
     Route::get('/admin/edit-user/{user}', [AdminController::class, 'editUserForm'])->name('admin.editUserForm');
@@ -56,6 +57,16 @@ Route::middleware("admin")->group( function () {
     Route::get('/admin/create-user', [AdminController::class, 'createUserForm'])->name('admin.createUserForm');
     Route::post('/admin/create-user', [AdminController::class, 'createUser'])->name('admin.createUser');
 
+    // Parcel CRUD routes
+    Route::get('/admin/parcels', [AdminController::class, 'viewAllParcels'])->name('admin.parcels');
+
+    Route::get('/admin/edit-parcel/{parcel}', [AdminController::class, 'editParcelForm'])->name('admin.editParcelForm');
+    Route::put('/admin/edit-parcel/{parcel}', [AdminController::class, 'editParcel'])->name('admin.editParcel');
+
+    Route::delete('/admin/delete-parcel/{parcel}', [AdminController::class, 'deleteParcel'])->name('admin.deleteParcel');
+
+    Route::get('/admin/create-parcel', [AdminController::class, 'createParcelForm'])->name('admin.createParcelForm');
+    Route::post('/admin/create-parcel', [AdminController::class, 'createParcel'])->name('admin.createParcel');
 });
 
 require __DIR__.'/auth.php';

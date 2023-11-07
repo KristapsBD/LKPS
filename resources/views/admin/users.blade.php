@@ -24,10 +24,11 @@
                     <td class="border px-4 py-2 dark:text-gray-100">
                         <a href="{{ route('admin.editUserForm', $user->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</a>
                         <button
-                        class="bg-red-500 hover:bg-red-600 text-white font-bold py-1.5 px-4 rounded mr-2 delete-user"
-                        data-toggle="modal"
+                            class="bg-red-500 hover:bg-red-600 text-white font-bold py-1.5 px-4 rounded mr-2 delete-user"
+                            data-toggle="modal"
                             data-target="#confirmDeleteModal"
                             data-user-id="{{ $user->id }}"
+                            data-delete-route="{{ route('admin.deleteUser', $user->id) }}"
                         >
                         Delete
                     </button>

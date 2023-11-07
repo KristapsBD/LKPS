@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Parcel;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+    // User CRUD
     public function index()
     {
         return view('admin.dashboard');
@@ -63,8 +65,60 @@ class AdminController extends Controller
         // Implement delete user functionality
         $user->delete();
         session()->flash('success', 'User deleted successfully.');
-        return response()->json(['message' => 'User deleted successfully']);
-        // return response(null, 204)->with('success', 'User deleted successfully.');
-        // return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
+        return response()->json();
+    }
+
+    // Parcel Crud
+    public function viewAllParcels()
+    {
+        $parcels = Parcel::all(); // Fetch all parcels from the database
+        return view('admin.parcels', ['parcels' => $parcels]);
+    }
+
+    public function createParcelForm()
+    {
+        return view('admin.createParcel');
+    }
+
+    public function createParcel(Request $request)
+    {
+        // Validation rules go here
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        // Create the new parcel
+        $parcel = Parcel::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+        ]);
+
+        return redirect()->route('admin.parcels')->with('success', 'Parcel created successfully.');
+    }
+
+    public function editParcelForm(Parcel $parcel)
+    {
+        // Implement edit parcel functionality
+        return view('admin.editParcel', ['parcel' => $parcel]);
+    }
+
+    public function editParcel(Request $request, Parcel $parcel)
+    {
+        $parcel->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
+        return redirect()->route('admin.parcels')->with('success', 'Parcel updated successfully.');
+    }
+
+    public function deleteParcel(Parcel $parcel)
+    {
+        // Implement delete parcel functionality
+        $parcel->delete();
+        session()->flash('success', 'Parcel deleted successfully.');
+        return response()->json();
     }
 }

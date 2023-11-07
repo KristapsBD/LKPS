@@ -24,13 +24,13 @@
                     @foreach($parcels as $parcel)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $parcel->parcel_size }}
+                                {{ $parcel->size }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $parcel->parcel_weight }}
+                                {{ $parcel->weight }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $parcel->additional_notes }}
+                                {{ $parcel->notes }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {{ $parcel->created_at }}
