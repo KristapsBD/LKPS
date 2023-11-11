@@ -89,31 +89,12 @@ class ParcelController extends Controller
 
     public function storeAllData(Request $request)
     {
+        // TODO: Implement function for user to change sender info OR remove unused code
         $step1Data = $request->session()->get('step1Data');
         $step2Data = $request->session()->get('step2Data');
         $step3Data = $request->session()->get('step3Data');
-        $alreadyRegistered = false;
 
-        if (Auth::check()) {
-            $user = Auth::user();
-
-            if ($step2Data['sender_email'] === $user->email) {
-                $sender = $user;
-                $alreadyRegistered = true;
-            } else {
-                $sender = Client::create([
-                    'name' => $step2Data['sender_name'],
-                    'email' => $step2Data['sender_email'],
-                    'phone' => $step2Data['sender_phone'],
-                ]);
-            }
-        } else {
-            $sender = Client::create([
-                'name' => $step2Data['sender_name'],
-                'email' => $step2Data['sender_email'],
-                'phone' => $step2Data['sender_phone'],
-            ]);
-        }
+        $sender = Auth::user();
 
         $receiver = Client::create([
             'name' => $step3Data['receiver_name'],
@@ -127,17 +108,61 @@ class ParcelController extends Controller
             'notes' => $step1Data['notes'],
         ]);
 
-        if($alreadyRegistered){
-            $parcel->user()->associate($sender);
-        } else {
-            $parcel->client()->associate($sender);
-        }
+        $parcel->sender()->associate($sender);
+        $parcel->receiver()->associate($receiver);
 
         $parcel->save();
 
         $request->session()->forget(['step1Data', 'step2Data', 'step3Data']);
 
         return redirect()->route('dashboard')->with('success', 'Parcel created successfully.');
+
+//        $alreadyRegistered = false;
+//
+//        if (Auth::check()) {
+//            $user = Auth::user();
+//
+//            if ($step2Data['sender_email'] === $user->email) {
+//                $sender = $user;
+//                $alreadyRegistered = true;
+//            } else {
+//                $sender = Client::create([
+//                    'name' => $step2Data['sender_name'],
+//                    'email' => $step2Data['sender_email'],
+//                    'phone' => $step2Data['sender_phone'],
+//                ]);
+//            }
+//        } else {
+//            $sender = Client::create([
+//                'name' => $step2Data['sender_name'],
+//                'email' => $step2Data['sender_email'],
+//                'phone' => $step2Data['sender_phone'],
+//            ]);
+//        }
+//
+//        $receiver = Client::create([
+//            'name' => $step3Data['receiver_name'],
+//            'email' => $step3Data['receiver_email'],
+//            'phone' => $step3Data['receiver_phone'],
+//        ]);
+//
+//        $parcel = new Parcel([
+//            'size' => $step1Data['size'],
+//            'weight' => $step1Data['weight'],
+//            'notes' => $step1Data['notes'],
+//        ]);
+//
+//        if($alreadyRegistered){
+//            $parcel->sender()->associate($sender);
+//        } else {
+//            $parcel->receiver()->associate($sender);
+//        }
+//
+//        $parcel->save();
+//
+//        $request->session()->forget(['step1Data', 'step2Data', 'step3Data']);
+//
+//        return redirect()->route('dashboard')->with('success', 'Parcel created successfully.');
     }
 
     public function parcelHistory()

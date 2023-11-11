@@ -1,25 +1,18 @@
 $(document).ready(function () {
+    let deleteRoute;
     // Handle the "Delete" button click
-    $('.delete-user').on('click', function () {
+    $('.delete-element').on('click', function () {
         // Show the modal
         $('#confirmDeleteModal').css('display', 'block');
 
-        // Store the user ID in a data attribute
-        const userId = $(this).data('user-id');
-        const deleteRoute = $(this).data('delete-route');
-        console.log(deleteRoute);
-        $('#confirmDeleteModal').data('user-id', userId);
+        deleteRoute = $(this).data('delete-route');
     });
 
     // Handle the "Confirm Delete" button click within the modal
     $('#confirmDelete').on('click', function () {
-        const userId = $('#confirmDeleteModal').data('user-id');
-        const deleteRoute = $(this).data('delete-route');
-        console.log(deleteRoute);
-        const url = `/admin/delete-user/${userId}`;
 
         $.ajax({
-            url: url,
+            url: deleteRoute,
             type: 'DELETE',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content')

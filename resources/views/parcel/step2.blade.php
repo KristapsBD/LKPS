@@ -18,22 +18,22 @@
                 <h3 class="text-lg font-semibold dark:text-white">Sender Information</h3>
                 <div class="mb-4">
                     <label for="sender_name" class="block dark:text-white">Name</label>
-                    <input type="text" id="sender_name" name="sender_name" class="form-input dark:text-black" required value="{{ old('sender_name', $step2Data['sender_name'] ?? '') }}">
+                    <input type="text" id="sender_name" name="sender_name" class="form-input dark:text-black" required value="{{ old('sender_name', $step2Data['sender_name'] ?? auth()->user()->name) }}">
                 </div>
 
                 <div class="mb-4">
                     <label for="sender_email" class="block dark:text-white">Email</label>
-                    <input type="email" id="sender_email" name="sender_email" class="form-input dark:text-black" required value="{{ old('sender_email', $step2Data['sender_email'] ?? '') }}">
+                    <input type="email" id="sender_email" name="sender_email" class="form-input dark:text-black" required value="{{ old('sender_email', $step2Data['sender_email'] ?? auth()->user()->email) }}">
                 </div>
 
                 <div class="mb-4">
                     <label for="sender_phone" class="block dark:text-white">Phone</label>
-                    <input type="tel" id="sender_phone" name="sender_phone" class="form-input dark:text-black" required value="{{ old('sender_phone', $step2Data['sender_phone'] ?? '') }}">
+                    <input type="tel" id="sender_phone" name="sender_phone" class="form-input dark:text-black" required value="{{ old('sender_phone', $step2Data['sender_phone'] ?? auth()->user()->phone) }}">
                 </div>
 
                 <div class="mb-4">
                     <label for="sender_address" class="block dark:text-white">Address</label>
-                    <textarea id="sender_address" name="sender_address" class="form-textarea dark:text-black" required placeholder="Enter address">{{ old('sender_phone', $step2Data['sender_phone'] ?? '') }}</textarea>
+                    <textarea id="sender_address" name="sender_address" class="form-textarea dark:text-black" required placeholder="Enter address">{{ old('sender_address', $step2Data['sender_address'] ?? auth()->user()->address) }}</textarea>
                 </div>
             </div>
 

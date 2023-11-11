@@ -20,7 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -40,11 +42,29 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
     public function parcels()
     {
-        return $this->hasMany(Parcel::class, 'sender_user_id');
+        return $this->hasMany(Parcel::class, 'sender_id');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function userPhoneVerified()
+    {
+        return ! is_null($this->phone_verified_at);
+    }
+
+    public function phoneVerifiedAt()
+    {
+        return $this->forceFill([
+            'phone_verified_at' => $this->freshTimestamp(),
+        ])->save();
     }
 }

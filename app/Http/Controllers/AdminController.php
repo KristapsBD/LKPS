@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Parcel;
@@ -53,10 +54,17 @@ class AdminController extends Controller
 
     public function editUser(Request $request, User $user)
     {
-        $user->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+//            'password' => 'required|string|min:8',
         ]);
+
+        $user->update([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+        ]);
+
         return redirect()->route('admin.users')->with('success', 'User updated successfully.');
     }
 
@@ -84,17 +92,42 @@ class AdminController extends Controller
     {
         // Validation rules go here
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
+            'size' => 'required|in:s,m,l,xl',
+            'weight' => 'required|numeric|min:0|max:100',
+            'notes' => 'nullable|string',
+            'sender_id' => 'required|exists:users,id',
+//            'sender_name' => 'required|string',
+//            'sender_email' => 'required|email',
+//            'sender_phone' => 'required|string',
+//            'sender_address' => 'required|string',
+            'dropoff_date' => 'required|date',
+            'dropoff_time_from' => 'required|date_format:H:i',
+            'dropoff_time_to' => 'required|date_format:H:i',
+            'receiver_name' => 'required|string',
+            'receiver_email' => 'required|email',
+            'receiver_phone' => 'required|string',
+            'receiver_address' => 'required|string',
+        ]);
+
+        $sender = User::findOrFail($validatedData['sender_id']);
+
+        $receiver = Client::create([
+            'name' => $validatedData['receiver_name'],
+            'email' => $validatedData['receiver_email'],
+            'phone' => $validatedData['receiver_phone'],
         ]);
 
         // Create the new parcel
         $parcel = Parcel::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+            'size' => $validatedData['size'],
+            'weight' => $validatedData['weight'],
+            'notes' => $validatedData['notes'],
         ]);
+
+        $parcel->sender()->associate($sender);
+        $parcel->receiver()->associate($receiver);
+
+        $parcel->save();
 
         return redirect()->route('admin.parcels')->with('success', 'Parcel created successfully.');
     }
@@ -107,9 +140,31 @@ class AdminController extends Controller
 
     public function editParcel(Request $request, Parcel $parcel)
     {
+        $validatedData = $request->validate([
+            'size' => 'required|in:s,m,l,xl',
+            'weight' => 'required|numeric|min:0|max:100',
+            'notes' => 'nullable|string',
+            'sender_id' => 'required|exists:users,id',
+            'receiver_id' => 'required|exists:clients,id',
+////            'sender_name' => 'required|string',
+////            'sender_email' => 'required|email',
+////            'sender_phone' => 'required|string',
+////            'sender_address' => 'required|string',
+//            'dropoff_date' => 'required|date',
+//            'dropoff_time_from' => 'required|date_format:H:i',
+//            'dropoff_time_to' => 'required|date_format:H:i',
+//            'receiver_name' => 'required|string',
+//            'receiver_email' => 'required|email',
+//            'receiver_phone' => 'required|string',
+//            'receiver_address' => 'required|string',
+        ]);
+
         $parcel->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
+            'size' => $validatedData['size'],
+            'weight' => $validatedData['weight'],
+            'notes' => $validatedData['notes'],
+            'sender_id' => $validatedData['sender_id'],
+            'receiver_id' => $validatedData['receiver_id'],
         ]);
         return redirect()->route('admin.parcels')->with('success', 'Parcel updated successfully.');
     }

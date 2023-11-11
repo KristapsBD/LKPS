@@ -16,16 +16,15 @@ return new class extends Migration
             $table->string('size');
             $table->float('weight');
             $table->text('notes')->nullable();
-            $table->unsignedBigInteger('sender_user_id')->nullable();
-            $table->foreign('sender_user_id')
+            $table->unsignedBigInteger('sender_id')->nullable();
+            $table->foreign('sender_id')
                 ->references('id')
                 ->on('users')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('sender_client_id')->nullable();
-            $table->foreign('sender_client_id')
+            $table->unsignedBigInteger('receiver_id')->nullable();
+            $table->foreign('receiver_id')
                 ->references('id')
                 ->on('clients')
                 ->nullable()
@@ -41,13 +40,15 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('parcels', function (Blueprint $table) {
-            $table->dropForeign(['sender_client_id']);
-        });
+        if(Schema::hasTable('parcels')){
+            Schema::table('parcels', function (Blueprint $table) {
+                $table->dropForeign(['receiver_id']);
+            });
 
-        Schema::table('parcels', function (Blueprint $table) {
-            $table->dropForeign(['sender_user_id']);
-        });
+            Schema::table('parcels', function (Blueprint $table) {
+                $table->dropForeign(['sender_id']);
+            });
+        }
 
         Schema::dropIfExists('parcels');
     }

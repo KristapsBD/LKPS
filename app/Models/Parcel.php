@@ -15,13 +15,13 @@ class Parcel extends Model
         'notes',
     ];
 
-    public function client()
+    public function receiver()
     {
-        return $this->belongsTo(Client::class, 'sender_client_id');
+        return $this->belongsTo(Client::class, 'receiver_id');
     }
 
-    public function user()
+    public function sender()
     {
-        return $this->belongsTo(User::class, 'sender_user_id');
+        return $this->belongsTo(User::class, 'sender_id');
     }
 }

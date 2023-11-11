@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Client;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Parcel;
+use App\Models\Address;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,19 +16,37 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(10)->create();
+//        \App\Models\User::factory(10)->create();
+//        \App\Models\Client::factory(10)->create();
+        \App\Models\Parcel::factory(10)->create();
+//        \App\Models\Address::factory(10)->create();
 
-        $user = User::factory()->create([
-            'name' => 'John Doe',
+        $sender = User::factory()->create([
+            'name' => 'User Doe',
             'email' => 'kristaps.briks@inbox.lv',
-            'password' => bcrypt('password'), // Replace with the desired password
+            'phone' => '20289000',
+            'password' => bcrypt('password'),
+        ]);
+
+        $receiver = Client::factory()->create([
+            'name' => 'Client Doe',
+            'email' => 'kristaps.briks@inbox.lv',
+            'phone' => '20289000',
+        ]);
+
+        $address = Address::factory()->create([
+            'street' => 'Iecavas 5',
+            'city' => 'Ozolnieki',
+            'postal_code' => 'LV-3018',
+            'county' => 'Jelgavas novads',
         ]);
 
         $parcel = Parcel::factory()->create([
             'size' => 's',
             'weight' => 10.0,
             'notes' => 'Sample parcel',
-            'sender_user_id' => $user->id,
+            'sender_id' => $sender->id,
+            'receiver_id' => $receiver->id,
         ]);
     }
 }

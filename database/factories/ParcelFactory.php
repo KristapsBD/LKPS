@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +18,15 @@ class ParcelFactory extends Factory
      */
     public function definition(): array
     {
+        $sender = User::factory()->create();
+        $receiver = Client::factory()->create();
+
         return [
             'size' => $this->faker->randomElement(['s', 'm', 'l', 'xl']),
             'weight' => $this->faker->numberBetween(1, 100),
             'notes' => $this->faker->text,
+            'sender_id' => $sender->id,
+            'receiver_id' => $receiver->id,
         ];
     }
 }

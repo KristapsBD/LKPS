@@ -19,8 +19,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
-
+            <!-- Flash messages -->
             <div x-data="{ showMessage: true }" x-show="showMessage">
                 @if (session('success'))
                     <div class="flex items-top bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
@@ -53,6 +52,9 @@
                     </div>
                 @endif
             </div>
+
+            <!-- Navigation bar -->
+            @include('layouts.navigation')
 
             <!-- Page Heading -->
             @if (isset($header))

@@ -23,6 +23,8 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
+//    TODO: implement verify phone number https://medium.com/@namandhuri01/how-to-implement-account-verification-and-login-by-phone-in-laravel-application-93cbd8e0ae55
+
     /**
      * Handle an incoming registration request.
      *
@@ -33,12 +35,14 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['required', 'phone'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
