@@ -53,6 +53,11 @@
                             View All Parcels
                         </a>
                     </li>
+                    <li>
+                        <a class="block text-blue-600 hover:underline dark:text-gray-100" href="{{ route('admin.vehicles') }}">
+                            View All Vehicles
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="w-3/4 p-4">

@@ -14,6 +14,7 @@
                 <th class="px-4 py-2 dark:text-gray-100">Notes</th>
                 <th class="px-4 py-2 dark:text-gray-100">Sender ID</th>
                 <th class="px-4 py-2 dark:text-gray-100">Receiver ID</th>
+                <th class="px-4 py-2 dark:text-gray-100">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +31,7 @@
                             class="bg-red-500 hover:bg-red-600 text-white font-bold py-1.5 px-4 rounded mr-2 delete-element"
                             data-toggle="modal"
                             data-target="#confirmDeleteModal"
-                            data-parcel-id="{{ $parcel->id }}"
+                            data-element-id="{{ $parcel->id }}"
                             data-delete-route="{{ route('admin.deleteParcel', $parcel->id) }}"
                         >
                             Delete

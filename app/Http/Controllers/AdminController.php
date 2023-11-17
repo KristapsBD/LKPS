@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Vehicle;
 use App\Models\Parcel;
 use Illuminate\Support\Facades\Hash;
 
@@ -174,6 +175,64 @@ class AdminController extends Controller
         // Implement delete parcel functionality
         $parcel->delete();
         session()->flash('success', 'Parcel deleted successfully.');
+        return response()->json();
+    }
+
+    // Vehicle CRUD
+    public function viewAllVehicles()
+    {
+        $vehicles = Vehicle::all(); // Fetch all vehicles from the database
+        return view('admin.vehicles', ['vehicles' => $vehicles]);
+    }
+
+    public function createVehicleForm()
+    {
+        return view('admin.createVehicle');
+    }
+
+    public function createVehicle(Request $request)
+    {
+        // Validation rules go here
+        $validatedData = $request->validate([
+            'registration_number' => 'required|unique:vehicles,registration_number|string|max:12',
+            'type' => 'required|in:1,2,3',
+        ]);
+
+        // Create the new vehicle
+        $vehicle = Vehicle::create([
+            'registration_number' => $validatedData['registration_number'],
+            'type' => $validatedData['type'],
+        ]);
+
+        return redirect()->route('admin.vehicles')->with('success', 'Vehicle created successfully.');
+    }
+
+    public function editVehicleForm(Vehicle $vehicle)
+    {
+        // Implement edit vehicle functionality
+        return view('admin.editVehicle', ['vehicle' => $vehicle]);
+    }
+
+    public function editVehicle(Request $request, Vehicle $vehicle)
+    {
+        $validatedData = $request->validate([
+            'registration_number' => 'required|string|max:12',
+            'type' => 'required|in:1,2,3',
+        ]);
+
+        $vehicle->update([
+            'registration_number' => $validatedData['registration_number'],
+            'type' => $validatedData['type'],
+        ]);
+
+        return redirect()->route('admin.vehicles')->with('success', 'Vehicle updated successfully.');
+    }
+
+    public function deleteVehicle(Vehicle $vehicle)
+    {
+        // Implement delete vehicle functionality
+        $vehicle->delete();
+        session()->flash('success', 'Vehicle deleted successfully.');
         return response()->json();
     }
 }

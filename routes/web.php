@@ -67,6 +67,17 @@ Route::middleware("admin")->group( function () {
 
     Route::get('/admin/create-parcel', [AdminController::class, 'createParcelForm'])->name('admin.createParcelForm');
     Route::post('/admin/create-parcel', [AdminController::class, 'createParcel'])->name('admin.createParcel');
+
+    // Vehicle routes
+    Route::get('/admin/vehicles', [AdminController::class, 'viewAllVehicles'])->name('admin.vehicles');
+
+    Route::get('/admin/edit-vehicle/{vehicle}', [AdminController::class, 'editVehicleForm'])->name('admin.editVehicleForm');
+    Route::put('/admin/edit-vehicle/{vehicle}', [AdminController::class, 'editVehicle'])->name('admin.editVehicle');
+
+    Route::delete('/admin/delete-vehicle/{vehicle}', [AdminController::class, 'deleteVehicle'])->name('admin.deleteVehicle');
+
+    Route::get('/admin/create-vehicle', [AdminController::class, 'createVehicleForm'])->name('admin.createVehicleForm');
+    Route::post('/admin/create-vehicle', [AdminController::class, 'createVehicle'])->name('admin.createVehicle');
 });
 
 require __DIR__.'/auth.php';
