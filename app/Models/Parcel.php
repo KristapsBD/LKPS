@@ -29,4 +29,9 @@ class Parcel extends Model
     {
         return $this->belongsTo(Vehicle::class, 'vehicle_id');
     }
+
+    public function tariff()
+    {
+        return $this->belongsTo(Tariff::class, 'tariff_id');
+    }
 }

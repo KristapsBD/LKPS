@@ -39,6 +39,14 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->unsignedBigInteger('tariff_id')->nullable();
+            $table->foreign('tariff_id')
+                ->references('id')
+                ->on('clients')
+                ->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -59,6 +67,10 @@ return new class extends Migration
 
             Schema::table('parcels', function (Blueprint $table) {
                 $table->dropForeign(['vehicle_id']);
+            });
+
+            Schema::table('parcels', function (Blueprint $table) {
+                $table->dropForeign(['tariff_id']);
             });
         }
 

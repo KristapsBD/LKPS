@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Address::factory(10)->create();
         User::where('id', '<=', 5)->update(['role' => 3]);
         \App\Models\Vehicle::factory(10)->create();
+        \App\Models\Tariff::factory(10)->create();
         \App\Models\Parcel::factory(10)->create();
 
         $sender = User::factory()->create([
