@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,9 @@ class ParcelFactory extends Factory
      */
     public function definition(): array
     {
-        $sender = User::factory()->create();
-        $receiver = Client::factory()->create();
+        $sender = User::inRandomOrder()->first();
+        $receiver = Client::inRandomOrder()->first();
+        $vehicle = Vehicle::inRandomOrder()->first();
 
         return [
             'size' => $this->faker->randomElement(['s', 'm', 'l', 'xl']),
@@ -27,6 +29,7 @@ class ParcelFactory extends Factory
             'notes' => $this->faker->text,
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
+            'vehicle_id' => $vehicle->id,
         ];
     }
 }

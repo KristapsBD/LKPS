@@ -67,4 +67,9 @@ class User extends Authenticatable
             'phone_verified_at' => $this->freshTimestamp(),
         ])->save();
     }
+
+    public function vehicle()
+    {
+        return $this->hasOne(Vehicle::class, 'driver_id');
+    }
 }

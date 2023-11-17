@@ -16,16 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-//        \App\Models\User::factory(10)->create();
-//        \App\Models\Client::factory(10)->create();
+        \App\Models\User::factory(10)->create();
+        \App\Models\Client::factory(10)->create();
+        \App\Models\Address::factory(10)->create();
+        User::where('id', '<=', 5)->update(['role' => 3]);
+        \App\Models\Vehicle::factory(10)->create();
         \App\Models\Parcel::factory(10)->create();
-//        \App\Models\Address::factory(10)->create();
 
         $sender = User::factory()->create([
             'name' => 'User Doe',
             'email' => 'kristaps.briks@inbox.lv',
             'phone' => '20289000',
             'password' => bcrypt('password'),
+            'role' => 1,
         ]);
 
         $receiver = Client::factory()->create([

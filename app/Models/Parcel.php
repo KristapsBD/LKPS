@@ -24,4 +24,9 @@ class Parcel extends Model
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
+
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class, 'vehicle_id');
+    }
 }
