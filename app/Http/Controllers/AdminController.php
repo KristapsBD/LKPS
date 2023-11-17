@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Tariff;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -20,12 +21,12 @@ class AdminController extends Controller
     public function viewAllUsers()
     {
         $users = User::all(); // Fetch all users from the database
-        return view('admin.users', ['users' => $users]);
+        return view('admin.user.users', ['users' => $users]);
     }
 
     public function createUserForm()
     {
-        return view('admin.createUser');
+        return view('admin.user.createUser');
     }
 
     public function createUser(Request $request)
@@ -50,7 +51,7 @@ class AdminController extends Controller
     public function editUserForm(User $user)
     {
         // Implement edit user functionality
-        return view('admin.editUser', ['user' => $user]);
+        return view('admin.user.editUser', ['user' => $user]);
     }
 
     public function editUser(Request $request, User $user)
@@ -81,12 +82,12 @@ class AdminController extends Controller
     public function viewAllParcels()
     {
         $parcels = Parcel::all(); // Fetch all parcels from the database
-        return view('admin.parcels', ['parcels' => $parcels]);
+        return view('admin.parcel.parcels', ['parcels' => $parcels]);
     }
 
     public function createParcelForm()
     {
-        return view('admin.createParcel');
+        return view('admin.parcel.createParcel');
     }
 
     public function createParcel(Request $request)
@@ -136,7 +137,7 @@ class AdminController extends Controller
     public function editParcelForm(Parcel $parcel)
     {
         // Implement edit parcel functionality
-        return view('admin.editParcel', ['parcel' => $parcel]);
+        return view('admin.parcel.editParcel', ['parcel' => $parcel]);
     }
 
     public function editParcel(Request $request, Parcel $parcel)
@@ -182,12 +183,12 @@ class AdminController extends Controller
     public function viewAllVehicles()
     {
         $vehicles = Vehicle::all(); // Fetch all vehicles from the database
-        return view('admin.vehicles', ['vehicles' => $vehicles]);
+        return view('admin.vehicle.vehicles', ['vehicles' => $vehicles]);
     }
 
     public function createVehicleForm()
     {
-        return view('admin.createVehicle');
+        return view('admin.vehicle.createVehicle');
     }
 
     public function createVehicle(Request $request)
@@ -210,7 +211,7 @@ class AdminController extends Controller
     public function editVehicleForm(Vehicle $vehicle)
     {
         // Implement edit vehicle functionality
-        return view('admin.editVehicle', ['vehicle' => $vehicle]);
+        return view('admin.vehicle.editVehicle', ['vehicle' => $vehicle]);
     }
 
     public function editVehicle(Request $request, Vehicle $vehicle)
@@ -233,6 +234,68 @@ class AdminController extends Controller
         // Implement delete vehicle functionality
         $vehicle->delete();
         session()->flash('success', 'Vehicle deleted successfully.');
+        return response()->json();
+    }
+
+    // Tariff CRUD
+    public function viewAllTariffs()
+    {
+        $tariffs = Tariff::all(); // Fetch all tariffs from the database
+        return view('admin.tariff.tariffs', ['tariffs' => $tariffs]);
+    }
+
+    public function createTariffForm()
+    {
+        return view('admin.tariff.createTariff');
+    }
+
+    public function createTariff(Request $request)
+    {
+        // Validation rules go here
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:30',
+            'price' => 'required|numeric|min:0.01|max:999',
+            'extra_information' => 'nullable|string',
+        ]);
+
+        // Create the new tariff
+        $tariff = Tariff::create([
+            'name' => $validatedData['name'],
+            'price' => $validatedData['price'],
+            'extra_information' => $validatedData['extra_information'],
+        ]);
+
+        return redirect()->route('admin.tariffs')->with('success', 'Tariff created successfully.');
+    }
+
+    public function editTariffForm(Tariff $tariff)
+    {
+        // Implement edit tariff functionality
+        return view('admin.tariff.editTariff', ['tariff' => $tariff]);
+    }
+
+    public function editTariff(Request $request, Tariff $tariff)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:30',
+            'price' => 'required|numeric|min:0.01|max:999',
+            'extra_information' => 'nullable|string',
+        ]);
+
+        $tariff->update([
+            'name' => $validatedData['name'],
+            'price' => $validatedData['price'],
+            'extra_information' => $validatedData['extra_information'],
+        ]);
+
+        return redirect()->route('admin.tariffs')->with('success', 'Tariff updated successfully.');
+    }
+
+    public function deleteTariff(Tariff $tariff)
+    {
+        // Implement delete tariff functionality
+        $tariff->delete();
+        session()->flash('success', 'Tariff deleted successfully.');
         return response()->json();
     }
 }

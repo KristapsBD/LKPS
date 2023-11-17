@@ -78,6 +78,17 @@ Route::middleware("admin")->group( function () {
 
     Route::get('/admin/create-vehicle', [AdminController::class, 'createVehicleForm'])->name('admin.createVehicleForm');
     Route::post('/admin/create-vehicle', [AdminController::class, 'createVehicle'])->name('admin.createVehicle');
+
+    // Tariff routes
+    Route::get('/admin/tariffs', [AdminController::class, 'viewAllTariffs'])->name('admin.tariffs');
+
+    Route::get('/admin/edit-tariff/{tariff}', [AdminController::class, 'editTariffForm'])->name('admin.editTariffForm');
+    Route::put('/admin/edit-tariff/{tariff}', [AdminController::class, 'editTariff'])->name('admin.editTariff');
+
+    Route::delete('/admin/delete-tariff/{tariff}', [AdminController::class, 'deleteTariff'])->name('admin.deleteTariff');
+
+    Route::get('/admin/create-tariff', [AdminController::class, 'createTariffForm'])->name('admin.createTariffForm');
+    Route::post('/admin/create-tariff', [AdminController::class, 'createTariff'])->name('admin.createTariff');
 });
 
 require __DIR__.'/auth.php';
