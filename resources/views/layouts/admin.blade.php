@@ -59,6 +59,11 @@
                         </a>
                     </li>
                     <li>
+                        <a class="block text-blue-600 hover:underline dark:text-gray-100" href="{{ route('admin.addresses') }}">
+                            View All Addresses
+                        </a>
+                    </li>
+                    <li>
                         <a class="block text-blue-600 hover:underline dark:text-gray-100" href="{{ route('admin.tariffs') }}">
                             View All Tariffs
                         </a>

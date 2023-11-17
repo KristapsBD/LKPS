@@ -14,6 +14,8 @@
                 <th class="px-4 py-2 dark:text-gray-100">Notes</th>
                 <th class="px-4 py-2 dark:text-gray-100">Sender ID</th>
                 <th class="px-4 py-2 dark:text-gray-100">Receiver ID</th>
+                <th class="px-4 py-2 dark:text-gray-100">Vehicle ID</th>
+                <th class="px-4 py-2 dark:text-gray-100">Tariff ID</th>
                 <th class="px-4 py-2 dark:text-gray-100">Actions</th>
             </tr>
             </thead>
@@ -25,6 +27,8 @@
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $parcel->notes }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $parcel->sender_id }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $parcel->receiver_id }}</td>
+                    <td class="border px-4 py-2 dark:text-gray-100">{{ $parcel->vehicle_id }}</td>
+                    <td class="border px-4 py-2 dark:text-gray-100">{{ $parcel->tariff_id }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">
                         <a href="{{ route('admin.editParcelForm', $parcel->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</a>
                         <button

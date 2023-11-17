@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Client;
 use App\Models\Tariff;
 use Illuminate\Http\Request;
@@ -296,6 +297,72 @@ class AdminController extends Controller
         // Implement delete tariff functionality
         $tariff->delete();
         session()->flash('success', 'Tariff deleted successfully.');
+        return response()->json();
+    }
+
+    // Address CRUD
+    public function viewAllAddresses()
+    {
+        $addresses = Address::all(); // Fetch all addresses from the database
+        return view('admin.address.addresses', ['addresses' => $addresses]);
+    }
+
+    public function createAddressForm()
+    {
+        return view('admin.address.createAddress');
+    }
+
+    public function createAddress(Request $request)
+    {
+        // Validation rules go here
+        $validatedData = $request->validate([
+            'street' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:20',
+            'county' => 'required|string|max:255',
+        ]);
+
+        // Create the new address
+        $address = Address::create([
+            'street' => $validatedData['street'],
+            'city' => $validatedData['city'],
+            'postal_code' => $validatedData['postal_code'],
+            'county' => $validatedData['county'],
+        ]);
+
+        return redirect()->route('admin.addresses')->with('success', 'Address created successfully.');
+    }
+
+    public function editAddressForm(Address $address)
+    {
+        // Implement edit address functionality
+        return view('admin.address.editAddress', ['address' => $address]);
+    }
+
+    public function editAddress(Request $request, Address $address)
+    {
+        $validatedData = $request->validate([
+            'street' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:20',
+            'county' => 'required|string|max:255',
+        ]);
+
+        $address->update([
+            'street' => $validatedData['street'],
+            'city' => $validatedData['city'],
+            'postal_code' => $validatedData['postal_code'],
+            'county' => $validatedData['county'],
+        ]);
+
+        return redirect()->route('admin.addresses')->with('success', 'Address updated successfully.');
+    }
+
+    public function deleteAddress(Address $address)
+    {
+        // Implement delete address functionality
+        $address->delete();
+        session()->flash('success', 'Address deleted successfully.');
         return response()->json();
     }
 }

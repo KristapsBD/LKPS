@@ -89,6 +89,17 @@ Route::middleware("admin")->group( function () {
 
     Route::get('/admin/create-tariff', [AdminController::class, 'createTariffForm'])->name('admin.createTariffForm');
     Route::post('/admin/create-tariff', [AdminController::class, 'createTariff'])->name('admin.createTariff');
+
+    // Address routes
+    Route::get('/admin/addresses', [AdminController::class, 'viewAllAddresses'])->name('admin.addresses');
+
+    Route::get('/admin/edit-address/{address}', [AdminController::class, 'editAddressForm'])->name('admin.editAddressForm');
+    Route::put('/admin/edit-address/{address}', [AdminController::class, 'editAddress'])->name('admin.editAddress');
+
+    Route::delete('/admin/delete-address/{address}', [AdminController::class, 'deleteAddress'])->name('admin.deleteAddress');
+
+    Route::get('/admin/create-address', [AdminController::class, 'createAddressForm'])->name('admin.createAddressForm');
+    Route::post('/admin/create-address', [AdminController::class, 'createAddress'])->name('admin.createAddress');
 });
 
 require __DIR__.'/auth.php';
