@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ParcelController;
@@ -39,6 +40,11 @@ Route::middleware('auth')->group( function () {
     Route::post('/create-parcel/contact-receiver', [ParcelController::class, 'storeStep3'])->name('parcel.storeStep3');
     Route::get('/create-parcel/overview', [ParcelController::class, 'step4'])->name('parcel.step4');
     Route::post('/create-parcel/overview', [ParcelController::class, 'storeAllData'])->name('parcel.storeAllData');
+
+    //Stripe routes
+    Route::get('/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
+    Route::post('/session', [StripeController::class, 'session'])->name('stripe.session');
+    Route::get('/success', [StripeController::class, 'success'])->name('stripe.success');
 
 });
 
