@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('size');
             $table->float('weight');
             $table->text('notes')->nullable();
+            $table->integer('status')->default(0);
             $table->unsignedBigInteger('sender_id')->nullable();
             $table->foreign('sender_id')
                 ->references('id')

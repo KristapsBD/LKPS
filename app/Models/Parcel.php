@@ -13,6 +13,7 @@ class Parcel extends Model
         'size',
         'weight',
         'notes',
+        'status',
     ];
 
     public function receiver()
@@ -33,5 +34,10 @@ class Parcel extends Model
     public function tariff()
     {
         return $this->belongsTo(Tariff::class, 'tariff_id');
+    }
+
+    public function parcelTracking()
+    {
+        return $this->hasOne(ParcelTracking::class);
     }
 }

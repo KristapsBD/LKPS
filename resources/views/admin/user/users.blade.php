@@ -25,7 +25,7 @@
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $user->name }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $user->email }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $user->phone }}</td>
-                    <td class="border px-4 py-2 dark:text-gray-100">{{ $user->role }}</td>
+                    <td class="border px-4 py-2 dark:text-gray-100">{{ mapUserRoleToString($user->role) }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $user->address_id }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">
                         <a href="{{ route('admin.editUserForm', $user->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</a>

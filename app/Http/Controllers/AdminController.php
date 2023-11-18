@@ -11,6 +11,12 @@ use App\Models\Vehicle;
 use App\Models\Parcel;
 use Illuminate\Support\Facades\Hash;
 
+// TODO implement driver can change status functionality -
+// Implement route generation functionality
+// Implement dividing client delivery addresses to couriers functionality
+// Implement email system for notifications
+// Implement payment system
+
 class AdminController extends Controller
 {
     // User CRUD

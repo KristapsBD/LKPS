@@ -20,7 +20,7 @@
                 <tr>
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $vehicle->id }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">{{ $vehicle->registration_number }}</td>
-                    <td class="border px-4 py-2 dark:text-gray-100">{{ $vehicle->type }}</td>
+                    <td class="border px-4 py-2 dark:text-gray-100">{{ mapVehicleTypeToString($vehicle->type) }}</td>
                     <td class="border px-4 py-2 dark:text-gray-100">
                         <a href="{{ route('admin.editVehicleForm', $vehicle->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</a>
                         <button

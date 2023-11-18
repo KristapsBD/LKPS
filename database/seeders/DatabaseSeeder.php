@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Vehicle::factory(10)->create();
         \App\Models\Tariff::factory(10)->create();
         \App\Models\Parcel::factory(10)->create();
+        \App\Models\ParcelTracking::factory(10)->create();
 
         $sender = User::factory()->create([
             'name' => 'User Doe',
