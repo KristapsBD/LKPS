@@ -1,7 +1,12 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Parcel History') }}
+        </h2>
+    </x-slot>
+
     <div class="container mx-auto p-4">
-        <h2 class="text-2xl font-semibold dark:text-white">Parcel History</h2>
-        <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
+        <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mt-5">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>

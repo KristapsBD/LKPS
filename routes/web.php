@@ -42,9 +42,9 @@ Route::middleware('auth')->group( function () {
     Route::post('/create-parcel/overview', [ParcelController::class, 'storeAllData'])->name('parcel.storeAllData');
 
     //Stripe routes
-    Route::get('/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
-    Route::post('/session', [StripeController::class, 'session'])->name('stripe.session');
-    Route::get('/success', [StripeController::class, 'success'])->name('stripe.success');
+    Route::get('/create-parcel/payment', [StripeController::class, 'payment'])->name('stripe.payment');
+    Route::post('/create-parcel/session', [StripeController::class, 'session'])->name('stripe.session');
+    Route::get('/create-parcel/success', [StripeController::class, 'success'])->name('stripe.success');
 
 });
 

@@ -43,7 +43,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tariff_id')->nullable();
             $table->foreign('tariff_id')
                 ->references('id')
-                ->on('clients')
+                ->on('tariffs')
                 ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')

@@ -24,3 +24,18 @@ if (!function_exists('mapVehicleTypeToString')) {
         return $roleMapping[$role] ?? 'Unknown Vehicle Type';
     }
 }
+
+if (!function_exists('getTariffIdBySize')) {
+    function getTariffIdBySize($size)
+    {
+        // Define a mapping of size to tariff ID
+        $sizeToTariffMapping = [
+            's' => 1,
+            'm' => 2,
+            'l' => 3,
+//            'xl' => 4,
+        ];
+
+        return $sizeToTariffMapping[$size] ?? null;
+    }
+}

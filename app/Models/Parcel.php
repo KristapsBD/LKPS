@@ -36,6 +36,7 @@ class Parcel extends Model
         return $this->belongsTo(Tariff::class, 'tariff_id');
     }
 
+    // TODO setup parcel tracking
     public function parcelTracking()
     {
         return $this->hasOne(ParcelTracking::class);

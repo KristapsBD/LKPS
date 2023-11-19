@@ -1,6 +1,11 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Step 4 - Parcel Overview') }}
+        </h2>
+    </x-slot>
+
     <div class="container mx-auto p-4 flex flex-col items-center">
-        <h2 class="text-2xl font-semibold dark:text-white">Parcel Overview</h2>
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <ul>
@@ -10,7 +15,7 @@
                 </ul>
             </div>
         @endif
-        <form method="POST" action="{{ route('parcel.storeAllData') }}">
+        <form method="POST" action="{{ route('parcel.storeAllData') }}" class="mt-4">
             @csrf
             <!-- Parcel Overview Section -->
             <section class="mt-4">
@@ -49,9 +54,25 @@
                     <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_phone'] : '' }}</span>
                 </div>
 
+{{--                <div class="mb-4">--}}
+{{--                    <label class="block dark:text-white">Address:</label>--}}
+{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_address'] : '' }}</span>--}}
+{{--                </div>--}}
                 <div class="mb-4">
-                    <label class="block dark:text-white">Address:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_address'] : '' }}</span>
+                    <label class="block dark:text-white">Street:</label>
+                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_street'] : '' }}</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block dark:text-white">City:</label>
+                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_city'] : '' }}</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block dark:text-white">Postcode:</label>
+                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_postal_code'] : '' }}</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block dark:text-white">County:</label>
+                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_county'] : '' }}</span>
                 </div>
             </section>
 
@@ -92,9 +113,25 @@
                     <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_phone'] : '' }}</span>
                 </div>
 
+{{--                <div class="mb-4">--}}
+{{--                    <label class="block dark:text-white">Address:</label>--}}
+{{--                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_address'] : '' }}</span>--}}
+{{--                </div>--}}
                 <div class="mb-4">
-                    <label class="block dark:text-white">Address:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_address'] : '' }}</span>
+                    <label class="block dark:text-white">Street:</label>
+                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_street'] : '' }}</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block dark:text-white">City:</label>
+                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_city'] : '' }}</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block dark:text-white">Postcode:</label>
+                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_postal_code'] : '' }}</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block dark:text-white">County:</label>
+                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_county'] : '' }}</span>
                 </div>
             </section>
 
@@ -115,7 +152,7 @@
                         Edit Receiver Info
                     </button>
                 </a>
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Confirm</button>
+                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Proceed To Payment</button>
             </div>
         </form>
     </div>

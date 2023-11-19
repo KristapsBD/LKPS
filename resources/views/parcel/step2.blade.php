@@ -1,6 +1,11 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Step 2 - Sender Information') }}
+        </h2>
+    </x-slot>
+
     <div class="container mx-auto flex flex-col items-center">
-        <h2 class="text-2xl font-semibold dark:text-white">Sender Information</h2>
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <ul>
@@ -14,7 +19,7 @@
             @csrf
 
             <!-- Sender Information -->
-            <div class="mt-4">
+            <div class="mb-4">
                 <h3 class="text-lg font-semibold dark:text-white">Sender Information</h3>
                 <div class="mb-4">
                     <label for="sender_name" class="block dark:text-white">Name</label>
@@ -31,9 +36,29 @@
                     <input type="tel" id="sender_phone" name="sender_phone" class="form-input dark:text-black" required value="{{ old('sender_phone', $step2Data['sender_phone'] ?? auth()->user()->phone) }}">
                 </div>
 
+{{--                <div class="mb-4">--}}
+{{--                    <label for="sender_address" class="block dark:text-white">Address</label>--}}
+{{--                    <textarea id="sender_address" name="sender_address" class="form-textarea dark:text-black" required placeholder="Enter address">{{ old('sender_address', $step2Data['sender_address'] ?? auth()->user()->address['street']) }}</textarea>--}}
+{{--                </div>--}}
+
                 <div class="mb-4">
-                    <label for="sender_address" class="block dark:text-white">Address</label>
-                    <textarea id="sender_address" name="sender_address" class="form-textarea dark:text-black" required placeholder="Enter address">{{ old('sender_address', $step2Data['sender_address'] ?? auth()->user()->address) }}</textarea>
+                    <label for="sender_street" class="block dark:text-white">Street</label>
+                    <input type="text" id="sender_street" name="sender_street" class="form-input dark:text-black" required value="{{ old('sender_street', $step2Data['sender_street'] ?? auth()->user()->address['street']) }}">
+                </div>
+
+                <div class="mb-4">
+                    <label for="sender_city" class="block dark:text-white">City</label>
+                    <input type="text" id="sender_city" name="sender_city" class="form-input dark:text-black" required value="{{ old('sender_city', $step2Data['sender_city'] ?? auth()->user()->address['city']) }}">
+                </div>
+
+                <div class="mb-4">
+                    <label for="sender_postal_code" class="block dark:text-white">Postal Code</label>
+                    <input type="text" id="sender_postal_code" name="sender_postal_code" class="form-input dark:text-black" required value="{{ old('sender_postal_code', $step2Data['sender_postal_code'] ?? auth()->user()->address['postal_code']) }}">
+                </div>
+
+                <div class="mb-4">
+                    <label for="sender_county" class="block dark:text-white">County</label>
+                    <input type="text" id="sender_county" name="sender_county" class="form-input dark:text-black" required value="{{ old('sender_county', $step2Data['sender_county'] ?? auth()->user()->address['county']) }}">
                 </div>
             </div>
 

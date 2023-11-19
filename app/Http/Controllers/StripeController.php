@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class StripeController extends Controller
 {
-    public function checkout()
+    public function payment()
     {
-        return view('checkout');
+        return view('payment');
     }
 
     public function session()
@@ -21,7 +21,7 @@ class StripeController extends Controller
                     'price_data' => [
                         'currency'     => 'eur',
                         'product_data' => [
-                            'name' => 'test product',
+                            'name' => 'LKPS Send Parcel',
                         ],
                         'unit_amount'  => 500,
                     ],
@@ -30,7 +30,7 @@ class StripeController extends Controller
             ],
             'mode'        => 'payment',
             'success_url' => route('stripe.success'),
-            'cancel_url'  => route('stripe.checkout'),
+            'cancel_url'  => route('parcel.payment'),
         ]);
 
         return redirect()->away($session->url);
