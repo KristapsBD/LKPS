@@ -41,6 +41,10 @@
             @endforeach
             </tbody>
         </table>
+        <!-- Pagination links -->
+        <div class="mt-4 pagination">
+            {{ $addresses->links() }}
+        </div>
     </div>
     @include('admin.confirmDeleteModal')
 @endsection

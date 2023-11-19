@@ -27,8 +27,8 @@ class AdminController extends Controller
 
     public function viewAllUsers()
     {
-        $users = User::all(); // Fetch all users from the database
-        return view('admin.user.users', ['users' => $users]);
+        $users = User::paginate(10);
+        return view('admin.user.users', compact('users'));
     }
 
     public function createUserForm()
@@ -88,8 +88,8 @@ class AdminController extends Controller
     // Parcel Crud
     public function viewAllParcels()
     {
-        $parcels = Parcel::all(); // Fetch all parcels from the database
-        return view('admin.parcel.parcels', ['parcels' => $parcels]);
+        $parcels = Parcel::paginate(10);
+        return view('admin.parcel.parcels', compact('parcels'));
     }
 
     public function createParcelForm()
@@ -189,8 +189,8 @@ class AdminController extends Controller
     // Vehicle CRUD
     public function viewAllVehicles()
     {
-        $vehicles = Vehicle::all(); // Fetch all vehicles from the database
-        return view('admin.vehicle.vehicles', ['vehicles' => $vehicles]);
+        $vehicles = Vehicle::paginate(10);
+        return view('admin.vehicle.vehicles', compact('vehicles'));
     }
 
     public function createVehicleForm()
@@ -247,8 +247,8 @@ class AdminController extends Controller
     // Tariff CRUD
     public function viewAllTariffs()
     {
-        $tariffs = Tariff::all(); // Fetch all tariffs from the database
-        return view('admin.tariff.tariffs', ['tariffs' => $tariffs]);
+        $tariffs = Tariff::paginate(10);
+        return view('admin.tariff.tariffs', compact('tariffs'));
     }
 
     public function createTariffForm()
@@ -309,8 +309,8 @@ class AdminController extends Controller
     // Address CRUD
     public function viewAllAddresses()
     {
-        $addresses = Address::all(); // Fetch all addresses from the database
-        return view('admin.address.addresses', ['addresses' => $addresses]);
+        $addresses = Address::paginate(10);
+        return view('admin.address.addresses', compact('addresses'));
     }
 
     public function createAddressForm()

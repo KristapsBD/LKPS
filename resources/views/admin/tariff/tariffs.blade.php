@@ -39,6 +39,10 @@
             @endforeach
             </tbody>
         </table>
+        <!-- Pagination links -->
+        <div class="mt-4 pagination">
+            {{ $tariffs->links() }}
+        </div>
     </div>
     @include('admin.confirmDeleteModal')
 @endsection

@@ -36,7 +36,7 @@
 
         <h1 class="text-2xl font-bold p-4 dark:text-gray-200">Welcome to the Admin Panel</h1>
         <div class="flex">
-            <div class="w-1/4 bg-gray-200 dark:bg-gray-800 p-4">
+            <div class="w-1/6 h-screen bg-gray-200 dark:bg-gray-800 p-4">
                 <ul class="space-y-2">
                     <li>
                         <a class="block text-blue-600 hover:underline dark:text-gray-100" href="{{ route('admin.dashboard') }}">
