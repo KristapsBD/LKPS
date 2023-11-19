@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parcel;
 use Illuminate\Http\Request;
 
 class StripeController extends Controller
 {
-    public function payment()
+    public function payment(Request $request)
     {
-        return view('payment');
+        $parcel = $request->session()->get('parcel', []);
+
+        return view('payment', compact('parcel'));
     }
 
-    public function session()
+    public function session(Request $request)
     {
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+        $parcel = $request->session()->get('parcel', []);
 
         $session = \Stripe\Checkout\Session::create([
             'line_items'  => [
@@ -23,21 +28,31 @@ class StripeController extends Controller
                         'product_data' => [
                             'name' => 'LKPS Send Parcel',
                         ],
-                        'unit_amount'  => 500,
+                        'unit_amount'  => $parcel->tariff->price * 100,
                     ],
                     'quantity'   => 1,
                 ],
             ],
             'mode'        => 'payment',
             'success_url' => route('stripe.success'),
-            'cancel_url'  => route('parcel.payment'),
+            'cancel_url'  => route('stripe.payment'),
         ]);
 
         return redirect()->away($session->url);
     }
 
-    public function success()
+    public function success(Request $request)
     {
-        return "Yay, It works!!!";
+        $parcel = $request->session()->get('parcel', []);
+
+        if ($parcel instanceof Parcel) {
+            $parcel->status = '1';
+            $parcel->save();
+        } else {
+            return redirect()->route('dashboard')->with('error', 'Something went wrong.');
+        }
+
+        $request->session()->forget(['step1Data', 'step2Data', 'step3Data', 'parcel']);
+        return redirect()->route('dashboard')->with('success', 'Parcel created successfully.');
     }
 }

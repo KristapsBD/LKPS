@@ -21,11 +21,11 @@
             <div class="mb-4">
                 <h3 class="text-lg font-semibold dark:text-white">Parcel Information</h3>
                 <label for="size" class="block dark:text-white">Parcel Size</label>
-                <select id="size" name="size" class="form-select" value="{{ old('size', $step1Data['size'] ?? '') }}">
-                    <option value="s">Small</option>
-                    <option value="m">Medium</option>
-                    <option value="l">Large</option>
-                    <option value="xl">Extra Large</option>
+                <select id="size" name="size" class="form-select">
+                    <option value="s" {{isset($step1Data['size']) && $step1Data['size'] === 's' ? 'selected' : ''}}>Small</option>
+                    <option value="m" {{isset($step1Data['size']) && $step1Data['size'] === 'm' ? 'selected' : ''}}>Medium</option>
+                    <option value="l" {{isset($step1Data['size']) && $step1Data['size'] === 'l' ? 'selected' : ''}}>Large</option>
+                    <option value="xl" {{isset($step1Data['size']) && $step1Data['size'] === 'xl' ? 'selected' : ''}}>Extra Large</option>
                 </select>
             </div>
 
@@ -40,6 +40,7 @@
             </div>
 
             <div class="mt-4">
+                <a href="{{ route('parcel.cancel') }}" class="btn btn-secondary py-2.5 px-5 me-2 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</a>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
             </div>
         </form>

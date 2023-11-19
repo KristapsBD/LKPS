@@ -12,6 +12,7 @@
         </h3>
 
         <!-- Payment methods section -->
+        <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Select payment method</h3>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <!-- Stripe payment method -->
             <form action="{{ route('stripe.session') }}" method="POST">
@@ -19,20 +20,44 @@
                 <input type="hidden" name="payment_provider" value="stripe">
                 <button type="submit" class="flex flex-col items-center justify-center payment-method-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     <img src="{{ asset('images/stripe.svg') }}" alt="Stripe Logo" class="h-10 w-10 mb-2">
-                    <p>Checkout with Stripe</p>
+                    <p>Checkout With Stripe</p>
                 </button>
             </form>
 
-{{--TODO implement paypal integration--}}
-{{--            <!-- PayPal payment method -->--}}
-{{--            <form action="{{ route('stripe.session') }}" method="POST">--}}
-{{--                @csrf--}}
-{{--                <input type="hidden" name="payment_provider" value="paypal">--}}
-{{--                <button type="submit" class="payment-method-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">--}}
-{{--                    <img src="{{ asset('images/paypal.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2">--}}
-{{--                    Checkout with PayPal--}}
-{{--                </button>--}}
-{{--            </form>--}}
+{{--TODO implement paypal & bank transfer integration--}}
+            <!-- PayPal payment method -->
+            <form action="{{ route('stripe.session') }}" method="POST">
+                @csrf
+                <input type="hidden" name="payment_provider" value="paypal">
+                <button disabled type="submit" class="flex flex-col items-center justify-center payment-method-button py-2 px-4 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    <img src="{{ asset('images/paypal.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2">
+                    Checkout With PayPal
+                </button>
+            </form>
+
+            <!-- Card payment method -->
+            <form action="{{ route('stripe.session') }}" method="POST">
+                @csrf
+                <input type="hidden" name="payment_provider" value="paypal">
+                <button disabled type="submit" class="flex flex-col items-center justify-center payment-method-button py-2.5 px-5 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    <div class="flex">
+                        <img src="{{ asset('images/visa.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2 mr-1">
+                        <img src="{{ asset('images/mastercard.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2">
+                    </div>
+                    Checkout With Card
+                </button>
+            </form>
+
+            <!-- Crypto payment method -->
+            <form action="{{ route('stripe.session') }}" method="POST">
+                @csrf
+                <input type="hidden" name="payment_provider" value="paypal">
+                <button disabled type="submit" class="flex flex-col items-center justify-center payment-method-button py-2.5 px-5 me-2 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    <img src="{{ asset('images/btc.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2 mr-1">
+                    Checkout With Crypto
+                </button>
+            </form>
         </div>
+        <a href="{{ route('parcel.step4') }}" class="btn btn-secondary py-2.5 px-5 me-2 mb-2 mt-4 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Back To Overview</a>
     </div>
 </x-app-layout>

@@ -11,7 +11,7 @@ class ParcelController extends Controller
 {
     public function step1()
     {
-        $step1Data = session('step1Data');
+        $step1Data = session('step1Data') ?? [];
 
         return view('parcel.step1', compact('step1Data'));
     }
@@ -25,13 +25,12 @@ class ParcelController extends Controller
         ]);
 
         $request->session()->put('step1Data', $validatedData);
-
         return redirect()->route('parcel.step2');
     }
 
     public function step2()
     {
-        $step2Data = session('step2Data');
+        $step2Data = session('step2Data') ?? [];
 
         return view('parcel.step2', compact('step2Data'));
     }
@@ -59,7 +58,7 @@ class ParcelController extends Controller
 
     public function step3()
     {
-        $step3Data = session('step3Data');
+        $step3Data = session('step3Data') ?? [];
 
         return view('parcel.step3', compact('step3Data'));
     }
@@ -98,9 +97,9 @@ class ParcelController extends Controller
     public function storeAllData(Request $request)
     {
         // TODO: Implement function for user to change sender info OR remove unused code
-        $step1Data = $request->session()->get('step1Data');
-        $step2Data = $request->session()->get('step2Data');
-        $step3Data = $request->session()->get('step3Data');
+        $step1Data = $request->session()->get('step1Data', []);
+        $step2Data = $request->session()->get('step2Data', []);
+        $step3Data = $request->session()->get('step3Data', []);
 
         $sender = Auth::user();
 
@@ -124,14 +123,18 @@ class ParcelController extends Controller
 
         $parcel->save();
 
+        $request->session()->put('parcel', $parcel);
+
+        return redirect()->route('stripe.payment');
+//        return redirect()->route('stripe.payment', ['parcelId' => $parcel->id]);
         return view('payment', compact('parcel'));
+    }
 
-        //TODO CLEANUP
-
+    public function  cancel(Request $request)
+    {
         $request->session()->forget(['step1Data', 'step2Data', 'step3Data']);
 
-        return redirect()->route('dashboard')->with('success', 'Parcel created successfully.');
-
+        return redirect()->route('dashboard');
     }
 
     public function parcelHistory()

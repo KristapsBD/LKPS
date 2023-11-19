@@ -32,6 +32,7 @@ Route::middleware('auth')->group( function () {
 
     Route::get('/parcel-history', [ParcelController::class, 'parcelHistory'])->name('parcel.history');
 
+    Route::get('/create-parcel/cancel', [ParcelController::class, 'cancel'])->name('parcel.cancel');
     Route::get('/create-parcel', [ParcelController::class, 'step1'])->name('parcel.step1');
     Route::post('/create-parcel', [ParcelController::class, 'storeStep1'])->name('parcel.storeStep1');
     Route::get('/create-parcel/contact-sender', [ParcelController::class, 'step2'])->name('parcel.step2');
