@@ -77,23 +77,23 @@
             </section>
 
             <!-- Parcel Pickup Information Section -->
-            <section class="mt-4">
-                <h3 class="text-lg font-semibold dark:text-white">Parcel Pickup Information</h3>
-                <div class="mb-4">
-                    <label class="block dark:text-white">Pickup Date:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_date'] : '' }}</span>
-                </div>
+{{--            <section class="mt-4">--}}
+{{--                <h3 class="text-lg font-semibold dark:text-white">Parcel Pickup Information</h3>--}}
+{{--                <div class="mb-4">--}}
+{{--                    <label class="block dark:text-white">Pickup Date:</label>--}}
+{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_date'] : '' }}</span>--}}
+{{--                </div>--}}
 
-                <div class="mb-4">
-                    <label class="block dark:text-white">Pickup Time From:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_time_from'] : '' }}</span>
-                </div>
+{{--                <div class="mb-4">--}}
+{{--                    <label class="block dark:text-white">Pickup Time From:</label>--}}
+{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_time_from'] : '' }}</span>--}}
+{{--                </div>--}}
 
-                <div class="mb-4">
-                    <label class="block dark:text-white">Pickup Time To:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_time_to'] : '' }}</span>
-                </div>
-            </section>
+{{--                <div class="mb-4">--}}
+{{--                    <label class="block dark:text-white">Pickup Time To:</label>--}}
+{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_time_to'] : '' }}</span>--}}
+{{--                </div>--}}
+{{--            </section>--}}
 
             <!-- Receiver Information Section -->
             <section class="mt-4">

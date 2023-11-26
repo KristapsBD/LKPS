@@ -38,17 +38,17 @@ class ParcelController extends Controller
     public function storeStep2(Request $request)
     {
         $validatedData = $this->validate($request, [
-            'sender_name' => 'required|string',
-            'sender_email' => 'required|email',
-            'sender_phone' => 'required|string',
+            'sender_name' => 'required|string|max:255',
+            'sender_email' => 'required|email|max:255',
+            'sender_phone' => 'required|phone',
 //            'sender_address' => 'required|string',
-            'sender_street' => 'required|string',
-            'sender_city' => 'required|string',
-            'sender_postal_code' => 'required|string',
-            'sender_county' => 'required|string',
-            'dropoff_date' => 'required|date',
-            'dropoff_time_from' => 'required|date_format:H:i',
-            'dropoff_time_to' => 'required|date_format:H:i',
+            'sender_street' => 'required|string|max:255',
+            'sender_city' => 'required|string|max:255',
+            'sender_postal_code' => 'required|string|max:10',
+            'sender_county' => 'required|string|max:255',
+//            'dropoff_date' => 'required|date',
+//            'dropoff_time_from' => 'required|date_format:H:i',
+//            'dropoff_time_to' => 'required|date_format:H:i',
         ]);
 
         $request->session()->put('step2Data', $validatedData);
@@ -66,14 +66,14 @@ class ParcelController extends Controller
     public function storeStep3(Request $request)
     {
         $validatedData = $this->validate($request, [
-            'receiver_name' => 'required|string',
-            'receiver_email' => 'required|email',
-            'receiver_phone' => 'required|string',
+            'receiver_name' => 'required|string|max:255',
+            'receiver_email' => 'required|email|max:255',
+            'receiver_phone' => 'required|phone',
 //            'receiver_address' => 'required|string',
-            'receiver_street' => 'required|string',
-            'receiver_city' => 'required|string',
-            'receiver_postal_code' => 'required|string',
-            'receiver_county' => 'required|string',
+            'receiver_street' => 'required|string|max:255',
+            'receiver_city' => 'required|string|max:255',
+            'receiver_postal_code' => 'required|string|max:10',
+            'receiver_county' => 'required|string|max:255',
         ]);
 
         $request->session()->put('step3Data', $validatedData);
@@ -120,14 +120,12 @@ class ParcelController extends Controller
         $parcel->receiver()->associate($receiver);
         $tariff = getTariffIdBySize($parcel->size);
         $parcel->tariff()->associate($tariff);
-
-        $parcel->save();
-
+//TODO fix create parcel now pay later
         $request->session()->put('parcel', $parcel);
 
         return redirect()->route('stripe.payment');
 //        return redirect()->route('stripe.payment', ['parcelId' => $parcel->id]);
-        return view('payment', compact('parcel'));
+//        return view('payment', compact('parcel'));
     }
 
     public function  cancel(Request $request)

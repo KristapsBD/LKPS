@@ -31,7 +31,7 @@
 
             <div class="mb-4">
                 <label for="weight" class="block dark:text-white">Parcel Weight (kg)</label>
-                <input type="number" id="weight" name="weight" class="form-input" min="0" max="100" required value="{{ old('weight', $step1Data['weight'] ?? '') }}">
+                <input type="number" id="weight" name="weight" class="form-input" min="1" max="100" required value="{{ old('weight', $step1Data['weight'] ?? '') }}">
             </div>
 
             <div class="mb-4">

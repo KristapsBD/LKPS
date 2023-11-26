@@ -44,22 +44,22 @@
 
             <div class="mb-4">
                 <label for="receiver_street" class="block dark:text-white">Street</label>
-                <input type="text" id="receiver_street" name="receiver_street" class="form-input dark:text-black" required value="{{ old('receiver_street', $step2Data['receiver_street'] ?? auth()->user()->address['street']) }}">
+                <input type="text" id="receiver_street" name="receiver_street" class="form-input dark:text-black" required value="{{ old('receiver_street', $step3Data['receiver_street'] ?? '') }}">
             </div>
 
             <div class="mb-4">
                 <label for="receiver_city" class="block dark:text-white">City</label>
-                <input type="text" id="receiver_city" name="receiver_city" class="form-input dark:text-black" required value="{{ old('receiver_city', $step2Data['receiver_city'] ?? auth()->user()->address['city']) }}">
+                <input type="text" id="receiver_city" name="receiver_city" class="form-input dark:text-black" required value="{{ old('receiver_city', $step3Data['receiver_city'] ?? '') }}">
             </div>
 
             <div class="mb-4">
                 <label for="receiver_postal_code" class="block dark:text-white">Postal Code</label>
-                <input type="text" id="receiver_postal_code" name="receiver_postal_code" class="form-input dark:text-black" required value="{{ old('receiver_postal_code', $step2Data['receiver_postal_code'] ?? auth()->user()->address['postal_code']) }}">
+                <input type="text" id="receiver_postal_code" name="receiver_postal_code" class="form-input dark:text-black" required value="{{ old('receiver_postal_code', $step3Data['receiver_postal_code'] ?? '') }}">
             </div>
 
             <div class="mb-4">
                 <label for="receiver_county" class="block dark:text-white">County</label>
-                <input type="text" id="receiver_county" name="receiver_county" class="form-input dark:text-black" required value="{{ old('receiver_county', $step2Data['receiver_county'] ?? auth()->user()->address['county']) }}">
+                <input type="text" id="receiver_county" name="receiver_county" class="form-input dark:text-black" required value="{{ old('receiver_county', $step3Data['receiver_county'] ?? '') }}">
             </div>
 
             <div class="mt-4">

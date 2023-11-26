@@ -9,6 +9,8 @@ class Vehicle extends Model
 {
     use HasFactory;
 
+//    TODO add missing status fields to tables from conceptual model
+// TODO add missing payments table
     protected $fillable = [
         'registration_number',
         'type',

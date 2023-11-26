@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Payment') }}
+            {{ __('Step 5 - Payment') }}
         </h2>
     </x-slot>
 
@@ -12,13 +12,14 @@
         </h3>
 
         <!-- Payment methods section -->
+
         <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Select payment method</h3>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <!-- Stripe payment method -->
             <form action="{{ route('stripe.session') }}" method="POST">
                 @csrf
                 <input type="hidden" name="payment_provider" value="stripe">
-                <button type="submit" class="flex flex-col items-center justify-center payment-method-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button type="submit" class="flex flex-col items-center justify-center payment-method-button py-2 px-4 mb-2 font-medium text-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-blue-100 hover:text-black-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-blue-500 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-blue-700">
                     <img src="{{ asset('images/stripe.svg') }}" alt="Stripe Logo" class="h-10 w-10 mb-2">
                     <p>Checkout With Stripe</p>
                 </button>
@@ -39,7 +40,7 @@
             <form action="{{ route('stripe.session') }}" method="POST">
                 @csrf
                 <input type="hidden" name="payment_provider" value="paypal">
-                <button disabled type="submit" class="flex flex-col items-center justify-center payment-method-button py-2.5 px-5 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                <button disabled type="submit" class="flex flex-col items-center justify-center payment-method-button py-2 px-4 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                     <div class="flex">
                         <img src="{{ asset('images/visa.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2 mr-1">
                         <img src="{{ asset('images/mastercard.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2">
@@ -52,7 +53,7 @@
             <form action="{{ route('stripe.session') }}" method="POST">
                 @csrf
                 <input type="hidden" name="payment_provider" value="paypal">
-                <button disabled type="submit" class="flex flex-col items-center justify-center payment-method-button py-2.5 px-5 me-2 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                <button disabled type="submit" class="flex flex-col items-center justify-center payment-method-button py-2 px-4 mb-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                     <img src="{{ asset('images/btc.svg') }}" alt="PayPal Logo" class="h-10 w-10 mb-2 mr-1">
                     Checkout With Crypto
                 </button>

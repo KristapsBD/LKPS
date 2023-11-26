@@ -3,6 +3,8 @@
 @section('content')
     <div class="container mx-auto flex flex-col items-center">
         <h2 class="text-2xl font-semibold dark:text-gray-200">Parcel Information</h2>
+{{--        TODO fix errors display--}}
+{{--        TODO fix data placeholder for input fields--}}
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <ul>
@@ -27,7 +29,10 @@
 
             <div class="mb-4">
                 <label for="weight" class="block text-gray-700 dark:text-gray-300">Parcel Weight (kg)</label>
-                <input type="number" id="weight" name="weight" class="form-input" min="0" max="100" required value="{{ old('weight', $step1Data['weight'] ?? '') }}">
+                <input type="number" id="weight" name="weight" class="form-input" min="0" required step="0.01" value="{{ old('weight', $step1Data['weight'] ?? '') }}">
+                @error('weight')
+                <p class="text-red-500">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -37,7 +42,7 @@
 
             <div class="mb-4">
                 <label for="sender_id" class="block text-gray-700 dark:text-gray-300">Sender ID</label>
-                <input type="number" id="sender_id" name="sender_id" class="form-input" min="0" max="100" required value="{{ old('sender_id', $step1Data['sender_id'] ?? '') }}">
+                <input type="number" id="sender_id" name="sender_id" class="form-input" min="0" max="100" required value="{{ old('sender_id', '') }}">
             </div>
 
 {{--            <!-- Sender Information -->--}}
@@ -65,23 +70,23 @@
 {{--            </div>--}}
 
             <!-- Parcel Dropoff Information -->
-            <div class="mt-4">
-                <h3 class="text-lg font-semibold dark:text-white">Parcel Dropoff Information</h3>
-                <div class="mb-4">
-                    <label for="dropoff_date" class="block dark:text-white">Dropoff Date</label>
-                    <input type="date" id="dropoff_date" name="dropoff_date" class="form-input dark:text-black" required value="{{ old('dropoff_date', $step2Data['dropoff_date'] ?? '') }}">
-                </div>
+{{--            <div class="mt-4">--}}
+{{--                <h3 class="text-lg font-semibold dark:text-white">Parcel Dropoff Information</h3>--}}
+{{--                <div class="mb-4">--}}
+{{--                    <label for="dropoff_date" class="block dark:text-white">Dropoff Date</label>--}}
+{{--                    <input type="date" id="dropoff_date" name="dropoff_date" class="form-input dark:text-black" required value="{{ old('dropoff_date', $step2Data['dropoff_date'] ?? '') }}">--}}
+{{--                </div>--}}
 
-                <div class="mb-4">
-                    <label for="dropoff_time_from" class="block dark:text-white">Dropoff Time From</label>
-                    <input type="time" id="dropoff_time_from" name="dropoff_time_from" class="form-input dark:text-black" required value="{{ old('dropoff_time_from', $step2Data['dropoff_time_from'] ?? '') }}">
-                </div>
+{{--                <div class="mb-4">--}}
+{{--                    <label for="dropoff_time_from" class="block dark:text-white">Dropoff Time From</label>--}}
+{{--                    <input type="time" id="dropoff_time_from" name="dropoff_time_from" class="form-input dark:text-black" required value="{{ old('dropoff_time_from', $step2Data['dropoff_time_from'] ?? '') }}">--}}
+{{--                </div>--}}
 
-                <div class="mb-4">
-                    <label for="dropoff_time_to" class="block dark:text-white">Dropoff Time To</label>
-                    <input type="time" id="dropoff_time_to" name="dropoff_time_to" class="form-input dark:text-black" required value="{{ old('dropoff_time_to', $step2Data['dropoff_time_to'] ?? '') }}">
-                </div>
-            </div>
+{{--                <div class="mb-4">--}}
+{{--                    <label for="dropoff_time_to" class="block dark:text-white">Dropoff Time To</label>--}}
+{{--                    <input type="time" id="dropoff_time_to" name="dropoff_time_to" class="form-input dark:text-black" required value="{{ old('dropoff_time_to', $step2Data['dropoff_time_to'] ?? '') }}">--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             <!-- Receiver Information -->
             <div class="mt-4">
@@ -107,8 +112,13 @@
                 </div>
             </div>
 
+{{--            <div class="mb-4">--}}
+{{--                <label for="receiver_id" class="block text-gray-700 dark:text-gray-300">Receiver ID</label>--}}
+{{--                <input type="number" id="receiver_id" name="receiver_id" class="form-input" min="0" max="100" required value="{{ old('receiver_id', '') }}">--}}
+{{--            </div>--}}
+
             <div class="mt-4">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
             </div>
         </form>
     </div>

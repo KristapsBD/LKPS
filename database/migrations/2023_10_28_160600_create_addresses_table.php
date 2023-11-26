@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('street');
             $table->string('city');
-            $table->string('postal_code');
+            $table->string('postal_code', 10);
             $table->string('county');
             $table->timestamps();
         });

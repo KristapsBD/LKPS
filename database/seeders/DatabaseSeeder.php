@@ -9,7 +9,9 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Parcel;
 use App\Models\Address;
-
+// TODO CREATE PAYMENT TABLE
+// TODO IMPLEMENT PARCEL STATUS CHANGE LOGGING TO DB
+// TODO IMPLEMENT MANY TO MANY TABLES (ADDRESSUSER + USERVEHICEL)
 class DatabaseSeeder extends Seeder
 {
     /**

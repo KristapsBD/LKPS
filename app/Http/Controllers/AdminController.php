@@ -35,7 +35,8 @@ class AdminController extends Controller
     {
         return view('admin.user.createUser');
     }
-
+//    TODO Add additional user fields to create user admin dashboard
+// TODO Add fields to edit user dashboard
     public function createUser(Request $request)
     {
         // Validation rules go here
@@ -102,16 +103,16 @@ class AdminController extends Controller
         // Validation rules go here
         $validatedData = $request->validate([
             'size' => 'required|in:s,m,l,xl',
-            'weight' => 'required|numeric|min:0|max:100',
+            'weight' => 'required|numeric|min:1|max:100',
             'notes' => 'nullable|string',
             'sender_id' => 'required|exists:users,id',
 //            'sender_name' => 'required|string',
 //            'sender_email' => 'required|email',
 //            'sender_phone' => 'required|string',
 //            'sender_address' => 'required|string',
-            'dropoff_date' => 'required|date',
-            'dropoff_time_from' => 'required|date_format:H:i',
-            'dropoff_time_to' => 'required|date_format:H:i',
+//            'dropoff_date' => 'required|date',
+//            'dropoff_time_from' => 'required|date_format:H:i',
+//            'dropoff_time_to' => 'required|date_format:H:i',
             'receiver_name' => 'required|string',
             'receiver_email' => 'required|email',
             'receiver_phone' => 'required|string',
@@ -135,6 +136,8 @@ class AdminController extends Controller
 
         $parcel->sender()->associate($sender);
         $parcel->receiver()->associate($receiver);
+        $tariff = getTariffIdBySize($parcel->size);
+        $parcel->tariff()->associate($tariff);
 
         $parcel->save();
 
@@ -175,6 +178,11 @@ class AdminController extends Controller
             'sender_id' => $validatedData['sender_id'],
             'receiver_id' => $validatedData['receiver_id'],
         ]);
+
+        $tariff = getTariffIdBySize($validatedData['size']);
+        $parcel->tariff()->associate($tariff);
+        $parcel->save();
+
         return redirect()->route('admin.parcels')->with('success', 'Parcel updated successfully.');
     }
 
@@ -260,7 +268,7 @@ class AdminController extends Controller
     {
         // Validation rules go here
         $validatedData = $request->validate([
-            'name' => 'required|string|max:30',
+            'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0.01|max:999',
             'extra_information' => 'nullable|string',
         ]);
