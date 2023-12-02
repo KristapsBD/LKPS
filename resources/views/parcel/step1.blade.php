@@ -1,10 +1,12 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Step 1 - Parcel Information') }}
-        </h2>
-    </x-slot>
+@extends('layouts.default')
 
+@section('header')
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Step 1 - Parcel Information') }}
+    </h2>
+@endsection
+
+@section('content')
     <div class="container mx-auto flex flex-col items-center">
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
@@ -45,4 +47,4 @@
             </div>
         </form>
     </div>
-</x-app-layout>
+@endsection
