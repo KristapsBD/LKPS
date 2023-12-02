@@ -1,10 +1,12 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Parcel History') }}
-        </h2>
-    </x-slot>
+@extends('layouts.default')
 
+@section('header')
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Parcel History') }}
+    </h2>
+@endsection
+
+@section('content')
     <div class="container mx-auto p-4">
         <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mt-5">
             <table class="min-w-full divide-y divide-gray-200">
@@ -53,4 +55,4 @@
             </table>
         </div>
     </div>
-</x-app-layout>
+@endsection

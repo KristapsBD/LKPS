@@ -11,17 +11,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Helper function to map user roles to strings
-        function mapUserRoleToString($role) {
-            $roleMapping = [
-                0 => 'Client',
-                1 => 'Admin',
-                2 => 'Worker',
-                3 => 'Driver',
-            ];
 
-            return $roleMapping[$role] ?? '';
-        }
     }
 
     /**
