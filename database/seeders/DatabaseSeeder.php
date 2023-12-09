@@ -57,7 +57,6 @@ class DatabaseSeeder extends Seeder
 
         $receiver = Client::factory()->create([
             'name' => 'Client Doe',
-            'email' => 'kristaps.briks@inbox.lv',
             'phone' => '20289000',
         ]);
 
@@ -74,6 +73,8 @@ class DatabaseSeeder extends Seeder
             'notes' => 'Sample parcel',
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
+            'source' => $address->id,
+            'destination' => $address->id,
         ]);
     }
 }

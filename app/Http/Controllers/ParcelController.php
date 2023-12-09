@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\Phone;
 use Illuminate\Http\Request;
 use App\Models\Parcel;
 use App\Models\Client;
@@ -40,12 +41,11 @@ class ParcelController extends Controller
         $validatedData = $this->validate($request, [
             'sender_name' => 'required|string|max:255',
             'sender_email' => 'required|email|max:255',
-            'sender_phone' => 'required|phone',
+            'sender_phone' => ['required', new Phone],
 //            'sender_address' => 'required|string',
             'sender_street' => 'required|string|max:255',
             'sender_city' => 'required|string|max:255',
             'sender_postal_code' => 'required|string|max:10',
-            'sender_county' => 'required|string|max:255',
 //            'dropoff_date' => 'required|date',
 //            'dropoff_time_from' => 'required|date_format:H:i',
 //            'dropoff_time_to' => 'required|date_format:H:i',
@@ -67,13 +67,11 @@ class ParcelController extends Controller
     {
         $validatedData = $this->validate($request, [
             'receiver_name' => 'required|string|max:255',
-            'receiver_email' => 'required|email|max:255',
-            'receiver_phone' => 'required|phone',
+            'receiver_phone' => ['required', new Phone],
 //            'receiver_address' => 'required|string',
             'receiver_street' => 'required|string|max:255',
             'receiver_city' => 'required|string|max:255',
             'receiver_postal_code' => 'required|string|max:10',
-            'receiver_county' => 'required|string|max:255',
         ]);
 
         $request->session()->put('step3Data', $validatedData);
@@ -105,7 +103,6 @@ class ParcelController extends Controller
 
         $receiver = Client::create([
             'name' => $step3Data['receiver_name'],
-            'email' => $step3Data['receiver_email'],
             'phone' => $step3Data['receiver_phone'],
         ]);
 
@@ -142,5 +139,30 @@ class ParcelController extends Controller
         $parcels = $user->parcels()->paginate(10);
 
         return view('parcel.history', compact('parcels'));
+    }
+
+    public function trackingView()
+    {
+        return view('parcel.track');
+    }
+
+    public function track(Request $request)
+    {
+        $request->validate([
+            'tracking_code' => 'required|string|min:10|max:10',
+        ]);
+
+        $parcel = Parcel::where('tracking_code', $request->input('tracking_code'))->first();
+
+        if (!$parcel) {
+            return response()->json(['error' => 'Tracking code not found'], 404);
+        }
+
+        $trackingInfo = [
+            'status' => mapParcelStatusToValue($parcel->status),
+            // Add more relevant tracking information
+        ];
+
+        return response()->json($trackingInfo, 200);
     }
 }

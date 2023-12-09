@@ -72,10 +72,6 @@
                     <label class="block dark:text-white">Postcode:</label>
                     <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_postal_code'] : '' }}</span>
                 </div>
-                <div class="mb-4">
-                    <label class="block dark:text-white">County:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_county'] : '' }}</span>
-                </div>
             </section>
 
             <!-- Parcel Pickup Information Section -->
@@ -106,11 +102,6 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block dark:text-white">Email:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_email'] : '' }}</span>
-                </div>
-
-                <div class="mb-4">
                     <label class="block dark:text-white">Phone:</label>
                     <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_phone'] : '' }}</span>
                 </div>
@@ -130,10 +121,6 @@
                 <div class="mb-4">
                     <label class="block dark:text-white">Postcode:</label>
                     <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_postal_code'] : '' }}</span>
-                </div>
-                <div class="mb-4">
-                    <label class="block dark:text-white">County:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_county'] : '' }}</span>
                 </div>
             </section>
 

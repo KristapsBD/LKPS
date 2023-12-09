@@ -29,11 +29,6 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="receiver_email" class="block dark:text-white">Email</label>
-                    <input type="email" id="receiver_email" name="receiver_email" class="form-input dark:text-black" required value="{{ old('receiver_email', $step3Data['receiver_email'] ?? '') }}">
-                </div>
-
-                <div class="mb-4">
                     <label for="receiver_phone" class="block dark:text-white">Phone</label>
                     <input type="tel" id="receiver_phone" name="receiver_phone" class="form-input dark:text-black" required value="{{ old('receiver_phone', $step3Data['receiver_phone'] ?? '') }}">
                 </div>
@@ -57,11 +52,6 @@
             <div class="mb-4">
                 <label for="receiver_postal_code" class="block dark:text-white">Postal Code</label>
                 <input type="text" id="receiver_postal_code" name="receiver_postal_code" class="form-input dark:text-black" required value="{{ old('receiver_postal_code', $step3Data['receiver_postal_code'] ?? '') }}">
-            </div>
-
-            <div class="mb-4">
-                <label for="receiver_county" class="block dark:text-white">County</label>
-                <input type="text" id="receiver_county" name="receiver_county" class="form-input dark:text-black" required value="{{ old('receiver_county', $step3Data['receiver_county'] ?? '') }}">
             </div>
 
             <div class="mt-4">

@@ -26,6 +26,16 @@ class Parcel extends Model
         return $this->belongsTo(User::class, 'sender_id');
     }
 
+    public function source()
+    {
+        return $this->belongsTo(Address::class, 'source');
+    }
+
+    public function destination()
+    {
+        return $this->belongsTo(Address::class, 'destination');
+    }
+
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class, 'vehicle_id');
