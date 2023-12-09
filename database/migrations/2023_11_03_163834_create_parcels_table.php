@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('weight');
             $table->text('notes')->nullable();
             $table->integer('status')->default(0);
+            $table->string('tracking_code')->nullable();
             $table->unsignedBigInteger('sender_id')->nullable();
             $table->foreign('sender_id')
                 ->references('id')
@@ -28,6 +29,21 @@ return new class extends Migration
             $table->foreign('receiver_id')
                 ->references('id')
                 ->on('clients')
+                ->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('source')->nullable();
+            $table->foreign('source')
+                ->references('id')
+                ->on('addresses')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('destination')->nullable();
+            $table->foreign('destination')
+                ->references('id')
+                ->on('addresses')
                 ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
@@ -64,6 +80,14 @@ return new class extends Migration
 
             Schema::table('parcels', function (Blueprint $table) {
                 $table->dropForeign(['sender_id']);
+            });
+
+            Schema::table('parcels', function (Blueprint $table) {
+                $table->dropForeign(['source']);
+            });
+
+            Schema::table('parcels', function (Blueprint $table) {
+                $table->dropForeign(['destination']);
             });
 
             Schema::table('parcels', function (Blueprint $table) {

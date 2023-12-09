@@ -20,7 +20,8 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('status');
+            $table->integer('old_status');
+            $table->integer('new_status');
             $table->string('location')->nullable();
             $table->timestamps();
         });

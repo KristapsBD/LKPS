@@ -32,6 +32,9 @@ Route::get('/dashboard', function () {
 //   Mail::to('kristaps.briks3@gmail.com')->send(new ParcelShipped($name));
 //});
 
+Route::get('/track', [ParcelController::class, 'trackingView'])->name('parcel.trackingView');
+Route::post('/track', [ParcelController::class, 'track'])->name('parcel.track');
+
 Route::middleware('auth')->group( function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

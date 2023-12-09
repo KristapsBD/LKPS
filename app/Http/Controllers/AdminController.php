@@ -328,7 +328,6 @@ class AdminController extends Controller
 
     public function createAddress(Request $request)
     {
-        // Validation rules go here
         $validatedData = $request->validate([
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',

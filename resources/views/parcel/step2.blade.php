@@ -58,10 +58,6 @@
                     <input type="text" id="sender_postal_code" name="sender_postal_code" class="form-input dark:text-black" required value="{{ old('sender_postal_code', $step2Data['sender_postal_code'] ?? auth()->user()->address['postal_code']) }}">
                 </div>
 
-                <div class="mb-4">
-                    <label for="sender_county" class="block dark:text-white">County</label>
-                    <input type="text" id="sender_county" name="sender_county" class="form-input dark:text-black" required value="{{ old('sender_county', $step2Data['sender_county'] ?? auth()->user()->address['county']) }}">
-                </div>
             </div>
 
 {{--            TODO: Implement dropoff functionality--}}

@@ -10,7 +10,8 @@ class ParcelTracking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'status',
+        'old_status',
+        'new_status',
         'location',
     ];
 
