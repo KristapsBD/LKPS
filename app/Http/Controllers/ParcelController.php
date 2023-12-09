@@ -139,7 +139,7 @@ class ParcelController extends Controller
     {
         // Retrieve the authenticated user's parcel history
         $user = Auth::user();
-        $parcels = $user->parcels;
+        $parcels = $user->parcels()->paginate(10);
 
         return view('parcel.history', compact('parcels'));
     }
