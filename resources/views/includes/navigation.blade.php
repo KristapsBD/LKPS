@@ -29,7 +29,7 @@
                         </x-nav-link>
                         @endif
                     @endauth
-                    <x-nav-link :href="route('parcel.track')" :active="request()->routeIs('parcel.track')">
+                    <x-nav-link :href="route('parcel.trackingView')" :active="request()->routeIs('parcel.trackingView')">
                         {{ __('Tracking') }}
                     </x-nav-link>
                 </div>
@@ -109,7 +109,7 @@
                     {{ __('Register') }}
                 </x-responsive-nav-link>
             @endauth
-            <x-responsive-nav-link :href="route('parcel.track')" :active="request()->routeIs('parcel.track')">
+            <x-responsive-nav-link :href="route('parcel.trackingView')" :active="request()->routeIs('parcel.trackingView')">
                 {{ __('Tracking') }}
             </x-responsive-nav-link>
         </div>

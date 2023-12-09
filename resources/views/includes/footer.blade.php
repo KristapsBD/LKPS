@@ -6,11 +6,10 @@
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">LCMS</span>
             </a>
             <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                <li>
-{{--                    TODO IMPLEMENT TRACKING PAGE--}}
-                    <a href="{{ route('home') }}" class="hover:underline me-4 md:me-6">Tracking</a>
-                </li>
                 @auth
+                    <li>
+                        <a href="{{ route('home') }}" class="hover:underline me-4 md:me-6">Dashboard</a>
+                    </li>
                     <li>
                         <a href="{{ route('parcel.step1') }}" class="hover:underline me-4 md:me-6">Create Parcel</a>
                     </li>
@@ -22,6 +21,9 @@
                         <a href="{{ route('register') }}" class="hover:underline me-4 md:me-6">Register</a>
                     </li>
                 @endauth
+                <li>
+                    <a href="{{ route('parcel.trackingView') }}" class="hover:underline me-4 md:me-6">Tracking</a>
+                </li>
             </ul>
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
