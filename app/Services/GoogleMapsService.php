@@ -21,7 +21,6 @@ class GoogleMapsService
             'query' => [
                 'origin'      => $origin,
                 'destination' => $destination,
-//                'waypoints' => $waypoints,
                 'waypoints'   => 'optimize:true|' . implode('|', $waypoints),
                 'key'         => $this->apiKey,
             ],
