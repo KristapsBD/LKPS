@@ -378,4 +378,30 @@ class AdminController extends Controller
         session()->flash('success', 'Address deleted successfully.');
         return response()->json();
     }
+
+    // Route generation
+    public function generateRoute(Request $request)
+    {
+        $selectedParcelIds = $request->input('selected_parcel_ids');
+        // Validate and process the selected parcels
+        // ...
+
+        // Call a method to generate the optimal route
+        $optimalRoute = $this->generateOptimalRoute($selectedParcelIds);
+
+        // Return the route or display it in the UI
+        return response()->json(['optimal_route' => $optimalRoute]);
+    }
+
+    public function generateOptimalRoute($parcelIds)
+    {
+        // Fetch parcel addresses from the database based on $parcelIds
+        $parcelAddresses = Parcel::whereIn('id', $parcelIds)->pluck('address');
+
+        // Use a TSP solver to find the optimal route
+        $tspSolver = new GoogleMaps();
+        $optimalRoute = $tspSolver->optimizeRoute($parcelAddresses);
+
+        return $optimalRoute;
+    }
 }

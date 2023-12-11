@@ -34,6 +34,12 @@ return [
     'stripe' => [
         'publish' => env('STRIPE_PUBLISH'),
         'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'google' => [
+        'maps' => [
+            'api_key' => env('GOOGLE_MAP_KEY'),
+        ],
     ]
 
 ];

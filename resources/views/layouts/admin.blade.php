@@ -3,6 +3,7 @@
 <head>
     <!-- Scripts, styles and meta tags -->
     @include('includes.head')
+    @yield('head-scripts')
 </head>
 <body>
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -20,6 +21,6 @@
         </div>
     </div>
     <!-- Admin Scripts -->
-    @yield('scripts', 'failed')
+    @yield('scripts')
 </body>
 </html>
