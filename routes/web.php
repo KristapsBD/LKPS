@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleMapsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeController;
 use App\Mail\ParcelShipped;
@@ -117,6 +118,9 @@ Route::middleware("admin")->group( function () {
 
     Route::get('/admin/create-address', [AdminController::class, 'createAddressForm'])->name('admin.createAddressForm');
     Route::post('/admin/create-address', [AdminController::class, 'createAddress'])->name('admin.createAddress');
+
+    Route::get('/generate-route', [AdminController::class, 'viewAllParcels'])->name('admin.generateRouteView');
+    Route::post('/generate-route', [GoogleMapsController::class, 'generateOptimizedRoute'])->name('admin.generateRoute');
 });
 
 require __DIR__.'/auth.php';
