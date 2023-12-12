@@ -7,142 +7,76 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto p-4 flex flex-col items-center">
-        @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <form method="POST" action="{{ route('parcel.storeAllData') }}" class="mt-4">
-            @csrf
-            <!-- Parcel Overview Section -->
-            <section class="mt-4">
-                <h3 class="text-lg font-semibold dark:text-white">Parcel Information</h3>
-                <div class="mb-4">
-                    <label class="block dark:text-white">Parcel Size:</label>
-                    <span class="dark:text-white">{{ $step1Data ? $step1Data['size'] : '' }}</span>
-                </div>
+    {{--TODO ADD TRACKING CODE TO PARCEL--}}
+{{--    TODO FIX MISSING FOREIGN KEYS--}}
 
-                <div class="mb-4">
-                    <label class="block dark:text-white">Parcel Weight (kg):</label>
-                    <span class="dark:text-white">{{ $step1Data ? $step1Data['weight'] : '' }}</span>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+            <form method="POST" action="{{ route('parcel.storeAllData') }}">
+                @csrf
+                <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+                    <div class="sm:col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Parcel Information</label>
+                        <div class="flex">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="Size {{ $step1Data ? $step1Data['size'] : '' }}, {{ $step1Data ? $step1Data['weight'] : '' }} kg" placeholder="Parcel information here..." required disabled>
+                            <a href="{{ route('parcel.step1') }}">
+                                <button type="button" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Edit
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sender Information</label>
+                        <div class="flex">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $step2Data ? $step2Data['sender_name'] : '' }}, {{ $step2Data ? $step2Data['sender_email'] : '' }}, {{ $step2Data ? $step2Data['sender_phone'] : '' }}" placeholder="Sender information here..." required disabled>
+                            <a href="{{ route('parcel.step2') }}">
+                                <button type="button" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Edit
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sender Address</label>
+                        <div class="flex">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $step2Data ? $step2Data['sender_street'] : '' }}, {{ $step2Data ? $step2Data['sender_city'] : '' }}, {{ $step2Data ? $step2Data['sender_postal_code'] : '' }}" placeholder="Sender information here..." required disabled>
+                            <a href="{{ route('parcel.step2') }}">
+                                <button type="button" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Edit
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Receiver Information</label>
+                        <div class="flex">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $step3Data ? $step3Data['receiver_name'] : '' }}, {{ $step3Data ? $step3Data['receiver_phone'] : '' }}" placeholder="Receiver information here..." required disabled>
+                            <a href="{{ route('parcel.step3') }}">
+                                <button type="button" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Edit
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Receiver Address</label>
+                        <div class="flex">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $step3Data ? $step3Data['receiver_street'] : '' }}, {{ $step3Data ? $step3Data['receiver_city'] : '' }}, {{ $step3Data ? $step3Data['receiver_postal_code'] : '' }}" placeholder="Receiver information here..." required disabled>
+                            <a href="{{ route('parcel.step3') }}">
+                                <button type="button" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Edit
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="notes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Additional Notes</label>
+                        <textarea id="notes" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Parcel notes here..." disabled>{{ $step1Data ? $step1Data['notes'] : 'N/A' }}</textarea>
+                    </div>
                 </div>
-
-                <div class="mb-4">
-                    <label class="block dark:text-white">Additional Notes:</label>
-                    <span class="dark:text-white">{{ $step1Data ? $step1Data['notes'] : 'N/A' }}</span>
-                </div>
-            </section>
-
-            <!-- Sender Information Section -->
-            <section class="mt-4">
-                <h3 class="text-lg font-semibold dark:text-white">Sender Information</h3>
-                <div class="mb-4">
-                    <label class="block dark:text-white">Name:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_name'] : '' }}</span>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block dark:text-white">Email:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_email'] : '' }}</span>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block dark:text-white">Phone:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_phone'] : '' }}</span>
-                </div>
-
-{{--                <div class="mb-4">--}}
-{{--                    <label class="block dark:text-white">Address:</label>--}}
-{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_address'] : '' }}</span>--}}
-{{--                </div>--}}
-                <div class="mb-4">
-                    <label class="block dark:text-white">Street:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_street'] : '' }}</span>
-                </div>
-                <div class="mb-4">
-                    <label class="block dark:text-white">City:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_city'] : '' }}</span>
-                </div>
-                <div class="mb-4">
-                    <label class="block dark:text-white">Postcode:</label>
-                    <span class="dark:text-white">{{ $step2Data ? $step2Data['sender_postal_code'] : '' }}</span>
-                </div>
-            </section>
-
-            <!-- Parcel Pickup Information Section -->
-{{--            <section class="mt-4">--}}
-{{--                <h3 class="text-lg font-semibold dark:text-white">Parcel Pickup Information</h3>--}}
-{{--                <div class="mb-4">--}}
-{{--                    <label class="block dark:text-white">Pickup Date:</label>--}}
-{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_date'] : '' }}</span>--}}
-{{--                </div>--}}
-
-{{--                <div class="mb-4">--}}
-{{--                    <label class="block dark:text-white">Pickup Time From:</label>--}}
-{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_time_from'] : '' }}</span>--}}
-{{--                </div>--}}
-
-{{--                <div class="mb-4">--}}
-{{--                    <label class="block dark:text-white">Pickup Time To:</label>--}}
-{{--                    <span class="dark:text-white">{{ $step2Data ? $step2Data['dropoff_time_to'] : '' }}</span>--}}
-{{--                </div>--}}
-{{--            </section>--}}
-
-            <!-- Receiver Information Section -->
-            <section class="mt-4">
-                <h3 class="text-lg font-semibold dark:text-white">Receiver Information</h3>
-                <div class="mb-4">
-                    <label class="block dark:text-white">Name:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_name'] : '' }}</span>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block dark:text-white">Phone:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_phone'] : '' }}</span>
-                </div>
-
-{{--                <div class="mb-4">--}}
-{{--                    <label class="block dark:text-white">Address:</label>--}}
-{{--                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_address'] : '' }}</span>--}}
-{{--                </div>--}}
-                <div class="mb-4">
-                    <label class="block dark:text-white">Street:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_street'] : '' }}</span>
-                </div>
-                <div class="mb-4">
-                    <label class="block dark:text-white">City:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_city'] : '' }}</span>
-                </div>
-                <div class="mb-4">
-                    <label class="block dark:text-white">Postcode:</label>
-                    <span class="dark:text-white">{{ $step3Data ? $step3Data['receiver_postal_code'] : '' }}</span>
-                </div>
-            </section>
-
-            <!-- Edit Options and Confirmation Button -->
-            <div class="mt-4 space-x-4">
-                <a href="{{ route('parcel.step1') }}" class="hover:underline">
-                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit Parcel Info
-                    </button>
-                </a>
-                <a href="{{ route('parcel.step2') }}" class="hover:underline">
-                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit Sender Info
-                    </button>
-                </a>
-                <a href="{{ route('parcel.step3') }}" class="hover:underline">
-                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit Receiver Info
-                    </button>
-                </a>
-                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Proceed To Payment</button>
-            </div>
-        </form>
-    </div>
+                <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Proceed To Payment</button>
+            </form>
+        </div>
+    </section>
 @endsection
