@@ -95,7 +95,13 @@ class AdminController extends Controller
 
     public function createParcelForm()
     {
-        return view('admin.parcel.createParcel');
+        $users = User::all();
+        $clients = Client::all();
+        $addresses = Address::all();
+        $tariffs = Tariff::all();
+        $vehicles = Vehicle::all();
+
+        return view('admin.parcel.createParcel', compact('users', 'clients', 'addresses', 'tariffs', 'vehicles'));
     }
 
     public function createParcel(Request $request)
@@ -105,7 +111,12 @@ class AdminController extends Controller
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:1|max:100',
             'notes' => 'nullable|string',
-            'sender_id' => 'required|exists:users,id',
+            'sender' => 'required|exists:users,id',
+            'source' => 'required|exists:addresses,id',
+            'receiver' => 'required|exists:clients,id',
+            'destination' => 'required|exists:addresses,id',
+            'tariff' => 'required|exists:tariffs,id',
+            'vehicle' => 'required|exists:vehicles,id',
 //            'sender_name' => 'required|string',
 //            'sender_email' => 'required|email',
 //            'sender_phone' => 'required|string',
@@ -113,19 +124,24 @@ class AdminController extends Controller
 //            'dropoff_date' => 'required|date',
 //            'dropoff_time_from' => 'required|date_format:H:i',
 //            'dropoff_time_to' => 'required|date_format:H:i',
-            'receiver_name' => 'required|string',
-            'receiver_email' => 'required|email',
-            'receiver_phone' => 'required|string',
-            'receiver_address' => 'required|string',
+//            'receiver_name' => 'required|string',
+//            'receiver_email' => 'required|email',
+//            'receiver_phone' => 'required|string',
+//            'receiver_address' => 'required|string',
         ]);
 
-        $sender = User::findOrFail($validatedData['sender_id']);
+        $sender = User::findOrFail($validatedData['sender']);
+        $receiver = Client::findOrFail($validatedData['receiver']);
+        $source = Address::findOrFail($validatedData['source']);
+        $destination = Address::findOrFail($validatedData['destination']);
+        $tariff = Tariff::findOrFail($validatedData['tariff']);
+        $vehicle = Tariff::findOrFail($validatedData['vehicle']);
 
-        $receiver = Client::create([
-            'name' => $validatedData['receiver_name'],
-            'email' => $validatedData['receiver_email'],
-            'phone' => $validatedData['receiver_phone'],
-        ]);
+//        $receiver = Client::create([
+//            'name' => $validatedData['receiver_name'],
+//            'email' => $validatedData['receiver_email'],
+//            'phone' => $validatedData['receiver_phone'],
+//        ]);
 
         // Create the new parcel
         $parcel = Parcel::create([
@@ -136,8 +152,10 @@ class AdminController extends Controller
 
         $parcel->sender()->associate($sender);
         $parcel->receiver()->associate($receiver);
-        $tariff = getTariffIdBySize($parcel->size);
+        $parcel->source()->associate($source);
+        $parcel->destination()->associate($destination);
         $parcel->tariff()->associate($tariff);
+        $parcel->vehicle()->associate($vehicle);
 
         $parcel->save();
 
