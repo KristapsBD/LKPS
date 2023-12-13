@@ -29,7 +29,6 @@ return new class extends Migration
             $table->foreign('receiver_id')
                 ->references('id')
                 ->on('clients')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -44,7 +43,6 @@ return new class extends Migration
             $table->foreign('destination_id')
                 ->references('id')
                 ->on('addresses')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -52,7 +50,6 @@ return new class extends Migration
             $table->foreign('vehicle_id')
                 ->references('id')
                 ->on('vehicles')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -60,7 +57,6 @@ return new class extends Migration
             $table->foreign('tariff_id')
                 ->references('id')
                 ->on('tariffs')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

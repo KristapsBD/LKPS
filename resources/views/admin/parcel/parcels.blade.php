@@ -5,8 +5,13 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-semibold dark:text-gray-200">Parcel Management</h2>
             <div>
+                <a href="{{ route('admin.importForm') }}">
+                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Bulk Import</button>
+                </a>
                 <button type="button" onclick="generateRoute()" id='generate-route-button' class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" disabled>Generate Route</button>
-                <a href="{{ route('admin.createParcel') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-[11px] px-4 rounded">Create Parcel</a>
+                <a href="{{ route('admin.createParcel') }}">
+                    <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">Create Parcel</button>
+                </a>
             </div>
         </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

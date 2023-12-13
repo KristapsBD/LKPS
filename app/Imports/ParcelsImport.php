@@ -7,13 +7,66 @@ use App\Models\Client;
 use App\Models\Tariff;
 use App\Models\User;
 use App\Models\Vehicle;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Exception;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Models\Parcel;
 
-class ParcelsImport implements ToModel, WithHeadingRow
+class ParcelsImport implements ToCollection, WithHeadingRow
 {
-    public function model(array $row)
+    protected $errors = [];
+    protected $importCount = 0;
+
+    public function collection(Collection $collection)
+    {
+        // Access the header row
+        $headerRow = $collection->first();
+
+        // Validate column names
+        $this->validateColumnNames($headerRow);
+
+        foreach ($collection as $index => $row) {
+            $validator = Validator::make($row->toArray(), $this->rules(), $this->validationMessages());
+
+            if ($validator->fails()) {
+                $this->errors[] = [
+                    'row' => $index + 2, // Excel rows are 1-indexed, but we want to show 1-based row numbers
+                    'errors' => $validator->errors()->all(),
+                ];
+                continue;
+            }
+
+            $this->processRow($row->toArray());
+            $this->importCount++;
+        }
+    }
+
+    protected function rules()
+    {
+        return [
+            'size' => 'required|in:s,m,l,xl',
+            'weight' => 'required|numeric|min:0|max:100',
+            'notes' => 'nullable',
+            'status' => 'nullable|max:2',
+            'tracking_code' => 'nullable|max:10',
+            'sender_id' => 'nullable|exists:users,id',
+            'receiver_id' => 'nullable|exists:clients,id',
+            'source_id' => 'nullable|exists:addresses,id',
+            'destination_id' => 'nullable|exists:addresses,id',
+            'vehicle_id' => 'nullable|exists:vehicles,id',
+            'tariff_id' => 'nullable|exists:tariffs,id',
+        ];
+    }
+
+    protected function validationMessages()
+    {
+        // Define custom validation messages if needed
+        return [];
+    }
+
+    protected function processRow(array $row)
     {
         $sender = User::find($row['sender_id']);
         $receiver = Client::find($row['receiver_id']);
@@ -21,12 +74,6 @@ class ParcelsImport implements ToModel, WithHeadingRow
         $destination = Address::find($row['destination_id']);
         $vehicle = Vehicle::find($row['vehicle_id']);
         $tariff = Tariff::find($row['tariff_id']);
-
-        if (!$sender) {
-            // Handle the case where the sender_id is not valid
-            // You can log an error, skip the row, or take appropriate action
-            return null;
-        }
 
         $parcel = new Parcel([
             'size' => $row['size'],
@@ -37,6 +84,7 @@ class ParcelsImport implements ToModel, WithHeadingRow
         ]);
 
         $parcel->sender()->associate($sender);
+        $parcel->receiver()->associate($receiver);
         $parcel->source()->associate($source);
         $parcel->destination()->associate($destination);
         $parcel->vehicle()->associate($vehicle);
@@ -44,77 +92,37 @@ class ParcelsImport implements ToModel, WithHeadingRow
 
         $parcel->save();
     }
-}
 
-//namespace App\Imports;
-//
-//use App\Models\Parcel;
-//use App\Models\Client;
-//use App\Models\User;
-//use App\Models\Address;
-//use App\Models\Vehicle;
-//use App\Models\Tariff;
-//use Illuminate\Support\Collection;
-//use Maatwebsite\Excel\Concerns\ToCollection;
-//use Maatwebsite\Excel\Concerns\WithHeadingRow;
-//use Maatwebsite\Excel\Concerns\Importable;
-//use Maatwebsite\Excel\Concerns\WithValidation;
-//
-//class ParcelsImport implements ToCollection, WithHeadingRow, WithValidation
-//{
-//    use Importable;
-//
-//    /**
-//     * @param Collection $collection
-//     */
-//    public function collection(Collection $collection)
-//    {
-//        foreach ($collection as $row) {
-//            // Validate and get related records
-//            $sender = User::find($row['sender_id']);
-//            $receiver = Client::find($row['receiver_id']);
-//            $source = Address::find($row['source']);
-//            $destination = Address::find($row['destination']);
-//            $vehicle = Vehicle::find($row['vehicle_id']);
-//            $tariff = Tariff::find($row['tariff_id']);
-//
-//            // Check if any related record is not found
-//            if (!$sender || !$receiver || !$source || !$destination || !$vehicle || !$tariff) {
-//                $this->addError('invalid_id', 'Invalid ID provided for one or more foreign keys.');
-//                return;
-//            }
-//
-//            // Create Parcel
-//            Parcel::factory()->create([
-//                'size' => $row['size'],
-//                'weight' => $row['weight'],
-//                'notes' => $row['notes'],
-//                'status' => $row['status'],
-//                'tracking_code' => $row['tracking_code'],
-//                'sender_id' => $sender->id,
-//                'receiver_id' => $receiver->id,
-//                'source' => $source->id,
-//                'destination' => $destination->id,
-//                'vehicle_id' => $vehicle->id,
-//                'tariff_id' => $tariff->id,
-//            ]);
-//        }
-//    }
-//
-//    /**
-//     * Validation rules for the import.
-//     *
-//     * @return array
-//     */
-//    public function rules(): array
-//    {
-//        return [
-//            'sender_id' => 'exists:users,id',
-//            'receiver_id' => 'exists:clients,id',
-//            'source' => 'exists:addresses,id',
-//            'destination' => 'exists:addresses,id',
-//            'vehicle_id' => 'exists:vehicles,id',
-//            'tariff_id' => 'exists:tariffs,id',
-//        ];
-//    }
-//}
+    protected function validateColumnNames($headerRow)
+    {
+        $requiredColumns = [
+            'size', 'weight', 'notes', 'status', 'tracking_code',
+            'sender_id', 'receiver_id', 'source_id', 'destination_id',
+            'vehicle_id', 'tariff_id',
+        ];
+
+        $actualColumns = $headerRow->keys()->toArray();
+
+        $missingColumns = array_diff($requiredColumns, $actualColumns);
+
+        if (!empty($missingColumns)) {
+            // Throw an exception with the missing columns
+            if (count($missingColumns) == 1) {
+                $errorMessage = "Column [{$missingColumns[0]}] is missing or incorrect.";
+            } else {
+                $errorMessage = "Columns [" . implode(', ', $missingColumns) . "] are missing or incorrect.";
+            }
+            throw new Exception($errorMessage);
+        }
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    public function getImportCount()
+    {
+        return $this->importCount;
+    }
+}

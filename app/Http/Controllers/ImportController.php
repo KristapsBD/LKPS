@@ -15,13 +15,23 @@ class ImportController extends Controller
 
     public function import(Request $request)
     {
-        $request->validate([
-            'file' => 'required|mimes:csv,xls,xlsx',
-        ]);
+        try {
+            $request->validate([
+                'file' => 'required|mimes:csv,xls,xlsx',
+            ]);
 
-        $import = new ParcelsImport;
-        Excel::import($import, $request->file('file'));
+            $import = new ParcelsImport;
+            Excel::import($import, $request->file('file'));
 
-        return redirect()->route('admin.parcels')->with('success', 'Parcels imported successfully!');
+            $importCount = $import->getImportCount();
+
+            if ($import->getErrors()) {
+                return redirect()->route('admin.parcels')->with(['importErrors' => true, 'importValueError' => $import->getErrors(), 'importCount' => $importCount]);
+            }
+
+            return redirect()->route('admin.parcels')->with(['success' => "{$importCount} parcels imported successfully!"]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['importErrors' => true, 'importHeaderError' => $e->getMessage(), 'importCount' => 0]);
+        }
     }
 }
