@@ -13,12 +13,13 @@ class Address extends Model
         'street',
         'city',
         'postal_code',
-        'county',
     ];
+
+    // TODO refactor address structure - only user has default address
 
     public function sender()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class);
     }
 
     public function receiver()

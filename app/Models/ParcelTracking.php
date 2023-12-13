@@ -17,6 +17,6 @@ class ParcelTracking extends Model
 
     public function parcel()
     {
-        return $this->belongsTo(Parcel::class, 'parcel_id');
+        return $this->belongsTo(Parcel::class);
     }
 }

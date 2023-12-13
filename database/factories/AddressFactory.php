@@ -20,7 +20,6 @@ class AddressFactory extends Factory
             'street' => $this->faker->streetAddress,
             'city' => $this->faker->city,
             'postal_code' => $this->faker->postcode,
-            'county' => $this->faker->state,
         ];
     }
 }

@@ -16,9 +16,9 @@ class Vehicle extends Model
         'type',
     ];
 
-    public function driver()
+    public function drivers()
     {
-        return $this->belongsTo(User::class, 'driver_id');
+        return $this->belongsToMany(User::class);
     }
 
     public function parcels()

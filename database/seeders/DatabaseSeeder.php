@@ -64,7 +64,6 @@ class DatabaseSeeder extends Seeder
             'street' => 'Iecavas 5',
             'city' => 'Ozolnieki',
             'postal_code' => 'LV-3018',
-            'county' => 'Jelgavas novads',
         ]);
 
         $parcel = Parcel::factory()->create([
@@ -73,8 +72,8 @@ class DatabaseSeeder extends Seeder
             'notes' => 'Sample parcel',
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
-            'source' => $address->id,
-            'destination' => $address->id,
+            'source_id' => $address->id,
+            'destination_id' => $address->id,
         ]);
     }
 }

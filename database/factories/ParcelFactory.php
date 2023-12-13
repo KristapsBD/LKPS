@@ -37,8 +37,8 @@ class ParcelFactory extends Factory
             'tracking_code' => Str::random(10),
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
-            'source' => $source->id,
-            'destination' => $destination->id,
+            'source_id' => $source->id,
+            'destination_id' => $destination->id,
             'vehicle_id' => $vehicle->id,
             'tariff_id' => $tariff->id,
         ];

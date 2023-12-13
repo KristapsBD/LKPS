@@ -33,15 +33,15 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('source')->nullable();
-            $table->foreign('source')
+            $table->unsignedBigInteger('source_id')->nullable();
+            $table->foreign('source_id')
                 ->references('id')
                 ->on('addresses')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('destination')->nullable();
-            $table->foreign('destination')
+            $table->unsignedBigInteger('destination_id')->nullable();
+            $table->foreign('destination_id')
                 ->references('id')
                 ->on('addresses')
                 ->nullable()
@@ -83,11 +83,11 @@ return new class extends Migration
             });
 
             Schema::table('parcels', function (Blueprint $table) {
-                $table->dropForeign(['source']);
+                $table->dropForeign(['source_id']);
             });
 
             Schema::table('parcels', function (Blueprint $table) {
-                $table->dropForeign(['destination']);
+                $table->dropForeign(['destination_id']);
             });
 
             Schema::table('parcels', function (Blueprint $table) {

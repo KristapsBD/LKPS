@@ -18,10 +18,6 @@
                 <label for="postal_code" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Postal Code:</label>
                 <input type="text" name="postal_code" id="postal_code" class="border rounded-md px-3 py-2 w-full focus:ring focus:ring-indigo-400" value="{{ $address->postal_code }}" required>
             </div>
-            <div class="mb-4">
-                <label for="county" class="block text-sm font-medium text-gray-600 dark:text-gray-300">County:</label>
-                <input type="text" name="county" id="county" class="border rounded-md px-3 py-2 w-full focus:ring focus:ring-indigo-400" value="{{ $address->county }}" required>
-            </div>
             <button type="submit" class="w-full px-4 py-2 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:ring focus:ring-indigo-200 focus:outline-none">Save</button>
         </form>
     </div>

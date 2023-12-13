@@ -332,7 +332,6 @@ class AdminController extends Controller
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
-            'county' => 'required|string|max:255',
         ]);
 
         // Create the new address
@@ -340,7 +339,6 @@ class AdminController extends Controller
             'street' => $validatedData['street'],
             'city' => $validatedData['city'],
             'postal_code' => $validatedData['postal_code'],
-            'county' => $validatedData['county'],
         ]);
 
         return redirect()->route('admin.addresses')->with('success', 'Address created successfully.');
@@ -358,14 +356,12 @@ class AdminController extends Controller
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:20',
-            'county' => 'required|string|max:255',
         ]);
 
         $address->update([
             'street' => $validatedData['street'],
             'city' => $validatedData['city'],
             'postal_code' => $validatedData['postal_code'],
-            'county' => $validatedData['county'],
         ]);
 
         return redirect()->route('admin.addresses')->with('success', 'Address updated successfully.');
