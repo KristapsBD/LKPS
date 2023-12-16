@@ -25,7 +25,7 @@ class GoogleMapsController extends Controller
     {
         $selectedParcelIds = json_decode($request->input('selected_parcels'));
         $waypoints = Parcel::whereIn('parcels.id', $selectedParcelIds)
-            ->join('addresses', 'parcels.destination', '=', 'addresses.id')
+            ->join('addresses', 'parcels.destination_id', '=', 'addresses.id')
             ->select('addresses.street', 'addresses.city', 'addresses.postal_code')
             ->get()
             ->map(function ($item) {

@@ -17,10 +17,6 @@
                 <label for="postal_code" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Postal Code:</label>
                 <input type="text" name="postal_code" id="postal_code" class="border rounded-md px-3 py-2 w-full focus:ring focus:ring-indigo-400" required>
             </div>
-            <div class="mb-4">
-                <label for="county" class="block text-sm font-medium text-gray-600 dark:text-gray-300">County:</label>
-                <input type="text" name="county" id="county" class="border rounded-md px-3 py-2 w-full focus:ring focus:ring-indigo-400" required>
-            </div>
             <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md">Create Address</button>
         </form>
     </div>

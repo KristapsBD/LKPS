@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GoogleMapsController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeController;
 use App\Mail\ParcelShipped;
@@ -119,8 +120,13 @@ Route::middleware("admin")->group( function () {
     Route::get('/admin/create-address', [AdminController::class, 'createAddressForm'])->name('admin.createAddressForm');
     Route::post('/admin/create-address', [AdminController::class, 'createAddress'])->name('admin.createAddress');
 
+    // Route generation
     Route::get('/generate-route', [AdminController::class, 'viewAllParcels'])->name('admin.generateRouteView');
     Route::post('/generate-route', [GoogleMapsController::class, 'generateOptimizedRoute'])->name('admin.generateRoute');
+
+    // Bulk import
+    Route::get('/admin/parcels/import', [ImportController::class, 'showImportForm'])->name('admin.importForm');
+    Route::post('/admin/parcels/import', [ImportController::class, 'import'])->name('admin.import');
 });
 
 require __DIR__.'/auth.php';

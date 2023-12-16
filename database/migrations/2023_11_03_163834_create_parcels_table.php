@@ -29,22 +29,20 @@ return new class extends Migration
             $table->foreign('receiver_id')
                 ->references('id')
                 ->on('clients')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('source')->nullable();
-            $table->foreign('source')
+            $table->unsignedBigInteger('source_id')->nullable();
+            $table->foreign('source_id')
                 ->references('id')
                 ->on('addresses')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('destination')->nullable();
-            $table->foreign('destination')
+            $table->unsignedBigInteger('destination_id')->nullable();
+            $table->foreign('destination_id')
                 ->references('id')
                 ->on('addresses')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -52,7 +50,6 @@ return new class extends Migration
             $table->foreign('vehicle_id')
                 ->references('id')
                 ->on('vehicles')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -60,7 +57,6 @@ return new class extends Migration
             $table->foreign('tariff_id')
                 ->references('id')
                 ->on('tariffs')
-                ->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -83,11 +79,11 @@ return new class extends Migration
             });
 
             Schema::table('parcels', function (Blueprint $table) {
-                $table->dropForeign(['source']);
+                $table->dropForeign(['source_id']);
             });
 
             Schema::table('parcels', function (Blueprint $table) {
-                $table->dropForeign(['destination']);
+                $table->dropForeign(['destination_id']);
             });
 
             Schema::table('parcels', function (Blueprint $table) {

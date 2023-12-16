@@ -60,6 +60,12 @@
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
+                            @if (auth()->user()->role === 1)
+                                <x-dropdown-link :href="route('admin.dashboard')">
+                                    {{ __('Admin Panel') }}
+                                </x-dropdown-link>
+                            @endif
+
                             <x-dropdown-link :href="route('parcel.history')">
                                 {{ __('Parcel History') }}
                             </x-dropdown-link>

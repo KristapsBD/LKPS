@@ -16,6 +16,6 @@ class Client extends Model
 
     public function parcels()
     {
-        return $this->hasMany(Parcel::class, 'receiver_id');
+        return $this->belongsTo(Parcel::class, 'receiver_id');
     }
 }

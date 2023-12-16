@@ -4,7 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Client;
+use App\Models\ParcelTracking;
+use App\Models\Payment;
 use App\Models\Tariff;
+use App\Models\Vehicle;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Parcel;
@@ -38,14 +41,15 @@ class DatabaseSeeder extends Seeder
             'extra_information' => 'Tariff only applies to large size packages',
         ]);
 
-        \App\Models\User::factory(10)->create();
-        \App\Models\Client::factory(10)->create();
-        \App\Models\Address::factory(10)->create();
+        User::factory(10)->create();
+        Client::factory(10)->create();
+        Address::factory(10)->create();
         User::where('id', '<=', 5)->update(['role' => 3]);
-        \App\Models\Vehicle::factory(10)->create();
-        \App\Models\Tariff::factory(10)->create();
-        \App\Models\Parcel::factory(10)->create();
-        \App\Models\ParcelTracking::factory(10)->create();
+        Vehicle::factory(10)->create();
+        Tariff::factory(10)->create();
+        Parcel::factory(10)->create();
+        ParcelTracking::factory(10)->create();
+        Payment::factory(10)->create();
 
         $sender = User::factory()->create([
             'name' => 'User Doe',
@@ -64,7 +68,6 @@ class DatabaseSeeder extends Seeder
             'street' => 'Iecavas 5',
             'city' => 'Ozolnieki',
             'postal_code' => 'LV-3018',
-            'county' => 'Jelgavas novads',
         ]);
 
         $parcel = Parcel::factory()->create([
@@ -73,8 +76,8 @@ class DatabaseSeeder extends Seeder
             'notes' => 'Sample parcel',
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
-            'source' => $address->id,
-            'destination' => $address->id,
+            'source_id' => $address->id,
+            'destination_id' => $address->id,
         ]);
     }
 }

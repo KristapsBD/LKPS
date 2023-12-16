@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ParcelTracking extends Model
+class Payment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'old_status',
-        'new_status',
-        'location',
+        'sum',
+        'status',
     ];
 
     public function parcel()

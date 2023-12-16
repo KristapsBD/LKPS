@@ -48,12 +48,12 @@ class User extends Authenticatable // implements MustVerifyEmail
 
     public function parcels()
     {
-        return $this->hasMany(Parcel::class, 'sender_id');
+        return $this->belongsTo(Parcel::class, 'sender_id');
     }
 
     public function address()
     {
-        return $this->belongsTo(Address::class);
+        return $this->hasOne(Address::class);
     }
 
     public function userPhoneVerified()
@@ -68,8 +68,8 @@ class User extends Authenticatable // implements MustVerifyEmail
         ])->save();
     }
 
-    public function vehicle()
+    public function vehicles()
     {
-        return $this->hasOne(Vehicle::class, 'driver_id');
+        return $this->belongsToMany(Vehicle::class);
     }
 }
