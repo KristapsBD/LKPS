@@ -15,10 +15,10 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->is_admin) {
+        if (auth()->check() && auth()->user()->role === 1) {
             return $next($request);
         }
 
-        return redirect('/'); // Redirect non-admin users
+        return back()->with('error', '403 Forbidden. You have no access to this route.');
     }
 }

@@ -31,4 +31,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'stripe' => [
+        'publish' => env('STRIPE_PUBLISH'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'google' => [
+        'maps' => [
+            'api_key' => env('GOOGLE_MAP_KEY'),
+        ],
+    ]
+
 ];
