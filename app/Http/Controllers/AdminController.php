@@ -22,12 +22,12 @@ use Illuminate\Validation\Rules;
 
 class AdminController extends Controller
 {
-    // User CRUD
     public function index()
     {
         return view('admin.dashboard');
     }
 
+    // User CRUD
     public function viewAllUsers()
     {
         $users = User::paginate(10);
@@ -38,8 +38,7 @@ class AdminController extends Controller
     {
         return view('admin.user.createUser');
     }
-//    TODO Add additional user fields to create user admin dashboard
-// TODO Add fields to edit user dashboard
+
     public function createUser(Request $request)
     {
         $validatedData = $request->validate([
@@ -63,7 +62,6 @@ class AdminController extends Controller
 
     public function editUserForm(User $user)
     {
-        // Implement edit user functionality
         return view('admin.user.editUser', ['user' => $user]);
     }
 
@@ -237,43 +235,56 @@ class AdminController extends Controller
 
     public function createVehicleForm()
     {
-        return view('admin.vehicle.createVehicle');
+        $drivers = User::where('role', 2)->get();
+        return view('admin.vehicle.createVehicle', compact('drivers'));
     }
 
     public function createVehicle(Request $request)
     {
-        // Validation rules go here
         $validatedData = $request->validate([
             'registration_number' => 'required|unique:vehicles,registration_number|string|max:12',
             'type' => 'required|in:1,2,3',
+            'current_driver' => 'nullable|exists:users,id'
         ]);
 
-        // Create the new vehicle
-        $vehicle = Vehicle::create([
+        $vehicleData = [
             'registration_number' => $validatedData['registration_number'],
-            'type' => $validatedData['type'],
-        ]);
+            'type' => (int)$validatedData['type'],
+        ];
+
+        if (isset($validatedData['current_driver'])) {
+            $vehicleData['current_driver'] = $validatedData['current_driver'];
+        }
+
+        $vehicle = Vehicle::create($vehicleData);
 
         return redirect()->route('admin.vehicles')->with('success', 'Vehicle created successfully.');
     }
 
     public function editVehicleForm(Vehicle $vehicle)
     {
-        // Implement edit vehicle functionality
-        return view('admin.vehicle.editVehicle', ['vehicle' => $vehicle]);
+        $drivers = User::where('role', 2)->get();
+        return view('admin.vehicle.editVehicle', compact('vehicle', 'drivers'));
     }
 
     public function editVehicle(Request $request, Vehicle $vehicle)
     {
         $validatedData = $request->validate([
-            'registration_number' => 'required|string|max:12',
+            'registration_number' => ['required','string', 'max:12',  Rule::unique('vehicles')->ignore($vehicle->id)],
             'type' => 'required|in:1,2,3',
+            'current_driver' => 'nullable|exists:users,id'
         ]);
 
         $vehicle->update([
             'registration_number' => $validatedData['registration_number'],
-            'type' => $validatedData['type'],
+            'type' => (int)$validatedData['type'],
         ]);
+
+        if (isset($validatedData['current_driver'])) {
+            $driver = User::findOrFail($validatedData['current_driver']);
+            $vehicle->current_driver()->associate($driver);
+            $vehicle->save();
+        }
 
         return redirect()->route('admin.vehicles')->with('success', 'Vehicle updated successfully.');
     }

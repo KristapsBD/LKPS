@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('registration_number');
             $table->integer('type');
-            $table->unsignedBigInteger('driver_id')->nullable();
-            $table->foreign('driver_id')
+            $table->unsignedBigInteger('current_driver_id')->nullable();
+            $table->foreign('current_driver_id')
                 ->references('id')
                 ->on('users')
                 ->constrained()
@@ -33,7 +33,7 @@ return new class extends Migration
     {
         if(Schema::hasTable('vehicles')) {
             Schema::table('vehicles', function (Blueprint $table) {
-                $table->dropForeign(['driver_id']);
+                $table->dropForeign(['current_driver_id']);
             });
         }
 

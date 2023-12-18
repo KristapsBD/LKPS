@@ -5,8 +5,7 @@ if (!function_exists('mapUserRoleToString')) {
         $roleMapping = [
             0 => 'Client',
             1 => 'Admin',
-            2 => 'Worker',
-            3 => 'Driver',
+            2 => 'Courier',
         ];
 
         return $roleMapping[$role] ?? 'Unknown Role';
