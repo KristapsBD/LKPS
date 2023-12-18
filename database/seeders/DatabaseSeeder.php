@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         Client::factory(10)->create();
         Address::factory(10)->create();
-        User::where('id', '<=', 5)->update(['role' => 3]);
+        User::where('id', '<=', 5)->update(['role' => 2]);
         Vehicle::factory(10)->create();
         Tariff::factory(10)->create();
         Parcel::factory(10)->create();

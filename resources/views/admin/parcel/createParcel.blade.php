@@ -4,7 +4,7 @@
     <div class="container mx-auto flex flex-col items-center">
         <section class="bg-white dark:bg-gray-900">
             <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a New Parcel</h2>
+                <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add New Parcel</h2>
                 <form method="POST" action="{{ route('admin.createParcel') }}">
                     @csrf
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">

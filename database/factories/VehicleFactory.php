@@ -18,7 +18,7 @@ class VehicleFactory extends Factory
     public function definition(): array
     {
 
-        $driver = User::where('role', 3)->inRandomOrder()->first();
+        $driver = User::where('role', 2)->inRandomOrder()->first();
 
         return [
             'registration_number' => $this->faker->unique()->regexify('[A-Z0-9]{10}'),

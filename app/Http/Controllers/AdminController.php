@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\Parcel;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 // TODO implement driver can change status functionality -
@@ -53,7 +54,7 @@ class AdminController extends Controller
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'phone' => $validatedData['phone'],
-            'role' => $validatedData['role'],
+            'role' => (int)$validatedData['role'],
             'password' => Hash::make($validatedData['password']),
         ]);
 
@@ -70,16 +71,32 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email',
-//            'password' => 'required|string|min:8',
+            'email' => ['required', Rule::unique('users')->ignore($user->id)],
+            'phone' => ['required', new Phone, Rule::unique('users')->ignore($user->id)],
+            'role' => 'required|in:0,1,2',
         ]);
 
         $user->update([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'role' => (int)$validatedData['role'],
         ]);
 
         return redirect()->route('admin.users')->with('success', 'User updated successfully.');
+    }
+
+    public function editUserPassword(Request $request, User $user)
+    {
+        $validatedData = $request->validate([
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user->update([
+            'password' => Hash::make($validatedData['password']),
+        ]);
+
+        return redirect()->route('admin.users')->with('success', 'User password updated successfully.');
     }
 
     public function deleteUser(User $user)
