@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Client;
 use App\Models\Tariff;
+use App\Rules\Phone;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\Parcel;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 // TODO implement driver can change status functionality -
 // Implement route generation functionality
@@ -39,17 +41,19 @@ class AdminController extends Controller
 // TODO Add fields to edit user dashboard
     public function createUser(Request $request)
     {
-        // Validation rules go here
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
+            'phone' => ['required', new Phone, 'unique:'.User::class],
+            'role' => 'required|in:0,1,2',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Create the new user
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'role' => $validatedData['role'],
             'password' => Hash::make($validatedData['password']),
         ]);
 
@@ -93,20 +97,25 @@ class AdminController extends Controller
         return view('admin.parcel.parcels', compact('parcels'));
     }
 
+    private function getParcelFormData()
+    {
+        return [
+            'users' => User::all(),
+            'clients' => Client::all(),
+            'addresses' => Address::all(),
+            'tariffs' => Tariff::all(),
+            'vehicles' => Vehicle::all(),
+        ];
+    }
+
     public function createParcelForm()
     {
-        $users = User::all();
-        $clients = Client::all();
-        $addresses = Address::all();
-        $tariffs = Tariff::all();
-        $vehicles = Vehicle::all();
-
-        return view('admin.parcel.createParcel', compact('users', 'clients', 'addresses', 'tariffs', 'vehicles'));
+        $formData = $this->getParcelFormData();
+        return view('admin.parcel.createParcel', compact('formData'));
     }
 
     public function createParcel(Request $request)
     {
-        // Validation rules go here
         $validatedData = $request->validate([
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:1|max:100',
@@ -117,17 +126,6 @@ class AdminController extends Controller
             'destination' => 'required|exists:addresses,id',
             'tariff' => 'required|exists:tariffs,id',
             'vehicle' => 'required|exists:vehicles,id',
-//            'sender_name' => 'required|string',
-//            'sender_email' => 'required|email',
-//            'sender_phone' => 'required|string',
-//            'sender_address' => 'required|string',
-//            'dropoff_date' => 'required|date',
-//            'dropoff_time_from' => 'required|date_format:H:i',
-//            'dropoff_time_to' => 'required|date_format:H:i',
-//            'receiver_name' => 'required|string',
-//            'receiver_email' => 'required|email',
-//            'receiver_phone' => 'required|string',
-//            'receiver_address' => 'required|string',
         ]);
 
         $sender = User::findOrFail($validatedData['sender']);
@@ -137,19 +135,15 @@ class AdminController extends Controller
         $tariff = Tariff::findOrFail($validatedData['tariff']);
         $vehicle = Tariff::findOrFail($validatedData['vehicle']);
 
-//        $receiver = Client::create([
-//            'name' => $validatedData['receiver_name'],
-//            'email' => $validatedData['receiver_email'],
-//            'phone' => $validatedData['receiver_phone'],
-//        ]);
-
-        // Create the new parcel
         $parcel = Parcel::create([
             'size' => $validatedData['size'],
             'weight' => $validatedData['weight'],
             'notes' => $validatedData['notes'],
         ]);
 
+        //TODO calculate tariff automatically
+
+        // Add foreign key relationships
         $parcel->sender()->associate($sender);
         $parcel->receiver()->associate($receiver);
         $parcel->source()->associate($source);
@@ -164,41 +158,46 @@ class AdminController extends Controller
 
     public function editParcelForm(Parcel $parcel)
     {
-        // Implement edit parcel functionality
-        return view('admin.parcel.editParcel', ['parcel' => $parcel]);
+        $formData = $this->getParcelFormData();
+        return view('admin.parcel.editParcel', compact('parcel' ,'formData'));
     }
 
     public function editParcel(Request $request, Parcel $parcel)
     {
         $validatedData = $request->validate([
             'size' => 'required|in:s,m,l,xl',
-            'weight' => 'required|numeric|min:0|max:100',
+            'weight' => 'required|numeric|min:1|max:100',
             'notes' => 'nullable|string',
-            'sender_id' => 'required|exists:users,id',
-            'receiver_id' => 'required|exists:clients,id',
-////            'sender_name' => 'required|string',
-////            'sender_email' => 'required|email',
-////            'sender_phone' => 'required|string',
-////            'sender_address' => 'required|string',
-//            'dropoff_date' => 'required|date',
-//            'dropoff_time_from' => 'required|date_format:H:i',
-//            'dropoff_time_to' => 'required|date_format:H:i',
-//            'receiver_name' => 'required|string',
-//            'receiver_email' => 'required|email',
-//            'receiver_phone' => 'required|string',
-//            'receiver_address' => 'required|string',
+            'sender' => 'required|exists:users,id',
+            'source' => 'required|exists:addresses,id',
+            'receiver' => 'required|exists:clients,id',
+            'destination' => 'required|exists:addresses,id',
+            'tariff' => 'required|exists:tariffs,id',
+            'vehicle' => 'required|exists:vehicles,id',
         ]);
+
+        $sender = User::findOrFail($validatedData['sender']);
+        $receiver = Client::findOrFail($validatedData['receiver']);
+        $source = Address::findOrFail($validatedData['source']);
+        $destination = Address::findOrFail($validatedData['destination']);
+        $tariff = Tariff::findOrFail($validatedData['tariff']);
+        $vehicle = Tariff::findOrFail($validatedData['vehicle']);
+//        $tariff = getTariffIdBySize($validatedData['size']);
+//        $parcel->tariff()->associate($tariff);
 
         $parcel->update([
             'size' => $validatedData['size'],
             'weight' => $validatedData['weight'],
             'notes' => $validatedData['notes'],
-            'sender_id' => $validatedData['sender_id'],
-            'receiver_id' => $validatedData['receiver_id'],
         ]);
 
-        $tariff = getTariffIdBySize($validatedData['size']);
+        $parcel->sender()->associate($sender);
+        $parcel->receiver()->associate($receiver);
+        $parcel->source()->associate($source);
+        $parcel->destination()->associate($destination);
         $parcel->tariff()->associate($tariff);
+        $parcel->vehicle()->associate($vehicle);
+
         $parcel->save();
 
         return redirect()->route('admin.parcels')->with('success', 'Parcel updated successfully.');

@@ -2,9 +2,9 @@
 @section('content')
     <form id="generate-route-form" action="{{ route('admin.generateRoute') }}" method="POST">
         @csrf
+        <h2 class="text-2xl font-semibold dark:text-gray-200 mb-4">Parcel Management</h2>
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-semibold dark:text-gray-200">Parcel Management</h2>
-            <div>
+            <div class="flex justify-center">
                 <a href="{{ route('admin.importForm') }}">
                     <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Bulk Import</button>
                 </a>
@@ -69,7 +69,7 @@
                             {{ $parcel->weight }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $parcel->notes }}
+                            {{ Str::words($parcel->notes, 5) }}
                         </td>
                         <td class="px-6 py-4">
                             {{ mapParcelStatusToValue($parcel->status) }}
@@ -86,9 +86,11 @@
                         <td class="px-6 py-4">
                             {{ $parcel->tariff->name ?? "Not Asigned" }}
                         </td>
-                        <td class="flex items-center px-6 py-4">
-                            <a href="{{ route('admin.editParcelForm', $parcel->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3 delete-element" data-toggle="modal" data-target="#confirmDeleteModal" data-element-id="{{ $parcel->id }}" data-delete-route="{{ route('admin.deleteParcel', $parcel->id) }}">Remove</a>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <a href="{{ route('admin.editParcelForm', $parcel->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3 delete-element" data-toggle="modal" data-target="#confirmDeleteModal" data-element-id="{{ $parcel->id }}" data-delete-route="{{ route('admin.deleteParcel', $parcel->id) }}">Remove</a>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
