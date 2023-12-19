@@ -4,6 +4,7 @@
     <!-- Scripts, styles and meta tags -->
     @include('includes.head')
     @yield('head-scripts')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body>
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
