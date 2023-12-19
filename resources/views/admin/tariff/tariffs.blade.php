@@ -3,7 +3,7 @@
     <h2 class="text-2xl font-semibold dark:text-gray-200 mb-4">Tariff Management</h2>
     <div class="flex justify-between items-center mb-4">
         <div class="flex justify-center">
-            <a href="{{ route('admin.createTariff') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Create Vehicle</a>
+            <a href="{{ route('admin.createTariff') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Create Tariff</a>
         </div>
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

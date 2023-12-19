@@ -371,10 +371,9 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:20',
+            'postal_code' => 'required|string|max:10',
         ]);
 
-        // Create the new address
         $address = Address::create([
             'street' => $validatedData['street'],
             'city' => $validatedData['city'],
@@ -386,7 +385,6 @@ class AdminController extends Controller
 
     public function editAddressForm(Address $address)
     {
-        // Implement edit address functionality
         return view('admin.address.editAddress', ['address' => $address]);
     }
 
@@ -395,7 +393,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'street' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:20',
+            'postal_code' => 'required|string|max:10',
         ]);
 
         $address->update([
@@ -409,7 +407,6 @@ class AdminController extends Controller
 
     public function deleteAddress(Address $address)
     {
-        // Implement delete address functionality
         $address->delete();
         session()->flash('success', 'Address deleted successfully.');
         return response()->json();
