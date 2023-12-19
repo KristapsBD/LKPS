@@ -116,6 +116,17 @@ Route::middleware("admin")->group( function () {
     Route::get('/admin/create-address', [AdminController::class, 'createAddressForm'])->name('admin.createAddressForm');
     Route::post('/admin/create-address', [AdminController::class, 'createAddress'])->name('admin.createAddress');
 
+    // Client routes
+    Route::get('/admin/clients', [AdminController::class, 'viewAllClients'])->name('admin.clients');
+
+    Route::get('/admin/edit-client/{client}', [AdminController::class, 'editClientForm'])->name('admin.editClientForm');
+    Route::put('/admin/edit-client/{client}', [AdminController::class, 'editClient'])->name('admin.editClient');
+
+    Route::delete('/admin/delete-client/{client}', [AdminController::class, 'deleteClient'])->name('admin.deleteClient');
+
+    Route::get('/admin/create-client', [AdminController::class, 'createClientForm'])->name('admin.createClientForm');
+    Route::post('/admin/create-client', [AdminController::class, 'createClient'])->name('admin.createClient');
+
     // Route generation
     Route::get('/generate-route', [AdminController::class, 'viewAllParcels'])->name('admin.generateRouteView');
     Route::post('/generate-route', [GoogleMapsController::class, 'generateOptimizedRoute'])->name('admin.generateRoute');

@@ -411,4 +411,58 @@ class AdminController extends Controller
         session()->flash('success', 'Address deleted successfully.');
         return response()->json();
     }
+
+    // Client CRUD
+    public function viewAllClients()
+    {
+        $clients = Client::paginate(10);
+        return view('admin.client.clients', compact('clients'));
+    }
+
+    public function createClientForm()
+    {
+        return view('admin.client.createClient');
+    }
+
+    public function createClient(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => ['required', new Phone, 'unique:'.Client::class],
+        ]);
+
+        $client = Client::create([
+            'name' => $validatedData['name'],
+            'phone' => $validatedData['phone'],
+        ]);
+
+        return redirect()->route('admin.clients')->with('success', 'Client created successfully.');
+    }
+
+    public function editClientForm(Client $client)
+    {
+        return view('admin.client.editClient', compact('client'));
+    }
+
+    public function editClient(Request $request, Client $client)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => ['required', new Phone, Rule::unique('clients')->ignore($client->id)],
+        ]);
+
+        $client->update([
+            'name' => $validatedData['name'],
+            'phone' => $validatedData['phone'],
+        ]);
+
+        return redirect()->route('admin.clients')->with('success', 'Client updated successfully.');
+    }
+
+    public function deleteClient(Client $client)
+    {
+        $client->delete();
+        session()->flash('success', 'Client deleted successfully.');
+        return response()->json();
+    }
 }
