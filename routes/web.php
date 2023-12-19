@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\GoogleMapsController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ParcelController;
+use App\Http\Controllers\ParcelsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,6 +136,9 @@ Route::middleware("admin")->group( function () {
     // Bulk import
     Route::get('/admin/parcels/import', [ImportController::class, 'showImportForm'])->name('admin.importForm');
     Route::post('/admin/parcels/import', [ImportController::class, 'import'])->name('admin.import');
+
+    // Bulk export
+    Route::post('/parcels/export-selected', [ExportController::class, 'exportSelectedParcels'])->name('admin.export');
 });
 
 require __DIR__.'/auth.php';

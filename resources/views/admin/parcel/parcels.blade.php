@@ -1,14 +1,21 @@
 @extends('layouts.admin')
 @section('content')
-    <form id="generate-route-form" action="{{ route('admin.generateRoute') }}" method="POST">
+{{--    {{ route('admin.generateRoute') }}--}}
+    <form id="parcel-select-form" action="" method="POST">
         @csrf
         <h2 class="text-2xl font-semibold dark:text-gray-200 mb-4">Parcel Management</h2>
         <div class="flex justify-between items-center mb-4">
             <div class="flex justify-center">
                 <a href="{{ route('admin.importForm') }}">
-                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Bulk Import</button>
+                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Import Parcels</button>
                 </a>
-                <button type="button" onclick="generateRoute()" id='generate-route-button' class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" disabled>Generate Route</button>
+{{--                <button type="button" onclick="gatherSelectedParcels()" id='generate-route-button' class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" disabled>Generate Route</button>--}}
+                <button type="button" onclick="submitForm('export-selected')" id="generate-route-button" class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-4" disabled>
+                    Export Parcels
+                </button>
+                <button type="button" onclick="submitForm('generate-route')" id="export-parcels-button" class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" disabled>
+                    Generate Route
+                </button>
                 <a href="{{ route('admin.createParcel') }}">
                     <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">Create Parcel</button>
                 </a>
@@ -110,49 +117,66 @@
 
 @section('scripts')
     <script src="{{ asset('js/checkAllFormCheckboxes.js') }}" defer></script>
-    <script>
-        function generateRoute() {
-            var selectedParcels = [];
+{{--    <script src="{{ asset('js/gatherSelectedParcels.js') }}" defer></script>--}}
+{{--    <script>--}}
+{{--        function gatherSelectedParcels() {--}}
+{{--            var selectedParcels = [];--}}
 
-            // Iterate over localStorage to find checkboxes that are checked
-            Object.keys(localStorage).forEach(function (key) {
-                if (key.startsWith('checkbox-') && localStorage.getItem(key) === 'true') {
-                    // Extract the ID from the key and push it to the selectedParcels array
-                    var parcelId = key.replace('checkbox-', '');
-                    selectedParcels.push(parcelId);
-                }
-            });
+{{--            // Iterate over localStorage to find checkboxes that are checked--}}
+{{--            Object.keys(localStorage).forEach(function (key) {--}}
+{{--                if (key.startsWith('checkbox-') && localStorage.getItem(key) === 'true') {--}}
+{{--                    // Extract the ID from the key and push it to the selectedParcels array--}}
+{{--                    var parcelId = key.replace('checkbox-', '');--}}
+{{--                    selectedParcels.push(parcelId);--}}
+{{--                }--}}
+{{--            });--}}
 
-            // Update the hidden input field with selected parcel IDs
-            document.getElementById('selected-parcels').value = JSON.stringify(selectedParcels);
+{{--            // Update the hidden input field with selected parcel IDs--}}
+{{--            document.getElementById('selected-parcels').value = JSON.stringify(selectedParcels);--}}
 
-            // Clear local storage for checkboxes after form submission
-            clearLocalStorageWithPrefix('checkbox-');
+{{--            // Clear local storage for checkboxes after form submission--}}
+{{--            clearLocalStorageWithPrefix('checkbox-');--}}
 
-            // Clear local storage for the button state after form submission
-            localStorage.removeItem('isButtonEnabled');
+{{--            // Clear local storage for the button state after form submission--}}
+{{--            localStorage.removeItem('isButtonEnabled');--}}
 
-            // Submit the form
-            document.getElementById('generate-route-form').submit();
-        }
+{{--            // Submit the form--}}
+{{--            document.getElementById('parcel-select-form').submit();--}}
+{{--        }--}}
 
-        function clearLocalStorageWithPrefix(prefix) {
-            Object.keys(localStorage)
-                .filter(key => key.startsWith(prefix))
-                .forEach(key => localStorage.removeItem(key));
-        }
-    </script>
+{{--        function clearLocalStorageWithPrefix(prefix) {--}}
+{{--            Object.keys(localStorage)--}}
+{{--                .filter(key => key.startsWith(prefix))--}}
+{{--                .forEach(key => localStorage.removeItem(key));--}}
+{{--        }--}}
+{{--    </script>--}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get a reference to the "Generate Route" link
+            // Get references to the buttons
             var generateRouteButton = document.getElementById('generate-route-button');
+            var exportParcelsButton = document.getElementById('export-parcels-button');
 
             // Get all checkboxes
             var checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-            // Retrieve the button state from local storage on page load
-            var isButtonEnabled = localStorage.getItem('isButtonEnabled') === 'true';
-            generateRouteButton.disabled = !isButtonEnabled;
+            // Function to enable or disable buttons based on checkbox status
+            function updateButtonState() {
+                // Update the "Generate Route" button
+                generateRouteButton.disabled = !Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // Update the "Export Parcels" button
+                exportParcelsButton.disabled = !Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // Update the button state based on checkbox changes
+                var isAnyCheckboxChecked = Object.keys(localStorage).some(function (key) {
+                    return key.startsWith('checkbox-') && localStorage.getItem(key) === 'true';
+                });
+
+                localStorage.setItem('isButtonEnabled', isAnyCheckboxChecked);
+
+                generateRouteButton.disabled = !(localStorage.getItem('isButtonEnabled') === 'true');
+                exportParcelsButton.disabled = !(localStorage.getItem('isButtonEnabled') === 'true');
+            }
 
             // Attach an event listener to each checkbox
             checkboxes.forEach(function(checkbox) {
@@ -165,23 +189,51 @@
                     // Save checkbox state to local storage
                     localStorage.setItem(checkboxKey, checkbox.checked);
 
-                    // Enable or disable the "Generate Route" link based on checkbox status
-                    generateRouteButton.disabled = !Array.from(checkboxes).some(checkbox => checkbox.checked);
-
-                    // Update the button state based on checkbox changes
-                    // Check if at least one checkbox is checked in localStorage
-                    var isAnyCheckboxChecked = Object.keys(localStorage).some(function (key) {
-                        console.log('testing '+ key);
-                        console.log(key.startsWith('checkbox-'));
-                        console.log(localStorage.getItem(key) === 'true');
-                        return key.startsWith('checkbox-') && localStorage.getItem(key) === 'true';
-                    });
-
-                    localStorage.setItem('isButtonEnabled', isAnyCheckboxChecked);
-
-                    generateRouteButton.disabled = !(localStorage.getItem('isButtonEnabled') === 'true');
+                    // Enable or disable buttons based on checkbox status
+                    updateButtonState();
                 });
             });
+
+            // Initial call to set button state on page load
+            updateButtonState();
         });
+    </script>
+    <script>
+        function submitForm(action) {
+            // Update the selected parcels input
+            var selectedParcels = [];
+            Object.keys(localStorage).forEach(function (key) {
+                if (key.startsWith('checkbox-') && localStorage.getItem(key) === 'true') {
+                    var parcelId = key.replace('checkbox-', '');
+                    selectedParcels.push(parcelId);
+                }
+            });
+            document.getElementById('selected-parcels').value = JSON.stringify(selectedParcels);
+
+            // Set the dynamic action URL based on the button pressed
+            var form = document.getElementById('parcel-select-form');
+            if (action === 'export-selected') {
+                form.action = "{{ route('admin.export') }}";
+            } else if (action === 'generate-route') {
+                form.action = "{{ route('admin.generateRoute') }}";
+            } else {
+                throw new Error('Invalid action specified');
+            }
+
+            // Clear local storage for checkboxes after form submission
+            clearLocalStorageWithPrefix('checkbox-');
+
+            // Clear local storage for the button state after form submission
+            localStorage.removeItem('isButtonEnabled');
+
+            // Submit the form
+            form.submit();
+        }
+
+        function clearLocalStorageWithPrefix(prefix) {
+            Object.keys(localStorage)
+                .filter(key => key.startsWith(prefix))
+                .forEach(key => localStorage.removeItem(key));
+        }
     </script>
 @endsection
