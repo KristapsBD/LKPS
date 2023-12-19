@@ -134,7 +134,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:1|max:100',
-            'notes' => 'nullable|string',
+            'notes' => 'nullable|string|max:255',
             'sender' => 'required|exists:users,id',
             'source' => 'required|exists:addresses,id',
             'receiver' => 'required|exists:clients,id',
@@ -182,7 +182,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:1|max:100',
-            'notes' => 'nullable|string',
+            'notes' => 'nullable|string|max:255',
             'sender' => 'required|exists:users,id',
             'source' => 'required|exists:addresses,id',
             'receiver' => 'required|exists:clients,id',
@@ -291,7 +291,6 @@ class AdminController extends Controller
 
     public function deleteVehicle(Vehicle $vehicle)
     {
-        // Implement delete vehicle functionality
         $vehicle->delete();
         session()->flash('success', 'Vehicle deleted successfully.');
         return response()->json();
@@ -311,14 +310,12 @@ class AdminController extends Controller
 
     public function createTariff(Request $request)
     {
-        // Validation rules go here
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0.01|max:999',
-            'extra_information' => 'nullable|string',
+            'name' => 'required|string|max:50',
+            'price' => 'required|numeric|min:0|max:999',
+            'extra_information' => 'nullable|string|max:255',
         ]);
 
-        // Create the new tariff
         $tariff = Tariff::create([
             'name' => $validatedData['name'],
             'price' => $validatedData['price'],
@@ -330,16 +327,15 @@ class AdminController extends Controller
 
     public function editTariffForm(Tariff $tariff)
     {
-        // Implement edit tariff functionality
-        return view('admin.tariff.editTariff', ['tariff' => $tariff]);
+        return view('admin.tariff.editTariff', compact('tariff'));
     }
 
     public function editTariff(Request $request, Tariff $tariff)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:30',
-            'price' => 'required|numeric|min:0.01|max:999',
-            'extra_information' => 'nullable|string',
+            'name' => 'required|string|max:50',
+            'price' => 'required|numeric|min:0|max:999',
+            'extra_information' => 'nullable|string|max:255',
         ]);
 
         $tariff->update([
@@ -353,7 +349,6 @@ class AdminController extends Controller
 
     public function deleteTariff(Tariff $tariff)
     {
-        // Implement delete tariff functionality
         $tariff->delete();
         session()->flash('success', 'Tariff deleted successfully.');
         return response()->json();
