@@ -1,18 +1,21 @@
 @extends('layouts.admin')
 @section('content')
-    <form id="generate-route-form" action="{{ route('admin.generateRoute') }}" method="POST">
+    <form id="parcel-select-form" action="" method="POST">
         @csrf
         <h2 class="text-2xl font-semibold dark:text-gray-200 mb-4">Parcel Management</h2>
-        <div class="flex justify-between items-center mb-4">
-            <div class="flex justify-center">
-                <a href="{{ route('admin.importForm') }}">
-                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Bulk Import</button>
-                </a>
-                <button type="button" onclick="generateRoute()" id='generate-route-button' class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" disabled>Generate Route</button>
-                <a href="{{ route('admin.createParcel') }}">
-                    <button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">Create Parcel</button>
-                </a>
-            </div>
+        <div class="flex flex-col sm:flex-row mb-4">
+            <a href="{{ route('admin.importForm') }}" class="mb-2 sm:mb-0 sm:mr-4">
+                <button type="button" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Import Parcels</button>
+            </a>
+            <button type="button" onclick="submitForm('export-selected')" id="generate-route-button" class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 sm:mb-0 sm:mr-4" disabled>
+                Export Parcels
+            </button>
+            <button type="button" onclick="submitForm('generate-route')" id="export-parcels-button" class="disabled:bg-gray-500 disabled:hover:bg-gray-700 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 sm:mb-0 sm:mr-4" disabled>
+                Generate Route
+            </button>
+            <a href="{{ route('admin.createParcel') }}">
+                <button type="button" class="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Create Parcel</button>
+            </a>
         </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -58,8 +61,8 @@
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="w-4 p-4">
                             <div class="flex items-center">
-                                <input value="{{ $parcel->id }}" id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                <input value="{{ $parcel->id }}" id="checkbox-table-search-{{ $parcel->id }}" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="checkbox-table-search-{{ $parcel->id }}" class="sr-only">checkbox</label>
                             </div>
                         </td>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -111,20 +114,90 @@
 @section('scripts')
     <script src="{{ asset('js/checkAllFormCheckboxes.js') }}" defer></script>
     <script>
-        function generateRoute() {
-            var selectedParcels = [];
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get references to the buttons
+            var generateRouteButton = document.getElementById('generate-route-button');
+            var exportParcelsButton = document.getElementById('export-parcels-button');
 
-            // Iterate over localStorage to find checkboxes that are checked
+            // Get all checkboxes, excluding the header checkbox
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#checkbox-all-search)');
+
+            // Function to enable or disable buttons based on checkbox status
+            function updateButtonState() {
+                // Update the "Generate Route" button
+                generateRouteButton.disabled = !Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // Update the "Export Parcels" button
+                exportParcelsButton.disabled = !Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+                // Update the button state based on checkbox changes
+                var isAnyCheckboxChecked = Object.keys(localStorage).some(function (key) {
+                    return key.startsWith('checkbox-') && localStorage.getItem(key) === 'true';
+                });
+
+                localStorage.setItem('isButtonEnabled', isAnyCheckboxChecked);
+
+                generateRouteButton.disabled = !(localStorage.getItem('isButtonEnabled') === 'true');
+                exportParcelsButton.disabled = !(localStorage.getItem('isButtonEnabled') === 'true');
+            }
+
+            // Attach an event listener to each checkbox, including the header checkbox
+            checkboxes.forEach(function (checkbox) {
+                // Load checkbox state from local storage on page load
+                var checkboxKey = 'checkbox-' + checkbox.value;
+                var isChecked = localStorage.getItem(checkboxKey) === 'true';
+                checkbox.checked = isChecked;
+
+                checkbox.addEventListener('change', function () {
+                    // Save checkbox state to local storage
+                    localStorage.setItem(checkboxKey, checkbox.checked);
+
+                    // Enable or disable buttons based on checkbox status
+                    updateButtonState();
+                });
+            });
+
+            // Attach an event listener to the header checkbox for select/deselect all
+            var headerCheckbox = document.getElementById('checkbox-all-search');
+            headerCheckbox.addEventListener('change', function () {
+                // Update the state of each checkbox in the table body
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = headerCheckbox.checked;
+
+                    // Save checkbox state to local storage
+                    var checkboxKey = 'checkbox-' + checkbox.value;
+                    localStorage.setItem(checkboxKey, checkbox.checked);
+                });
+
+                // Enable or disable buttons based on checkbox status
+                updateButtonState();
+            });
+
+            // Initial call to set button state on page load
+            updateButtonState();
+        });
+    </script>
+    <script>
+        function submitForm(action) {
+            // Update the selected parcels input
+            var selectedParcels = [];
             Object.keys(localStorage).forEach(function (key) {
                 if (key.startsWith('checkbox-') && localStorage.getItem(key) === 'true') {
-                    // Extract the ID from the key and push it to the selectedParcels array
                     var parcelId = key.replace('checkbox-', '');
                     selectedParcels.push(parcelId);
                 }
             });
-
-            // Update the hidden input field with selected parcel IDs
             document.getElementById('selected-parcels').value = JSON.stringify(selectedParcels);
+
+            // Set the dynamic action URL based on the button pressed
+            var form = document.getElementById('parcel-select-form');
+            if (action === 'export-selected') {
+                form.action = "{{ route('admin.export') }}";
+            } else if (action === 'generate-route') {
+                form.action = "{{ route('admin.generateRoute') }}";
+            } else {
+                throw new Error('Invalid action specified');
+            }
 
             // Clear local storage for checkboxes after form submission
             clearLocalStorageWithPrefix('checkbox-');
@@ -133,7 +206,14 @@
             localStorage.removeItem('isButtonEnabled');
 
             // Submit the form
-            document.getElementById('generate-route-form').submit();
+            form.submit();
+
+            // Reload the page only after exporting parcels
+            if (action === 'export-selected') {
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }
         }
 
         function clearLocalStorageWithPrefix(prefix) {
@@ -141,47 +221,5 @@
                 .filter(key => key.startsWith(prefix))
                 .forEach(key => localStorage.removeItem(key));
         }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get a reference to the "Generate Route" link
-            var generateRouteButton = document.getElementById('generate-route-button');
-
-            // Get all checkboxes
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-            // Retrieve the button state from local storage on page load
-            var isButtonEnabled = localStorage.getItem('isButtonEnabled') === 'true';
-            generateRouteButton.disabled = !isButtonEnabled;
-
-            // Attach an event listener to each checkbox
-            checkboxes.forEach(function(checkbox) {
-                // Load checkbox state from local storage on page load
-                var checkboxKey = 'checkbox-' + checkbox.value;
-                var isChecked = localStorage.getItem(checkboxKey) === 'true';
-                checkbox.checked = isChecked;
-
-                checkbox.addEventListener('change', function() {
-                    // Save checkbox state to local storage
-                    localStorage.setItem(checkboxKey, checkbox.checked);
-
-                    // Enable or disable the "Generate Route" link based on checkbox status
-                    generateRouteButton.disabled = !Array.from(checkboxes).some(checkbox => checkbox.checked);
-
-                    // Update the button state based on checkbox changes
-                    // Check if at least one checkbox is checked in localStorage
-                    var isAnyCheckboxChecked = Object.keys(localStorage).some(function (key) {
-                        console.log('testing '+ key);
-                        console.log(key.startsWith('checkbox-'));
-                        console.log(localStorage.getItem(key) === 'true');
-                        return key.startsWith('checkbox-') && localStorage.getItem(key) === 'true';
-                    });
-
-                    localStorage.setItem('isButtonEnabled', isAnyCheckboxChecked);
-
-                    generateRouteButton.disabled = !(localStorage.getItem('isButtonEnabled') === 'true');
-                });
-            });
-        });
     </script>
 @endsection
