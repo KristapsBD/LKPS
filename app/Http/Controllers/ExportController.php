@@ -12,6 +12,7 @@ class ExportController extends Controller
     public function exportSelectedParcels(Request $request)
     {
         $selectedParcelIds = json_decode($request->input('selected_parcels'));
+        var_dump($selectedParcelIds); die;
 
         $parcels = Parcel::whereIn('id', $selectedParcelIds)->get();
 
