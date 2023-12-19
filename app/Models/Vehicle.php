@@ -16,6 +16,11 @@ class Vehicle extends Model
         'type',
     ];
 
+    public function current_driver()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function drivers()
     {
         return $this->belongsToMany(User::class);

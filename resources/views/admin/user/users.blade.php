@@ -1,8 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+    <h2 class="text-2xl font-semibold dark:text-gray-200 mb-4">User Management</h2>
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold dark:text-gray-200">User Management</h2>
-        <a href="{{ route('admin.createUser') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Create User</a>
+        <div class="flex justify-center">
+            <a href="{{ route('admin.createUser') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Create User</a>
+        </div>
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -65,8 +67,10 @@
                         {{ $user->address_id }}
                     </td>
                     <td class="flex items-center px-6 py-4">
-                        <a href="{{ route('admin.editUserForm', $user->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3 delete-element" data-toggle="modal" data-target="#confirmDeleteModal" data-element-id="{{ $user->id }}" data-delete-route="{{ route('admin.deleteUser', $user->id) }}">Remove</a>
+                        <div class="flex items-center">
+                            <a href="{{ route('admin.editUserForm', $user->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3 delete-element" data-toggle="modal" data-target="#confirmDeleteModal" data-element-id="{{ $user->id }}" data-delete-route="{{ route('admin.deleteUser', $user->id) }}">Remove</a>
+                        </div>
                     </td>
                 </tr>
             @endforeach

@@ -8,6 +8,7 @@ use App\Models\ParcelTracking;
 use App\Models\Payment;
 use App\Models\Tariff;
 use App\Models\Vehicle;
+use Database\Factories\VehicleFactory;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Parcel;
@@ -41,15 +42,21 @@ class DatabaseSeeder extends Seeder
             'extra_information' => 'Tariff only applies to large size packages',
         ]);
 
-        User::factory(10)->create();
+        $users = User::factory(10)->create();
         Client::factory(10)->create();
         Address::factory(10)->create();
-        User::where('id', '<=', 5)->update(['role' => 3]);
-        Vehicle::factory(10)->create();
+        User::where('id', '<=', 5)->update(['role' => 2]);
+        $vehicles = Vehicle::factory(10)->create();
         Tariff::factory(10)->create();
         Parcel::factory(10)->create();
         ParcelTracking::factory(10)->create();
         Payment::factory(10)->create();
+
+        // Attach users to vehicles
+        foreach ($vehicles as $vehicle) {
+            $usersToAttach = User::inRandomOrder()->limit(3)->get();
+            $vehicle->drivers()->attach($usersToAttach);
+        }
 
         $sender = User::factory()->create([
             'name' => 'User Doe',

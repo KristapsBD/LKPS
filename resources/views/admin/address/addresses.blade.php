@@ -1,8 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+    <h2 class="text-2xl font-semibold dark:text-gray-200 mb-4">Address Management</h2>
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold dark:text-gray-200">Address Management</h2>
-        <a href="{{ route('admin.createAddress') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Create Address</a>
+        <div class="flex justify-center">
+            <a href="{{ route('admin.createAddress') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Create Address</a>
+        </div>
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

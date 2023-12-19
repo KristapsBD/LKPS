@@ -29,11 +29,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-//Route::get('/testmail', function () {
-//   $name = 'Test name';
-//   Mail::to('kristaps.briks3@gmail.com')->send(new ParcelShipped($name));
-//});
-
 Route::get('/track', [ParcelController::class, 'trackingView'])->name('parcel.trackingView');
 Route::post('/track', [ParcelController::class, 'track'])->name('parcel.track');
 
@@ -70,6 +65,7 @@ Route::middleware("admin")->group( function () {
 
     Route::get('/admin/edit-user/{user}', [AdminController::class, 'editUserForm'])->name('admin.editUserForm');
     Route::put('/admin/edit-user/{user}', [AdminController::class, 'editUser'])->name('admin.editUser');
+    Route::put('/admin/edit-user-password/{user}', [AdminController::class, 'editUserPassword'])->name('admin.editUserPassword');
 
     Route::delete('/admin/delete-user/{user}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
 
@@ -119,6 +115,17 @@ Route::middleware("admin")->group( function () {
 
     Route::get('/admin/create-address', [AdminController::class, 'createAddressForm'])->name('admin.createAddressForm');
     Route::post('/admin/create-address', [AdminController::class, 'createAddress'])->name('admin.createAddress');
+
+    // Client routes
+    Route::get('/admin/clients', [AdminController::class, 'viewAllClients'])->name('admin.clients');
+
+    Route::get('/admin/edit-client/{client}', [AdminController::class, 'editClientForm'])->name('admin.editClientForm');
+    Route::put('/admin/edit-client/{client}', [AdminController::class, 'editClient'])->name('admin.editClient');
+
+    Route::delete('/admin/delete-client/{client}', [AdminController::class, 'deleteClient'])->name('admin.deleteClient');
+
+    Route::get('/admin/create-client', [AdminController::class, 'createClientForm'])->name('admin.createClientForm');
+    Route::post('/admin/create-client', [AdminController::class, 'createClient'])->name('admin.createClient');
 
     // Route generation
     Route::get('/generate-route', [AdminController::class, 'viewAllParcels'])->name('admin.generateRouteView');
