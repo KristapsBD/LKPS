@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Imports\ParcelsImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TemplateExport;
 
 class ImportController extends Controller
 {
@@ -29,9 +30,16 @@ class ImportController extends Controller
                 return redirect()->route('admin.parcels')->with(['importErrors' => true, 'importValueError' => $import->getErrors(), 'importCount' => $importCount]);
             }
 
-            return redirect()->route('admin.parcels')->with(['success' => "{$importCount} parcels imported successfully!"]);
+            return redirect()->route('admin.parcels')->with(['success' => $importCount == 1 ? "1 parcel imported successfully!" : "{$importCount} parcels imported successfully!"]);
         } catch (\Exception $e) {
             return redirect()->back()->with(['importErrors' => true, 'importHeaderError' => $e->getMessage(), 'importCount' => 0]);
         }
+    }
+
+    public function downloadTemplate()
+    {
+        $fileName = 'template.xlsx';
+
+        return Excel::download(new TemplateExport(), $fileName);
     }
 }

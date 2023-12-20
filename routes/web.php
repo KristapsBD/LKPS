@@ -136,6 +136,8 @@ Route::middleware("admin")->group( function () {
     // Bulk import
     Route::get('/admin/parcels/import', [ImportController::class, 'showImportForm'])->name('admin.importForm');
     Route::post('/admin/parcels/import', [ImportController::class, 'import'])->name('admin.import');
+    Route::get('/admin/download-template', [ImportController::class, 'downloadTemplate'])->name('admin.downloadTemplate');
+
 
     // Bulk export
     Route::post('/parcels/export-selected', [ExportController::class, 'exportSelectedParcels'])->name('admin.export');
