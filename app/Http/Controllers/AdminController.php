@@ -183,6 +183,7 @@ class AdminController extends Controller
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:1|max:100',
             'notes' => 'nullable|string|max:255',
+            'status' => 'required|in:0,1,2,3,4,5',
             'sender' => 'required|exists:users,id',
             'source' => 'required|exists:addresses,id',
             'receiver' => 'required|exists:clients,id',
@@ -204,6 +205,7 @@ class AdminController extends Controller
             'size' => $validatedData['size'],
             'weight' => $validatedData['weight'],
             'notes' => $validatedData['notes'],
+            'status' => $validatedData['status']
         ]);
 
         $parcel->sender()->associate($sender);
@@ -214,6 +216,8 @@ class AdminController extends Controller
         $parcel->vehicle()->associate($vehicle);
 
         $parcel->save();
+
+        event(new \App\Events\ParcelStatusUpdated($parcel));
 
         return redirect()->route('admin.parcels')->with('success', 'Parcel updated successfully.');
     }
