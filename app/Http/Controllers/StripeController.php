@@ -48,6 +48,8 @@ class StripeController extends Controller
         if ($parcel instanceof Parcel) {
             $parcel->status = '1';
             $parcel->save();
+
+            event(new \App\Events\ParcelStatusUpdated($parcel));
         } else {
             return redirect()->route('dashboard')->with('error', 'Something went wrong.');
         }

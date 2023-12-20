@@ -47,6 +47,7 @@ if (!function_exists('mapParcelStatusToValue')) {
             2 => 'In Transit',
             3 => 'Out For Delivery',
             4 => 'Delivered',
+            5 => 'On Hold',
         ];
 
         return $statusMapping[$status] ?? 'Unknown Status';

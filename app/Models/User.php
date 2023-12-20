@@ -48,12 +48,12 @@ class User extends Authenticatable // implements MustVerifyEmail
 
     public function parcels()
     {
-        return $this->belongsTo(Parcel::class, 'sender_id');
+        return $this->hasMany(Parcel::class, 'sender_id');
     }
 
     public function address()
     {
-        return $this->hasOne(Address::class);
+        return $this->belongsTo(Address::class);
     }
 //    TODO check if phone verification is necessary
     public function userPhoneVerified()

@@ -37,6 +37,7 @@ Route::post('/track', [ParcelController::class, 'track'])->name('parcel.track');
 Route::middleware('auth')->group( function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile', [ProfileController::class, 'updateOrCreateDefaultAddress'])->name('profile.updateOrCreateDefaultAddress');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/parcel-history', [ParcelController::class, 'parcelHistory'])->name('parcel.history');
@@ -136,6 +137,8 @@ Route::middleware("admin")->group( function () {
     // Bulk import
     Route::get('/admin/parcels/import', [ImportController::class, 'showImportForm'])->name('admin.importForm');
     Route::post('/admin/parcels/import', [ImportController::class, 'import'])->name('admin.import');
+    Route::get('/admin/download-template', [ImportController::class, 'downloadTemplate'])->name('admin.downloadTemplate');
+
 
     // Bulk export
     Route::post('/parcels/export-selected', [ExportController::class, 'exportSelectedParcels'])->name('admin.export');

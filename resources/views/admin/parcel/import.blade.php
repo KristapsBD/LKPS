@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 @section('content')
-    <h2 class="text-2xl font-semibold dark:text-gray-200">Import Parcels</h2>
+    <h2 class="text-2xl font-semibold dark:text-gray-200 mb-4">Import Parcels</h2>
+    <a href="{{ route('admin.downloadTemplate') }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+        Download Template
+    </a>
     <!-- Import Form -->
     <form action="{{ route('admin.import') }}" method="POST" enctype="multipart/form-data" id="import-form">
         @csrf

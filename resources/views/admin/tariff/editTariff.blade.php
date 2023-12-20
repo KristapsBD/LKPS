@@ -13,22 +13,32 @@
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                             <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ old('name') ?? $tariff->name }}" placeholder="Enter name" required autofocus>
                             @error('name')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
                             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                             <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" min="0" max="999" required step="0.01" value="{{ old('price') ?? $tariff->price }}" placeholder="Enter price">
                             @error('price')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="sm:col-span-2">
                             <label for="extra_information" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Extra Information</label>
                             <textarea id="extra_information" name="extra_information" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Extra information here...">{{ old('extra_information') ?? $tariff->extra_information }}</textarea>
                             @error('extra_information')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
                             @enderror
+                        </div>
+                    </div>
+                    <input type="hidden" value="0" name="is_public" />
+                    <div class="flex mt-4">
+                        <div class="flex items-center h-5">
+                            <input id="is_public" name="is_public" value="1" {{ (old('is_public') == '1' || ($tariff->is_public == 1 && old('is_public') !== '0')) ? 'checked' : '' }} aria-describedby="is_public_text" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="ms-2 text-sm">
+                            <label for="is_public" class="font-medium text-gray-900 dark:text-gray-300">Public Tariff</label>
+                            <p id="is_public_text" class="text-xs font-normal text-gray-500 dark:text-gray-300">Will be visible to users on the frontend</p>
                         </div>
                     </div>
                     <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">

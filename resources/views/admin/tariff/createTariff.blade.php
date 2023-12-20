@@ -30,6 +30,15 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="flex mt-4">
+                        <div class="flex items-center h-5">
+                            <input id="is_public" name="is_public" value="1" aria-describedby="is_public_text" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div class="ms-2 text-sm">
+                            <label for="is_public" class="font-medium text-gray-900 dark:text-gray-300">Public Tariff</label>
+                            <p id="is_public_text" class="text-xs font-normal text-gray-500 dark:text-gray-300">Will be visible to users on the frontend</p>
+                        </div>
+                    </div>
                     <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
                         Add Tariff
                     </button>

@@ -5,13 +5,12 @@
     <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps.api_key') }}&callback=initMap" async defer></script>
 @endsection
 
-    @section('content')
+@section('content')
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-semibold dark:text-gray-200">Route Generation</h2>
     </div>
 
     <div id="map" class="h-[400px]"></div>
-
 @endsection
 
 @section('scripts')
