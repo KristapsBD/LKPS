@@ -16,7 +16,7 @@ class Address extends Model
     ];
 
     // TODO refactor address structure - only user has default address
-
+    // TODO CHECK UP ALL CONSTRAINTS
     public function sender()
     {
         return $this->hasMany(User::class);
@@ -24,6 +24,6 @@ class Address extends Model
 
     public function receiver()
     {
-        return $this->belongsTo(Client::class);
+        return $this->hasMany(Client::class);
     }
 }
