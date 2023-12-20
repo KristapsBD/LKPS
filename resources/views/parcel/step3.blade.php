@@ -12,7 +12,7 @@
             @csrf
             <!-- Receiver Information -->
             <div class="mb-4">
-                <h3 class="text-lg font-semibold dark:text-white">Contact Information</h3>
+                <h3 class="text-lg font-semibold dark:text-white">Receiver Contact Information</h3>
                 <div class="flex space-x-4">
                     <div class="mb-4">
                         <label for="receiver_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <h3 class="text-lg font-semibold dark:text-white">Address Information</h3>
+                <h3 class="text-lg font-semibold dark:text-white">Destination Address Information</h3>
                 <div class="flex space-x-4">
                     <div class="mb-4">
                         <label for="receiver_street" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street</label>
