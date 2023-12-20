@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price', 8, 2);
             $table->text('extra_information')->nullable();
+            $table->boolean('is_public')->default(false);
             $table->timestamps();
         });
     }

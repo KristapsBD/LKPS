@@ -318,12 +318,14 @@ class AdminController extends Controller
             'name' => 'required|string|max:50',
             'price' => 'required|numeric|min:0|max:999',
             'extra_information' => 'nullable|string|max:255',
+            'is_public' => 'nullable|boolean',
         ]);
 
         $tariff = Tariff::create([
             'name' => $validatedData['name'],
             'price' => $validatedData['price'],
             'extra_information' => $validatedData['extra_information'],
+            'is_public' => $validatedData['is_public'] ?? false,
         ]);
 
         return redirect()->route('admin.tariffs')->with('success', 'Tariff created successfully.');
@@ -340,12 +342,14 @@ class AdminController extends Controller
             'name' => 'required|string|max:50',
             'price' => 'required|numeric|min:0|max:999',
             'extra_information' => 'nullable|string|max:255',
+            'is_public' => 'nullable|boolean',
         ]);
 
         $tariff->update([
             'name' => $validatedData['name'],
             'price' => $validatedData['price'],
             'extra_information' => $validatedData['extra_information'],
+            'is_public' => $validatedData['is_public'] ?? false,
         ]);
 
         return redirect()->route('admin.tariffs')->with('success', 'Tariff updated successfully.');

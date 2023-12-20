@@ -13,6 +13,7 @@ class Tariff extends Model
         'name',
         'price',
         'extra_information',
+        'is_public',
     ];
     public function parcels()
     {
