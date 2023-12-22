@@ -137,7 +137,7 @@ class AdminController extends Controller
             'receiver' => 'required|exists:clients,id',
             'destination' => 'required|exists:addresses,id',
             'tariff' => 'required|exists:tariffs,id',
-            'vehicle' => 'required|exists:vehicles,id',
+            'vehicle' => 'nullable|exists:vehicles,id',
         ]);
 
         $sender = User::findOrFail($validatedData['sender']);
@@ -145,7 +145,6 @@ class AdminController extends Controller
         $source = Address::findOrFail($validatedData['source']);
         $destination = Address::findOrFail($validatedData['destination']);
         $tariff = Tariff::findOrFail($validatedData['tariff']);
-        $vehicle = Tariff::findOrFail($validatedData['vehicle']);
 
         $parcel = Parcel::create([
             'size' => $validatedData['size'],
@@ -161,7 +160,11 @@ class AdminController extends Controller
         $parcel->source()->associate($source);
         $parcel->destination()->associate($destination);
         $parcel->tariff()->associate($tariff);
-        $parcel->vehicle()->associate($vehicle);
+
+        if (isset($validatedData['vehicle'])) {
+            $vehicle = Vehicle::findOrFail($validatedData['vehicle']);
+            $parcel->vehicle()->associate($vehicle);
+        }
 
         $parcel->save();
 
@@ -186,7 +189,7 @@ class AdminController extends Controller
             'receiver' => 'required|exists:clients,id',
             'destination' => 'required|exists:addresses,id',
             'tariff' => 'required|exists:tariffs,id',
-            'vehicle' => 'required|exists:vehicles,id',
+            'vehicle' => 'nullable|exists:vehicles,id',
         ]);
 
         $sender = User::findOrFail($validatedData['sender']);
@@ -194,7 +197,6 @@ class AdminController extends Controller
         $source = Address::findOrFail($validatedData['source']);
         $destination = Address::findOrFail($validatedData['destination']);
         $tariff = Tariff::findOrFail($validatedData['tariff']);
-        $vehicle = Tariff::findOrFail($validatedData['vehicle']);
 //        $tariff = getTariffIdBySize($validatedData['size']);
 //        $parcel->tariff()->associate($tariff);
 
@@ -212,7 +214,11 @@ class AdminController extends Controller
         $parcel->source()->associate($source);
         $parcel->destination()->associate($destination);
         $parcel->tariff()->associate($tariff);
-        $parcel->vehicle()->associate($vehicle);
+
+        if (isset($validatedData['vehicle'])) {
+            $vehicle = Vehicle::findOrFail($validatedData['vehicle']);
+            $parcel->vehicle()->associate($vehicle);
+        }
 
         $parcel->save();
 

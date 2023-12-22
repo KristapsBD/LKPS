@@ -10,7 +10,7 @@
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div>
                             <label for="size" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>
-                            <select id="size" name="size" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="size" name="size" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select size</option>
                                 <option value="s" {{ old('size') == 's' ? 'selected' : '' }}>Small</option>
                                 <option value="m" {{ old('size') == 'm' ? 'selected' : '' }}>Medium</option>
@@ -30,7 +30,7 @@
                         </div>
                         <div>
                             <label for="sender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sender</label>
-                            <select id="sender" name="sender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="sender" name="sender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a sender</option>
                                 @foreach($formData['users'] as $sender)
                                     <option value="{{ $sender->id }}" {{ old('sender') == $sender->id ? 'selected' : '' }}>{{ $sender->name }}, {{ $sender->email }}, {{ $sender->phone }}</option>
@@ -42,7 +42,7 @@
                         </div>
                         <div>
                             <label for="source" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Source Address</label>
-                            <select id="source" name="source" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="source" name="source" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a source</option>
                                 @foreach($formData['addresses'] as $address)
                                     <option value="{{ $address->id }}" {{ old('source') == $address->id ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->post_code }}</option>
@@ -54,7 +54,7 @@
                         </div>
                         <div>
                             <label for="receiver" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Receiver</label>
-                            <select id="receiver" name="receiver" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="receiver" name="receiver" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a receiver</option>
                                 @foreach($formData['clients'] as $receiver)
                                     <option value="{{ $receiver->id }}" {{ old('receiver') == $receiver->id ? 'selected' : '' }}>{{ $receiver->name }}, {{ $receiver->phone }}</option>
@@ -66,7 +66,7 @@
                         </div>
                         <div>
                             <label for="destination" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Destination Address</label>
-                            <select id="destination" name="destination" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="destination" name="destination" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a destination</option>
                                 @foreach($formData['addresses'] as $address)
                                     <option value="{{ $address->id }}" {{ old('destination') == $address->id ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->post_code }}</option>
@@ -78,7 +78,7 @@
                         </div>
                         <div>
                             <label for="tariff" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tariff</label>
-                            <select id="tariff" name="tariff" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="tariff" name="tariff" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a tariff</option>
                                 @foreach($formData['tariffs'] as $tariff)
                                     <option value="{{ $tariff->id }}" {{ old('tariff') == $tariff->id ? 'selected' : '' }}>{{ $tariff->name }}, {{ $tariff->extra_information }}</option>

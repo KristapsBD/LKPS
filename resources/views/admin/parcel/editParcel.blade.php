@@ -97,7 +97,10 @@
                             <select id="vehicle" name="vehicle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected>Select a vehicle</option>
                                 @foreach($formData['vehicles'] as $vehicle)
-                                    <option value="{{ $vehicle->id }}" {{ (old('vehicle') == $vehicle->id || $parcel->vehicle->id == $vehicle->id) ? 'selected' : '' }}>{{ $vehicle->registration_number }}, {{ mapVehicleTypeToString($vehicle->type) }}</option>
+{{--                                    <option value="{{ $vehicle->id }}" {{ (old('vehicle') == $vehicle->id || $parcel->vehicle->id == $vehicle->id) ? 'selected' : '' }}>{{ $vehicle->registration_number }}, {{ mapVehicleTypeToString($vehicle->type) }}</option>--}}
+                                    <option value="{{ optional($vehicle)->id }}" {{ (old('vehicle') == optional($vehicle)->id || optional($parcel->vehicle)->id == optional($vehicle)->id) ? 'selected' : '' }}>
+                                        {{ optional($vehicle)->registration_number }}, {{ optional($vehicle) ? mapVehicleTypeToString($vehicle->type) : 'N/A' }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('vehicle')
