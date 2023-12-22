@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('parcel_trackings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parcel_id');
+            $table->unsignedBigInteger('parcel_id')->nullable();
             $table->foreign('parcel_id')
                 ->references('id')
                 ->on('parcels')

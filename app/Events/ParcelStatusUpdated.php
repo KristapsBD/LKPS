@@ -16,13 +16,15 @@ class ParcelStatusUpdated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $parcel;
+    public $oldStatus;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Parcel $parcel)
+    public function __construct(Parcel $parcel, $oldStatus)
     {
         $this->parcel = $parcel;
+        $this->oldStatus = $oldStatus;
     }
 
     /**

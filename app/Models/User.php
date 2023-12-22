@@ -55,18 +55,6 @@ class User extends Authenticatable // implements MustVerifyEmail
     {
         return $this->belongsTo(Address::class);
     }
-//    TODO check if phone verification is necessary
-    public function userPhoneVerified()
-    {
-        return ! is_null($this->phone_verified_at);
-    }
-
-    public function phoneVerifiedAt()
-    {
-        return $this->forceFill([
-            'phone_verified_at' => $this->freshTimestamp(),
-        ])->save();
-    }
 
     public function current_vehicle()
     {

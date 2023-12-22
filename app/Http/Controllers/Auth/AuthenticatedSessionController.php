@@ -19,7 +19,6 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
-//    TODO Add fields to edit user profile
     /**
      * Handle an incoming authentication request.
      */

@@ -15,10 +15,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 // TODO implement driver can change status functionality -
-// Implement route generation functionality
 // Implement dividing client delivery addresses to couriers functionality
-// Implement email system for notifications
-// Implement payment system
 
 class AdminController extends Controller
 {
@@ -201,6 +198,8 @@ class AdminController extends Controller
 //        $tariff = getTariffIdBySize($validatedData['size']);
 //        $parcel->tariff()->associate($tariff);
 
+        $oldStatus = $parcel->status;
+
         $parcel->update([
             'size' => $validatedData['size'],
             'weight' => $validatedData['weight'],
@@ -217,7 +216,7 @@ class AdminController extends Controller
 
         $parcel->save();
 
-        event(new \App\Events\ParcelStatusUpdated($parcel));
+        event(new \App\Events\ParcelStatusUpdated($parcel, $oldStatus));
 
         return redirect()->route('admin.parcels')->with('success', 'Parcel updated successfully.');
     }

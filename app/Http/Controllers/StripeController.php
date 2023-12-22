@@ -45,11 +45,13 @@ class StripeController extends Controller
     {
         $parcel = $request->session()->get('parcel', []);
 
+        $oldStatus = $parcel->status;
+
         if ($parcel instanceof Parcel) {
             $parcel->status = '1';
             $parcel->save();
 
-            event(new \App\Events\ParcelStatusUpdated($parcel));
+            event(new \App\Events\ParcelStatusUpdated($parcel, $oldStatus));
         } else {
             return redirect()->route('dashboard')->with('error', 'Something went wrong.');
         }
