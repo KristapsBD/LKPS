@@ -14,7 +14,6 @@ use App\Models\User;
 use App\Models\Parcel;
 use App\Models\Address;
 
-// TODO IMPLEMENT PARCEL STATUS CHANGE LOGGING TO DB
 class DatabaseSeeder extends Seeder
 {
     /**

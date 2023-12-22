@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Rules\Phone;
 use Illuminate\Http\Request;
 use App\Models\Parcel;
@@ -42,13 +43,9 @@ class ParcelController extends Controller
             'sender_name' => 'required|string|max:255',
             'sender_email' => 'required|email|max:255',
             'sender_phone' => ['required', new Phone],
-//            'sender_address' => 'required|string',
             'sender_street' => 'required|string|max:255',
             'sender_city' => 'required|string|max:255',
             'sender_postal_code' => 'required|string|max:10',
-//            'dropoff_date' => 'required|date',
-//            'dropoff_time_from' => 'required|date_format:H:i',
-//            'dropoff_time_to' => 'required|date_format:H:i',
         ]);
 
         $request->session()->put('step2Data', $validatedData);
@@ -68,7 +65,6 @@ class ParcelController extends Controller
         $validatedData = $this->validate($request, [
             'receiver_name' => 'required|string|max:255',
             'receiver_phone' => ['required', new Phone],
-//            'receiver_address' => 'required|string',
             'receiver_street' => 'required|string|max:255',
             'receiver_city' => 'required|string|max:255',
             'receiver_postal_code' => 'required|string|max:10',
@@ -101,9 +97,21 @@ class ParcelController extends Controller
 
         $sender = Auth::user();
 
+        $senderAddress = Address::firstOrCreate([
+            'street' => $step2Data['sender_street'],
+            'city' => $step2Data['sender_city'],
+            'postal_code' => $step2Data['sender_postal_code'],
+        ]);
+
         $receiver = Client::create([
             'name' => $step3Data['receiver_name'],
             'phone' => $step3Data['receiver_phone'],
+        ]);
+
+        $receiverAddress = Address::firstOrCreate([
+            'street' => $step3Data['receiver_street'],
+            'city' => $step3Data['receiver_city'],
+            'postal_code' => $step3Data['receiver_postal_code'],
         ]);
 
         $parcel = new Parcel([
@@ -114,15 +122,14 @@ class ParcelController extends Controller
         ]);
 
         $parcel->sender()->associate($sender);
+        $parcel->source()->associate($senderAddress);
         $parcel->receiver()->associate($receiver);
+        $parcel->destination()->associate($receiverAddress);
         $tariff = getTariffIdBySize($parcel->size);
         $parcel->tariff()->associate($tariff);
-//TODO fix create parcel now pay later
         $request->session()->put('parcel', $parcel);
 
         return redirect()->route('stripe.payment');
-//        return redirect()->route('stripe.payment', ['parcelId' => $parcel->id]);
-//        return view('payment', compact('parcel'));
     }
 
     public function  cancel(Request $request)
