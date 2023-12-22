@@ -17,7 +17,6 @@ class VehicleFactory extends Factory
      */
     public function definition(): array
     {
-// TODO remove uneccesary comments
         $driver = User::where('role', 2)->inRandomOrder()->first();
 
         return [

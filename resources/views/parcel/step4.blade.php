@@ -7,9 +7,6 @@
 @endsection
 
 @section('content')
-    {{--TODO ADD TRACKING CODE TO PARCEL--}}
-{{--    TODO FIX MISSING FOREIGN KEYS--}}
-
     <section class="bg-white dark:bg-gray-900">
         <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
             <form method="POST" action="{{ route('parcel.storeAllData') }}">

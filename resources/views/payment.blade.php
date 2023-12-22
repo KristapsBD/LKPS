@@ -27,7 +27,7 @@
                 </button>
             </form>
 
-{{--TODO implement paypal & bank transfer integration--}}
+            {{--TODO implement paypal & bank transfer integration--}}
             <!-- PayPal payment method -->
             <form action="{{ route('stripe.session') }}" method="POST">
                 @csrf

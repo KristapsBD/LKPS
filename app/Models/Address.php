@@ -15,7 +15,6 @@ class Address extends Model
         'postal_code',
     ];
 
-    // TODO CHECK UP ALL CONSTRAINTS
     public function sender()
     {
         return $this->hasMany(User::class);

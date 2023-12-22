@@ -29,13 +29,11 @@ class ParcelFactory extends Factory
         $source = Address::inRandomOrder()->first();
         $destination = Address::inRandomOrder()->first();
 
-        //TODO FIX USER CREATING PARCELS NOT ADDING SOURCE AND DESTINAITON FOREIGN KEYS
-
         return [
             'size' => $this->faker->randomElement(['s', 'm', 'l', 'xl']),
             'weight' => $this->faker->numberBetween(1, 100),
             'notes' => $this->faker->text,
-            'status' => $this->faker->randomElement([0, 1, 2, 3, 4, 5]), // TODO implement better parcel status generation logic ( trackable history )
+            'status' => $this->faker->randomElement([0, 1, 2, 3, 4, 5]),
             'tracking_code' => Str::random(10),
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
