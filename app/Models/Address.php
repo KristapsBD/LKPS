@@ -15,7 +15,6 @@ class Address extends Model
         'postal_code',
     ];
 
-    // TODO refactor address structure - only user has default address
     // TODO CHECK UP ALL CONSTRAINTS
     public function sender()
     {

@@ -90,7 +90,6 @@ class ParcelController extends Controller
 
     public function storeAllData(Request $request)
     {
-        // TODO: Implement function for user to change sender info OR remove unused code
         $step1Data = $request->session()->get('step1Data', []);
         $step2Data = $request->session()->get('step2Data', []);
         $step3Data = $request->session()->get('step3Data', []);
@@ -127,6 +126,7 @@ class ParcelController extends Controller
         $parcel->destination()->associate($receiverAddress);
         $tariff = getTariffIdBySize($parcel->size);
         $parcel->tariff()->associate($tariff);
+        // TODO consider adding default vehicle association like with tariff above
         $request->session()->put('parcel', $parcel);
 
         return redirect()->route('stripe.payment');

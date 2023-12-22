@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parcel;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class StripeController extends Controller
@@ -52,6 +53,14 @@ class StripeController extends Controller
             $parcel->save();
 
             event(new \App\Events\ParcelStatusUpdated($parcel, $oldStatus));
+
+            $payment = new Payment([
+                'sum' => $parcel->tariff->price,
+                'status' => 1,
+            ]);
+
+            $payment->parcel()->associate($parcel);
+            $payment->save();
         } else {
             return redirect()->route('dashboard')->with('error', 'Something went wrong.');
         }
