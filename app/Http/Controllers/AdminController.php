@@ -281,12 +281,14 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'registration_number' => ['required','string', 'max:12',  Rule::unique('vehicles')->ignore($vehicle->id)],
             'type' => 'required|in:1,2,3',
+            'status' => 'required|in:0,1',
             'current_driver' => 'nullable|exists:users,id'
         ]);
 
         $vehicle->update([
             'registration_number' => $validatedData['registration_number'],
             'type' => (int)$validatedData['type'],
+            'status' => (int)$validatedData['status'],
         ]);
 
         if (isset($validatedData['current_driver'])) {

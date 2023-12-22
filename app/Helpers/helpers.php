@@ -13,14 +13,25 @@ if (!function_exists('mapUserRoleToString')) {
 }
 
 if (!function_exists('mapVehicleTypeToString')) {
-    function mapVehicleTypeToString($role) {
+    function mapVehicleTypeToString($type) {
         $roleMapping = [
             1 => 'Moped',
             2 => 'Van',
             3 => 'Truck',
         ];
 
-        return $roleMapping[$role] ?? 'Unknown Vehicle Type';
+        return $roleMapping[$type] ?? 'Unknown Vehicle Type';
+    }
+}
+
+if (!function_exists('mapVehicleStatusToString')) {
+    function mapVehicleStatusToString($status) {
+        $roleMapping = [
+            0 => 'Out Of Order',
+            1 => 'Operational',
+        ];
+
+        return $roleMapping[$status] ?? 'Unknown Status';
     }
 }
 

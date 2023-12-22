@@ -23,6 +23,7 @@ class VehicleFactory extends Factory
         return [
             'registration_number' => $this->faker->unique()->regexify('[A-Z0-9]{10}'),
             'type' => $this->faker->randomElement([1, 2, 3]),
+            'status' => $this->faker->randomElement([0, 1]),
             'current_driver_id' => $driver->id,
         ];
     }

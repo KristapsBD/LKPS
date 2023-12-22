@@ -26,6 +26,9 @@
                     Type
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Status
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Current Driver
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -50,6 +53,9 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ mapVehicleTypeToString($vehicle->type) }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ mapVehicleStatusToString($vehicle->status) }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $vehicle->current_driver->name ?? 'Not Assigned' }}

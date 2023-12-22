@@ -29,6 +29,17 @@
                             @enderror
                         </div>
                         <div>
+                            <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                            <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+                                <option value="" disabled selected>Select status</option>
+                                <option value="0" {{ (old('status') == '0' || $vehicle->status == 0) ? 'selected' : '' }}>Out Of Order</option>
+                                <option value="1" {{ (old('status') == '1' || $vehicle->status == 1) ? 'selected' : '' }}>Operational</option>
+                            </select>
+                            @error('status')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="col-span-2">
                             <label for="current_driver" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Driver (optional)</label>
                             <select id="current_driver" name="current_driver" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected>Select a driver</option>

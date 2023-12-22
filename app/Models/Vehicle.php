@@ -13,6 +13,7 @@ class Vehicle extends Model
     protected $fillable = [
         'registration_number',
         'type',
+        'status',
     ];
 
     public function current_driver()
