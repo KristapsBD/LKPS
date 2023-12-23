@@ -64,6 +64,10 @@
                                 <x-dropdown-link :href="route('admin.dashboard')">
                                     {{ __('Admin Panel') }}
                                 </x-dropdown-link>
+                            @elseif (auth()->user()->role === 2)
+                                <x-dropdown-link :href="route('courier.dashboard')">
+                                    {{ __('Courier Panel') }}
+                                </x-dropdown-link>
                             @endif
 
                             <x-dropdown-link :href="route('parcel.history')">

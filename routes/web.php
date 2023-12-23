@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourierController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\GoogleMapsController;
 use App\Http\Controllers\ImportController;
@@ -10,7 +11,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ParcelController;
-use App\Http\Controllers\ParcelsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,9 +139,17 @@ Route::middleware("admin")->group( function () {
     Route::post('/admin/parcels/import', [ImportController::class, 'import'])->name('admin.import');
     Route::get('/admin/download-template', [ImportController::class, 'downloadTemplate'])->name('admin.downloadTemplate');
 
-
     // Bulk export
     Route::post('/parcels/export-selected', [ExportController::class, 'exportSelectedParcels'])->name('admin.export');
+});
+
+Route::middleware('courier')->group(function () {
+    Route::get('/courier', [CourierController::class, 'index'])->name('courier.dashboard');
+    Route::get('/courier/update-status', [CourierController::class, 'updateStatus'])->name('courier.updateStatus');
+
+    Route::get('/courier/parcels', [CourierController::class, 'viewAllParcels'])->name('courier.parcels');
+    Route::get('/courier/edit-parcel/{parcel}', [CourierController::class, 'editParcelForm'])->name('courier.editParcelForm');
+    Route::put('/courier/edit-parcel/{parcel}', [CourierController::class, 'editParcel'])->name('courier.editParcel');
 });
 
 require __DIR__.'/auth.php';
