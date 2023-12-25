@@ -105,7 +105,9 @@ class AdminController extends Controller
     // Parcel Crud
     public function viewAllParcels()
     {
-        $parcels = Parcel::paginate(10);
+        $parcels = Parcel::with(['sender' => function ($query) {
+            $query->withTrashed();
+        }])->paginate(10);
         return view('admin.parcel.parcels', compact('parcels'));
     }
 

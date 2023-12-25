@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\ParcelCreationEvent;
 use App\Events\ParcelStatusUpdated;
 use App\Listeners\LogParcelStatusChange;
 use App\Listeners\SendParcelStatusNotification;
@@ -26,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         ParcelStatusUpdated::class => [
             SendParcelStatusNotification::class,
             LogParcelStatusChange::class,
+        ],
+        ParcelCreationEvent::class => [
+            SendParcelStatusNotification::class,
         ],
     ];
 

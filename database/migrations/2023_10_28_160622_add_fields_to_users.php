@@ -19,6 +19,7 @@ return new class extends Migration
                 ->constrained('addresses')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 

@@ -25,18 +25,21 @@ class DatabaseSeeder extends Seeder
             'name' => 'Small Tariff',
             'price' => 5.00,
             'extra_information' => 'Tariff only applies to small size packages',
+            'is_public' => 1,
         ]);
 
         $mediumTariff = Tariff::factory()->create([
             'name' => 'Medium Tariff',
             'price' => 7.50,
             'extra_information' => 'Tariff only applies to medium size packages',
+            'is_public' => 1,
         ]);
 
         $largeTariff = Tariff::factory()->create([
             'name' => 'Large Tariff',
             'price' => 12.00,
             'extra_information' => 'Tariff only applies to large size packages',
+            'is_public' => 1,
         ]);
 
         $users = User::factory(10)->create();

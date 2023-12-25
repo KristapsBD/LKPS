@@ -166,7 +166,6 @@ class ParcelController extends Controller
 
         $trackingInfo = [
             'status' => mapParcelStatusToValue($parcel->status),
-            // Add more relevant tracking information
         ];
 
         return response()->json($trackingInfo, 200);

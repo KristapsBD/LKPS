@@ -17,6 +17,9 @@
                         ID
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Size
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Weight
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -54,6 +57,9 @@
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $parcel->id }}
                         </th>
+                        <td class="px-6 py-4">
+                            {{ $parcel->size }}
+                        </td>
                         <td class="px-6 py-4">
                             {{ $parcel->weight }}
                         </td>

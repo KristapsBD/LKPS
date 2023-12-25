@@ -42,6 +42,6 @@ class CourierController extends Controller
 
         event(new \App\Events\ParcelStatusUpdated($parcel, $oldStatus));
 
-        return redirect()->route('courier.parcels')->with('success', 'Parcel updated successfully.');
+        return redirect()->route('courier.parcels')->with('success', 'Parcel status updated successfully.');
     }
 }

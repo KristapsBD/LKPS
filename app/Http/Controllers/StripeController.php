@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ParcelCreationEvent;
+use App\Events\ParcelStatusUpdated;
 use App\Models\Parcel;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -52,7 +54,8 @@ class StripeController extends Controller
             $parcel->status = '1';
             $parcel->save();
 
-            event(new \App\Events\ParcelStatusUpdated($parcel, $oldStatus));
+            event(new ParcelCreationEvent($parcel));
+//            event(new ParcelStatusUpdated($parcel, $oldStatus));
 
             $payment = new Payment([
                 'sum' => $parcel->tariff->price,
@@ -62,7 +65,7 @@ class StripeController extends Controller
             $payment->parcel()->associate($parcel);
             $payment->save();
         } else {
-            return redirect()->route('dashboard')->with('error', 'Something went wrong.');
+            return redirect()->route('dashboard')->with('error', 'Something went wrong. Please try again.');
         }
 
         $request->session()->forget(['step1Data', 'step2Data', 'step3Data', 'parcel']);

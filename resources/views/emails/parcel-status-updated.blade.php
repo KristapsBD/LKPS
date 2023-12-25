@@ -12,6 +12,9 @@
 <p style="margin-bottom: 15px;">Dear Customer,</p>
 
 <p style="margin-bottom: 15px;">Your parcel status has been updated:</p>
+<button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+    Save Parcel
+</button>
 
 <ul style="list-style-type: none; padding: 0; margin-bottom: 15px;">
     <li style="margin-bottom: 8px;">Parcel Tracking Code: {{ $parcel->tracking_code }}</li>
