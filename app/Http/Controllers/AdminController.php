@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Client;
+use App\Models\ParcelTracking;
 use App\Models\Tariff;
 use App\Rules\Phone;
 use Illuminate\Http\Request;
@@ -487,5 +488,12 @@ class AdminController extends Controller
         $client->delete();
         session()->flash('success', 'Client deleted successfully.');
         return response()->json();
+    }
+
+    public function parcelTracking()
+    {
+        $parcelTrackings = ParcelTracking::paginate(10);
+
+        return view('admin.parcel.tracking', compact('parcelTrackings'));
     }
 }

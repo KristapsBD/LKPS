@@ -144,6 +144,8 @@ Route::middleware("admin")->group( function () {
 
     // Bulk export
     Route::post('/parcels/export-selected', [ExportController::class, 'exportSelectedParcels'])->name('admin.export');
+
+    Route::get('/admin/parcel-tracking', [AdminController::class, 'parcelTracking'])->name('admin.parcelTracking');
 });
 
 Route::middleware('courier')->group(function () {
