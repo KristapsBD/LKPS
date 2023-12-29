@@ -134,6 +134,7 @@ class AdminController extends Controller
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:1|max:100',
             'notes' => 'nullable|string|max:255',
+            'status' => 'required|in:0,1,2,3,4,5',
             'sender' => 'required|exists:users,id',
             'source' => 'required|exists:addresses,id',
             'receiver' => 'required|exists:clients,id',
@@ -152,6 +153,7 @@ class AdminController extends Controller
             'size' => $validatedData['size'],
             'weight' => $validatedData['weight'],
             'notes' => $validatedData['notes'],
+            'status' => $validatedData['status'],
         ]);
 
         //TODO calculate tariff automatically
@@ -445,11 +447,13 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:clients,email',
             'phone' => ['required', new Phone, 'unique:'.Client::class],
         ]);
 
         $client = Client::create([
             'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
             'phone' => $validatedData['phone'],
         ]);
 
@@ -465,11 +469,13 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'email' => ['required', Rule::unique('clients')->ignore($client->id)],
             'phone' => ['required', new Phone, Rule::unique('clients')->ignore($client->id)],
         ]);
 
         $client->update([
             'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
             'phone' => $validatedData['phone'],
         ]);
 

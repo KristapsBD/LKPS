@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\User;
 use App\Rules\Phone;
 use Illuminate\Http\Request;
 use App\Models\Parcel;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ParcelController extends Controller
 {
@@ -23,7 +25,7 @@ class ParcelController extends Controller
         $validatedData = $this->validate($request, [
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:0|max:100',
-            'notes' => 'nullable|string',
+            'notes' => 'nullable|string|max:255',
         ]);
 
         $request->session()->put('step1Data', $validatedData);
@@ -41,8 +43,8 @@ class ParcelController extends Controller
     {
         $validatedData = $this->validate($request, [
             'sender_name' => 'required|string|max:255',
-            'sender_email' => 'required|email|max:255',
-            'sender_phone' => ['required', new Phone],
+            'sender_email' => ['required', Rule::unique('users', 'email')->ignore(Auth::user()->id)],
+            'sender_phone' => ['required', new Phone, Rule::unique('users', 'phone')->ignore(Auth::user()->id)],
             'sender_street' => 'required|string|max:255',
             'sender_city' => 'required|string|max:255',
             'sender_postal_code' => 'required|string|max:10',
@@ -64,6 +66,7 @@ class ParcelController extends Controller
     {
         $validatedData = $this->validate($request, [
             'receiver_name' => 'required|string|max:255',
+            'receiver_email' => 'required|email|max:255',
             'receiver_phone' => ['required', new Phone],
             'receiver_street' => 'required|string|max:255',
             'receiver_city' => 'required|string|max:255',
@@ -94,7 +97,11 @@ class ParcelController extends Controller
         $step2Data = $request->session()->get('step2Data', []);
         $step3Data = $request->session()->get('step3Data', []);
 
-        $sender = Auth::user();
+        $sender = User::firstOrCreate([
+            'name' => $step2Data['sender_name'],
+            'email' => $step2Data['sender_email'],
+            'phone' => $step2Data['sender_phone'],
+        ]);
 
         $senderAddress = Address::firstOrCreate([
             'street' => $step2Data['sender_street'],
@@ -102,8 +109,9 @@ class ParcelController extends Controller
             'postal_code' => $step2Data['sender_postal_code'],
         ]);
 
-        $receiver = Client::create([
+        $receiver = Client::firstOrCreate([
             'name' => $step3Data['receiver_name'],
+            'email' => $step3Data['receiver_email'],
             'phone' => $step3Data['receiver_phone'],
         ]);
 
@@ -145,6 +153,16 @@ class ParcelController extends Controller
         $parcels = $user->parcels()->paginate(10);
 
         return view('parcel.history', compact('parcels'));
+    }
+
+    public function paymentHistory()
+    {
+        $user = Auth::user();
+
+        // Load parcels with their associated payments and receivers
+        $parcels = $user->parcels()->with('payment')->get();
+
+        return view('payment.history', compact('parcels'));
     }
 
     public function trackingView()

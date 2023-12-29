@@ -27,9 +27,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [ParcelController::class, 'parcelHistory'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/track', [ParcelController::class, 'trackingView'])->name('parcel.trackingView');
 Route::post('/track', [ParcelController::class, 'track'])->name('parcel.track');
@@ -40,7 +40,9 @@ Route::middleware('auth')->group( function () {
     Route::put('/profile', [ProfileController::class, 'updateOrCreateDefaultAddress'])->name('profile.updateOrCreateDefaultAddress');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/parcel-history', [ParcelController::class, 'parcelHistory'])->name('parcel.history');
+    Route::get('/payment-history', [ParcelController::class, 'paymentHistory'])->name('payment.history');
+//    Route::get('/parcel-history', [ParcelController::class, 'parcelHistory'])->name('parcel.history');
+
 
     Route::get('/create-parcel/cancel', [ParcelController::class, 'cancel'])->name('parcel.cancel');
     Route::get('/create-parcel', [ParcelController::class, 'step1'])->name('parcel.step1');

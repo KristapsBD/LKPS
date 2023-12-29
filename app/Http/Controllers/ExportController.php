@@ -17,6 +17,13 @@ class ExportController extends Controller
 
         $export = new ParcelsExport($parcels);
 
-        return Excel::download($export, 'selected_parcels.xlsx');
+        $fileName = 'selected_parcels.xlsx';
+
+        try {
+            session()->flash('success', count($parcels) . ' parcels exported successfully.');
+            return Excel::download($export, $fileName);;
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error exporting parcels: ' . $e->getMessage());
+        }
     }
 }

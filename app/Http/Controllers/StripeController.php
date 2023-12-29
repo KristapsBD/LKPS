@@ -14,7 +14,7 @@ class StripeController extends Controller
     {
         $parcel = $request->session()->get('parcel', []);
 
-        return view('payment', compact('parcel'));
+        return view('payment.payment', compact('parcel'));
     }
 
     public function session(Request $request)

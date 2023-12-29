@@ -70,8 +70,8 @@
                                 </x-dropdown-link>
                             @endif
 
-                            <x-dropdown-link :href="route('parcel.history')">
-                                {{ __('Parcel History') }}
+                            <x-dropdown-link :href="route('payment.history')">
+                                {{ __('Payment History') }}
                             </x-dropdown-link>
 
                             <!-- Authentication -->
@@ -139,8 +139,8 @@
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
-                    <x-responsive-nav-link :href="route('parcel.history')">
-                        {{ __('Parcel History') }}
+                    <x-responsive-nav-link :href="route('payment.history')">
+                        {{ __('Payment History') }}
                     </x-responsive-nav-link>
 
                     <!-- Authentication -->
