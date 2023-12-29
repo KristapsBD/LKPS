@@ -30,7 +30,7 @@ class SenderParcelCreationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Parcel Created: ' . $parcel->tracking_code,
+            subject: 'Parcel Created: ' . $this->parcel->tracking_code,
         );
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendParcelCreationEmail
+class SendParcelCreationEmail implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -29,6 +29,6 @@ class SendParcelCreationEmail
         $receiver = $parcel->receiver;
 
         Mail::to($sender->email)->send(new SenderParcelCreationEmail($parcel));
-//        Mail::to($receiver->email)->send(new ReceiverParcelCreationEmail($parcel));
+        Mail::to($receiver->email)->send(new ReceiverParcelCreationEmail($parcel));
     }
 }
