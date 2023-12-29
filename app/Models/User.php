@@ -57,9 +57,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Address::class);
     }
 
-    public function current_vehicle()
+    public function deliverableParcels()
     {
-        return $this->belongsTo(Vehicle::class, 'current_driver_id');
+        return $this->hasManyThrough(Parcel::class, Vehicle::class, 'current_driver_id', 'vehicle_id');
     }
 
     public function vehicles()

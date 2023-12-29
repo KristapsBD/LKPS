@@ -8,6 +8,7 @@ use App\Models\Parcel;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourierController extends Controller
 {
@@ -19,7 +20,8 @@ class CourierController extends Controller
     // Parcel Methods
     public function viewAllParcels()
     {
-        $parcels = Parcel::paginate(10);
+        $user = Auth::user();
+        $parcels = $user->deliverableParcels()->orderBy('id', 'asc')->paginate(10);
         return view('courier.parcel.parcels', compact('parcels'));
     }
 
