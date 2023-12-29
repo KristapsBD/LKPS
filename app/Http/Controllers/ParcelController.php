@@ -160,7 +160,7 @@ class ParcelController extends Controller
         $user = Auth::user();
 
         // Load parcels with their associated payments and receivers
-        $parcels = $user->parcels()->with('payment')->get();
+        $parcels = $user->parcels()->with('payment')->paginate(10);
 
         return view('payment.history', compact('parcels'));
     }

@@ -39,13 +39,13 @@
                             {{ $parcel->receiver->name}}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $parcel->payment->sum }}
+                            {{ optional($parcel->payment)->sum }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $parcel->payment->status ? 'Paid' : 'Unpaid' }}
+                            {{ optional($parcel->payment)->status ? 'Paid' : 'Unpaid' }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $parcel->payment->created_at }}
+                            {{ optional($parcel->payment)->created_at }}
                         </td>
                     </tr>
                 @endforeach
@@ -54,7 +54,7 @@
         </div>
     @endif
     <!-- Pagination links -->
-{{--    <div class="mt-4">--}}
-{{--        {{ $parcels->links() }}--}}
-{{--    </div>--}}
+    <div class="mt-4">
+        {{ $parcels->links() }}
+    </div>
 @endsection

@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $sender = User::factory()->create([
-            'name' => 'User Doe',
+            'name' => 'Kristaps Briks',
             'email' => 'kristaps.briks@inbox.lv',
             'phone' => '20289000',
             'password' => bcrypt('password'),
@@ -74,7 +74,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $receiver = Client::factory()->create([
-            'name' => 'Client Doe',
+            'name' => 'Kristaps Briks',
             'email' => 'kristaps.briks@inbox.lv',
             'phone' => '20289000',
         ]);
