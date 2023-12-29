@@ -6,6 +6,7 @@ use App\Http\Controllers\GoogleMapsController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\TariffController;
 use App\Mail\ParcelShipped;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,8 @@ Route::get('/dashboard', [ParcelController::class, 'parcelHistory'])
 Route::get('/track', [ParcelController::class, 'trackingView'])->name('parcel.trackingView');
 Route::post('/track', [ParcelController::class, 'track'])->name('parcel.track');
 
+Route::get('/public-tariffs', [TariffController::class, 'viewPublicTariffs'])->name('tariff.public');
+
 Route::middleware('auth')->group( function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -41,8 +44,6 @@ Route::middleware('auth')->group( function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/payment-history', [ParcelController::class, 'paymentHistory'])->name('payment.history');
-//    Route::get('/parcel-history', [ParcelController::class, 'parcelHistory'])->name('parcel.history');
-
 
     Route::get('/create-parcel/cancel', [ParcelController::class, 'cancel'])->name('parcel.cancel');
     Route::get('/create-parcel', [ParcelController::class, 'step1'])->name('parcel.step1');

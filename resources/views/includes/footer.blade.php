@@ -8,7 +8,7 @@
             <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                 @auth
                     <li>
-                        <a href="{{ route('home') }}" class="hover:underline me-4 md:me-6">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="hover:underline me-4 md:me-6">Dashboard</a>
                     </li>
                     <li>
                         <a href="{{ route('parcel.step1') }}" class="hover:underline me-4 md:me-6">Create Parcel</a>
@@ -23,6 +23,9 @@
                 @endauth
                 <li>
                     <a href="{{ route('parcel.trackingView') }}" class="hover:underline me-4 md:me-6">Tracking</a>
+                </li>
+                <li>
+                    <a href="{{ route('tariff.public') }}" class="hover:underline me-4 md:me-6">Pricing</a>
                 </li>
             </ul>
         </div>

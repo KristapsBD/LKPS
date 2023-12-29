@@ -32,6 +32,9 @@
                     <x-nav-link :href="route('parcel.trackingView')" :active="request()->routeIs('parcel.trackingView')">
                         {{ __('Tracking') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('tariff.public')" :active="request()->routeIs('tariff.public')">
+                        {{ __('Pricing') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -121,6 +124,9 @@
             @endauth
             <x-responsive-nav-link :href="route('parcel.trackingView')" :active="request()->routeIs('parcel.trackingView')">
                 {{ __('Tracking') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tariff.public')" :active="request()->routeIs('tariff.public')">
+                {{ __('Pricing') }}
             </x-responsive-nav-link>
         </div>
 
