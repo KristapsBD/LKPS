@@ -31,7 +31,7 @@ class StripeController extends Controller
                         'product_data' => [
                             'name' => 'LKPS Send Parcel',
                         ],
-                        'unit_amount'  => $parcel->tariff->price * 100,
+                        'unit_amount'  => calculateTotal($parcel) * 100,
                     ],
                     'quantity'   => 1,
                 ],

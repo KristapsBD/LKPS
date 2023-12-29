@@ -10,7 +10,7 @@
     <div class="flex flex-col items-center justify-center mt-8">
         <!-- Display the total payable amount -->
         <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">
-            Total: {{ $parcel->tariff->price ?? 0 }}€
+            Total: {{ calculateTotal($parcel) }}€
         </h3>
 
         <!-- Payment methods section -->

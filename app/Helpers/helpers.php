@@ -63,4 +63,14 @@ if (!function_exists('mapParcelStatusToValue')) {
 
         return $statusMapping[$status] ?? 'Unknown Status';
     }
+
+    if (!function_exists('calculateTotal')) {
+        function calculateTotal($parcel)
+        {
+            $tariffPrice = optional($parcel->tariff)->price ?? 0;
+            $weightMultiplier = $parcel->weight * 0.1;
+
+            return $tariffPrice + $weightMultiplier;
+        }
+    }
 }
