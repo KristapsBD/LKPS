@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class DifferentPasswordRule implements ValidationRule
+class DifferentPassword implements ValidationRule
 {
     protected $email;
 
