@@ -266,11 +266,13 @@ class AdminController extends Controller
             'type' => (int)$validatedData['type'],
         ];
 
-        if (isset($validatedData['current_driver'])) {
-            $vehicleData['current_driver'] = $validatedData['current_driver'];
-        }
-
         $vehicle = Vehicle::create($vehicleData);
+
+        if (isset($validatedData['current_driver'])) {
+            $driver = User::findOrFail($validatedData['current_driver']);
+            $vehicle->current_driver()->associate($driver);
+            $vehicle->save();
+        }
 
         return redirect()->route('admin.vehicles')->with('success', 'Vehicle created successfully.');
     }
@@ -448,11 +450,11 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:clients,email',
-            'phone' => ['required', new Phone, 'unique:'.Client::class],
+            'email' => 'required|email',
+            'phone' => ['required', new Phone],
         ]);
 
-        $client = Client::create([
+        $client = Client::firstOrCreate([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'phone' => $validatedData['phone'],
@@ -470,8 +472,8 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => ['required', Rule::unique('clients')->ignore($client->id)],
-            'phone' => ['required', new Phone, Rule::unique('clients')->ignore($client->id)],
+            'email' => ['required', 'email'],
+            'phone' => ['required', new Phone],
         ]);
 
         $client->update([
