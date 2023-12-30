@@ -52,7 +52,7 @@
                         {{ $tariff->price }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $tariff->extra_information }}
+                        {{ Str::words($tariff->extra_information, 10) }}
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center">
