@@ -6,6 +6,8 @@
     </h2>
 @endsection
 
+{{--TODO REMOVE STEP 2 ENTIRELY--}}
+
 @section('content')
     <div class="container mx-auto flex flex-col items-center">
         <form method="POST" action="{{ route('parcel.storeStep2') }}" class="mt-4">
@@ -15,21 +17,21 @@
                 <div class="flex space-x-4">
                     <div class="mb-4">
                         <label for="sender_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <input type="text" id="sender_name" name="sender_name" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_name', $step2Data['sender_name'] ?? auth()->user()->name) }}">
+                        <input readonly type="text" id="sender_name" name="sender_name" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_name', $step2Data['sender_name'] ?? auth()->user()->name) }}">
                         @error('sender_name')
                             <div class="error text-sm text-red-600 dark:text-red-400 space-y-1'">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-4">
                         <label for="sender_email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                        <input type="email" id="sender_email" name="sender_email" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_email', $step2Data['sender_email'] ?? auth()->user()->email) }}">
+                        <input readonly type="email" id="sender_email" name="sender_email" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_email', $step2Data['sender_email'] ?? auth()->user()->email) }}">
                         @error('sender_email')
                             <div class="error text-sm text-red-600 dark:text-red-400 space-y-1'">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-4">
                         <label for="sender_phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                        <input type="tel" id="sender_phone" name="sender_phone" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_phone', $step2Data['sender_phone'] ?? auth()->user()->phone) }}">
+                        <input readonly type="tel" id="sender_phone" name="sender_phone" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_phone', $step2Data['sender_phone'] ?? auth()->user()->phone) }}">
                         @error('sender_phone')
                             <div class="error text-sm text-red-600 dark:text-red-400 space-y-1'">{{ $message }}</div>
                         @enderror
@@ -40,21 +42,21 @@
                 <div class="flex space-x-4">
                     <div class="mb-4">
                         <label for="sender_street" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street</label>
-                        <input type="text" id="sender_street" name="sender_street" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_street', $step2Data['sender_street'] ?? auth()->user()->address['street']) }}">
+                        <input readonly type="text" id="sender_street" name="sender_street" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_street', $step2Data['sender_street'] ?? auth()->user()->address['street']) }}">
                         @error('sender_street')
                             <div class="error text-sm text-red-600 dark:text-red-400 space-y-1'">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-4">
                         <label for="sender_city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-                        <input type="text" id="sender_city" name="sender_city" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_city', $step2Data['sender_city'] ?? auth()->user()->address['city']) }}">
+                        <input readonly type="text" id="sender_city" name="sender_city" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_city', $step2Data['sender_city'] ?? auth()->user()->address['city']) }}">
                         @error('sender_city')
                             <div class="error text-sm text-red-600 dark:text-red-400 space-y-1'">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-4">
                         <label for="sender_postal_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Postal Code</label>
-                        <input type="text" id="sender_postal_code" name="sender_postal_code" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_postal_code', $step2Data['sender_postal_code'] ?? auth()->user()->address['postal_code']) }}">
+                        <input readonly type="text" id="sender_postal_code" name="sender_postal_code" class="form-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value="{{ old('sender_postal_code', $step2Data['sender_postal_code'] ?? auth()->user()->address['postal_code']) }}">
                         @error('sender_postal_code')
                             <div class="error text-sm text-red-600 dark:text-red-400 space-y-1'">{{ $message }}</div>
                         @enderror
