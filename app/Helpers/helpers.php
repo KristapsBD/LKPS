@@ -68,7 +68,7 @@ if (!function_exists('mapParcelStatusToValue')) {
         function calculateTotal($parcel)
         {
             $tariffPrice = optional($parcel->tariff)->price ?? 0;
-            $weightMultiplier = $parcel->weight * 0.1;
+            $weightMultiplier = round($parcel->weight * 0.1, 2);
 
             return $tariffPrice + $weightMultiplier;
         }
