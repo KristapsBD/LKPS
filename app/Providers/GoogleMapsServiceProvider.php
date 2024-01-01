@@ -15,7 +15,7 @@ class GoogleMapsServiceProvider extends ServiceProvider
     {
         $this->app->bind(GoogleMapsService::class, function ($app) {
             $apiKey = config('services.google.maps.api_key');
-            $httpClient = new Client(['verify' => false]); // TODO REMOVE FALSE VERIFY
+            $httpClient = new Client(['verify' => false]); // TODO REMOVE FALSE VERIFY ON PRODUCTION
 
             return new GoogleMapsService($apiKey, $httpClient);
         });

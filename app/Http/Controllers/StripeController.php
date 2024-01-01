@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ParcelCreationEvent;
+use App\Events\ParcelStatusUpdated;
 use App\Models\Parcel;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class StripeController extends Controller
@@ -11,7 +14,7 @@ class StripeController extends Controller
     {
         $parcel = $request->session()->get('parcel', []);
 
-        return view('payment', compact('parcel'));
+        return view('payment.payment', compact('parcel'));
     }
 
     public function session(Request $request)
@@ -28,7 +31,7 @@ class StripeController extends Controller
                         'product_data' => [
                             'name' => 'LKPS Send Parcel',
                         ],
-                        'unit_amount'  => $parcel->tariff->price * 100,
+                        'unit_amount'  => calculateTotal($parcel) * 100,
                     ],
                     'quantity'   => 1,
                 ],
@@ -45,11 +48,24 @@ class StripeController extends Controller
     {
         $parcel = $request->session()->get('parcel', []);
 
+        $oldStatus = $parcel->status;
+
         if ($parcel instanceof Parcel) {
             $parcel->status = '1';
             $parcel->save();
+
+            event(new ParcelCreationEvent($parcel));
+//            event(new ParcelStatusUpdated($parcel, $oldStatus));
+
+            $payment = new Payment([
+                'sum' => $parcel->tariff->price,
+                'status' => 1,
+            ]);
+
+            $payment->parcel()->associate($parcel);
+            $payment->save();
         } else {
-            return redirect()->route('dashboard')->with('error', 'Something went wrong.');
+            return redirect()->route('dashboard')->with('error', 'Something went wrong. Please try again.');
         }
 
         $request->session()->forget(['step1Data', 'step2Data', 'step3Data', 'parcel']);

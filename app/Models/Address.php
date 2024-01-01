@@ -15,8 +15,6 @@ class Address extends Model
         'postal_code',
     ];
 
-    // TODO refactor address structure - only user has default address
-
     public function sender()
     {
         return $this->hasMany(User::class);
@@ -24,6 +22,6 @@ class Address extends Model
 
     public function receiver()
     {
-        return $this->belongsTo(Client::class);
+        return $this->hasMany(Client::class);
     }
 }

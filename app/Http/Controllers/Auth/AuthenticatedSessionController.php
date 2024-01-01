@@ -19,7 +19,6 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
-//    TODO Add fields to edit user profile
     /**
      * Handle an incoming authentication request.
      */
@@ -31,6 +30,8 @@ class AuthenticatedSessionController extends Controller
 
         if (auth()->user()->role === 1) {
             return redirect()->route('admin.dashboard');
+        } else if (auth()->user()->role === 2) {
+            return redirect()->route('courier.dashboard');
         }
 
         return redirect()->intended(RouteServiceProvider::HOME);

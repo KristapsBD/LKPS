@@ -24,6 +24,8 @@ class ParcelsImport implements ToCollection, WithHeadingRow
         // Access the header row
         $headerRow = $collection->first();
 
+//        var_dump($headerRow); die;
+
         // Validate column names
         $this->validateColumnNames($headerRow);
 
@@ -48,15 +50,15 @@ class ParcelsImport implements ToCollection, WithHeadingRow
         return [
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:0|max:100',
-            'notes' => 'nullable',
-            'status' => 'nullable|max:2',
-            'tracking_code' => 'nullable|max:10',
-            'sender_id' => 'nullable|exists:users,id',
-            'receiver_id' => 'nullable|exists:clients,id',
-            'source_id' => 'nullable|exists:addresses,id',
-            'destination_id' => 'nullable|exists:addresses,id',
-            'vehicle_id' => 'nullable|exists:vehicles,id',
-            'tariff_id' => 'nullable|exists:tariffs,id',
+            'notes' => 'nullable|string|max:255',
+            'status' => 'required|max:2',
+            'tracking_code' => 'required|min:10|max:10',
+            'sender_id' => 'required|exists:users,id',
+            'receiver_id' => 'required|exists:clients,id',
+            'source_id' => 'required|exists:addresses,id',
+            'destination_id' => 'required|exists:addresses,id',
+            'tariff_id' => 'required|exists:tariffs,id',
+            'vehicle_id' => 'required|exists:vehicles,id',
         ];
     }
 
@@ -95,6 +97,11 @@ class ParcelsImport implements ToCollection, WithHeadingRow
 
     protected function validateColumnNames($headerRow)
     {
+        if ($headerRow === null) {
+            // Throw an exception for the scenario where $headerRow is null
+            throw new Exception("No data columns found in the file. Please make sure the file contains data, not just heading rows.");
+        }
+
         $requiredColumns = [
             'size', 'weight', 'notes', 'status', 'tracking_code',
             'sender_id', 'receiver_id', 'source_id', 'destination_id',

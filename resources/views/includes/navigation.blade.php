@@ -32,6 +32,9 @@
                     <x-nav-link :href="route('parcel.trackingView')" :active="request()->routeIs('parcel.trackingView')">
                         {{ __('Tracking') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('tariff.public')" :active="request()->routeIs('tariff.public')">
+                        {{ __('Pricing') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -64,10 +67,14 @@
                                 <x-dropdown-link :href="route('admin.dashboard')">
                                     {{ __('Admin Panel') }}
                                 </x-dropdown-link>
+                            @elseif (auth()->user()->role === 2)
+                                <x-dropdown-link :href="route('courier.dashboard')">
+                                    {{ __('Courier Panel') }}
+                                </x-dropdown-link>
                             @endif
 
-                            <x-dropdown-link :href="route('parcel.history')">
-                                {{ __('Parcel History') }}
+                            <x-dropdown-link :href="route('payment.history')">
+                                {{ __('Payment History') }}
                             </x-dropdown-link>
 
                             <!-- Authentication -->
@@ -118,6 +125,9 @@
             <x-responsive-nav-link :href="route('parcel.trackingView')" :active="request()->routeIs('parcel.trackingView')">
                 {{ __('Tracking') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tariff.public')" :active="request()->routeIs('tariff.public')">
+                {{ __('Pricing') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -135,8 +145,8 @@
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
-                    <x-responsive-nav-link :href="route('parcel.history')">
-                        {{ __('Parcel History') }}
+                    <x-responsive-nav-link :href="route('payment.history')">
+                        {{ __('Payment History') }}
                     </x-responsive-nav-link>
 
                     <!-- Authentication -->
