@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Parcel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,16 +10,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ParcelShipped extends Mailable
+class SenderParcelCreationEmail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $parcel;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(private $name)
+    public function __construct(Parcel $parcel)
     {
-        //
+        $this->parcel = $parcel;
     }
 
     /**
@@ -27,7 +30,7 @@ class ParcelShipped extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Parcel Shipped',
+            subject: 'Parcel Created: ' . $this->parcel->tracking_code,
         );
     }
 
@@ -37,10 +40,7 @@ class ParcelShipped extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.parcel-shipped',
-            with: [
-                'name' => $this->name
-            ]
+            view: 'emails.parcel-created-sender',
         );
     }
 

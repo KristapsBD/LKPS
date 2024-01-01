@@ -12,12 +12,18 @@ class ExportController extends Controller
     public function exportSelectedParcels(Request $request)
     {
         $selectedParcelIds = json_decode($request->input('selected_parcels'));
-        var_dump($selectedParcelIds); die;
 
         $parcels = Parcel::whereIn('id', $selectedParcelIds)->get();
 
         $export = new ParcelsExport($parcels);
 
-        return Excel::download($export, 'selected_parcels.xlsx');
+        $fileName = 'selected_parcels.xlsx';
+
+        try {
+            session()->flash('success', count($parcels) . ' parcels exported successfully.');
+            return Excel::download($export, $fileName);;
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error exporting parcels: ' . $e->getMessage());
+        }
     }
 }

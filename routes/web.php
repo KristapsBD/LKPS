@@ -1,16 +1,17 @@
 <?php
 
+use App\Http\Controllers\CourierController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\GoogleMapsController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\TariffController;
 use App\Mail\ParcelShipped;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ParcelController;
-use App\Http\Controllers\ParcelsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +28,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [ParcelController::class, 'parcelHistory'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/track', [ParcelController::class, 'trackingView'])->name('parcel.trackingView');
 Route::post('/track', [ParcelController::class, 'track'])->name('parcel.track');
+
+Route::get('/public-tariffs', [TariffController::class, 'viewPublicTariffs'])->name('tariff.public');
 
 Route::middleware('auth')->group( function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,7 +43,7 @@ Route::middleware('auth')->group( function () {
     Route::put('/profile', [ProfileController::class, 'updateOrCreateDefaultAddress'])->name('profile.updateOrCreateDefaultAddress');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/parcel-history', [ParcelController::class, 'parcelHistory'])->name('parcel.history');
+    Route::get('/payment-history', [ParcelController::class, 'paymentHistory'])->name('payment.history');
 
     Route::get('/create-parcel/cancel', [ParcelController::class, 'cancel'])->name('parcel.cancel');
     Route::get('/create-parcel', [ParcelController::class, 'step1'])->name('parcel.step1');
@@ -139,9 +142,19 @@ Route::middleware("admin")->group( function () {
     Route::post('/admin/parcels/import', [ImportController::class, 'import'])->name('admin.import');
     Route::get('/admin/download-template', [ImportController::class, 'downloadTemplate'])->name('admin.downloadTemplate');
 
-
     // Bulk export
     Route::post('/parcels/export-selected', [ExportController::class, 'exportSelectedParcels'])->name('admin.export');
+
+    Route::get('/admin/parcel-tracking', [AdminController::class, 'parcelTracking'])->name('admin.parcelTracking');
+});
+
+Route::middleware('courier')->group(function () {
+    Route::get('/courier', [CourierController::class, 'index'])->name('courier.dashboard');
+    Route::get('/courier/update-status', [CourierController::class, 'updateStatus'])->name('courier.updateStatus');
+
+    Route::get('/courier/parcels', [CourierController::class, 'viewAllParcels'])->name('courier.parcels');
+    Route::get('/courier/edit-parcel/{parcel}', [CourierController::class, 'editParcelForm'])->name('courier.editParcelForm');
+    Route::put('/courier/edit-parcel/{parcel}', [CourierController::class, 'editParcel'])->name('courier.editParcel');
 });
 
 require __DIR__.'/auth.php';

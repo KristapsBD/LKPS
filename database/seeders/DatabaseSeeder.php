@@ -13,10 +13,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Parcel;
 use App\Models\Address;
-// TODO CREATE PAYMENT TABLE
-// TODO IMPLEMENT PARCEL STATUS CHANGE LOGGING TO DB
-// TODO IMPLEMENT MANY TO MANY TABLES (ADDRESSUSER + USERVEHICEL)
-// TODO REMOVE COUNTY ROW FROM ADDRESS TABLE
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -28,18 +25,28 @@ class DatabaseSeeder extends Seeder
             'name' => 'Small Tariff',
             'price' => 5.00,
             'extra_information' => 'Tariff only applies to small size packages',
+            'is_public' => 1,
         ]);
 
         $mediumTariff = Tariff::factory()->create([
             'name' => 'Medium Tariff',
             'price' => 7.50,
             'extra_information' => 'Tariff only applies to medium size packages',
+            'is_public' => 1,
         ]);
 
         $largeTariff = Tariff::factory()->create([
             'name' => 'Large Tariff',
             'price' => 12.00,
             'extra_information' => 'Tariff only applies to large size packages',
+            'is_public' => 1,
+        ]);
+
+        $largeTariff = Tariff::factory()->create([
+            'name' => 'Extra Large Tariff',
+            'price' => 20.00,
+            'extra_information' => 'Tariff only applies to extra large size packages',
+            'is_public' => 1,
         ]);
 
         $users = User::factory(10)->create();
@@ -59,7 +66,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $sender = User::factory()->create([
-            'name' => 'User Doe',
+            'name' => 'Kristaps Briks',
             'email' => 'kristaps.briks@inbox.lv',
             'phone' => '20289000',
             'password' => bcrypt('password'),
@@ -67,24 +74,79 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $receiver = Client::factory()->create([
-            'name' => 'Client Doe',
+            'name' => 'Kristaps Briks',
+            'email' => 'kristaps.briks@inbox.lv',
             'phone' => '20289000',
         ]);
 
-        $address = Address::factory()->create([
+        $address_ozolnieki = Address::factory()->create([
             'street' => 'Iecavas 5',
             'city' => 'Ozolnieki',
             'postal_code' => 'LV-3018',
         ]);
 
-        $parcel = Parcel::factory()->create([
+        $address_riga = Address::factory()->create([
+            'street' => 'Raina Bulvaris 19',
+            'city' => 'Riga',
+            'postal_code' => 'LV-1050',
+        ]);
+
+        $address_ogre = Address::factory()->create([
+            'street' => 'Upes prospekts 11',
+            'city' => 'Ogre',
+            'postal_code' => 'LV-5001',
+        ]);
+
+        $parcel_ozolnieki = Parcel::factory()->create([
             'size' => 's',
             'weight' => 10.0,
-            'notes' => 'Sample parcel',
+            'notes' => 'Sample parcel Ozolnieki',
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
-            'source_id' => $address->id,
-            'destination_id' => $address->id,
+            'source_id' => $address_ozolnieki->id,
+            'destination_id' => $address_riga->id,
+        ]);
+
+        $randomReceiver = Client::inRandomOrder()->first();
+
+        $parcel_riga = Parcel::factory()->create([
+            'size' => 'm',
+            'weight' => 15.0,
+            'notes' => 'Sample parcel Riga',
+            'sender_id' => $sender->id,
+            'receiver_id' => $randomReceiver->id,
+            'source_id' => $address_riga->id,
+            'destination_id' => $address_ozolnieki->id,
+        ]);
+
+        $randomReceiver = Client::inRandomOrder()->first();
+
+        $parcel_ogre = Parcel::factory()->create([
+            'size' => 'l',
+            'weight' => 20.0,
+            'notes' => 'Sample parcel Ogre',
+            'sender_id' => $sender->id,
+            'receiver_id' => $randomReceiver->id,
+            'source_id' => $address_ozolnieki->id,
+            'destination_id' => $address_ogre->id,
+        ]);
+
+        $payment_ozolnieki = Payment::factory()->create([
+            'parcel_id' => $parcel_ozolnieki->id,
+            'sum' => 20,
+            'status' => 1,
+        ]);
+
+        $payment_riga = Payment::factory()->create([
+            'parcel_id' => $parcel_riga->id,
+            'sum' => 55,
+            'status' => 1,
+        ]);
+
+        $payment_ogre = Payment::factory()->create([
+            'parcel_id' => $parcel_ogre->id,
+            'sum' => 75,
+            'status' => 1,
         ]);
     }
 }

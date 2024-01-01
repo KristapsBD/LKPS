@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-// TODO fix error when parcel foreign key is null and listing page tries to read value (cond format)
-
 class Parcel extends Model
 {
     use HasFactory;
@@ -57,9 +55,13 @@ class Parcel extends Model
         return $this->belongsTo(Tariff::class);
     }
 
-    // TODO setup parcel tracking
     public function parcelTracking()
     {
         return $this->hasMany(ParcelTracking::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

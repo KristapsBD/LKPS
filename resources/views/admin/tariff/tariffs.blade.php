@@ -29,6 +29,9 @@
                     Information
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Visibility
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -52,7 +55,10 @@
                         {{ $tariff->price }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $tariff->extra_information }}
+                        {{ Str::words($tariff->extra_information, 10) }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $tariff->is_public ? 'Public' : 'Hidden' }}
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center">

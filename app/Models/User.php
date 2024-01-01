@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable // implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -55,22 +56,10 @@ class User extends Authenticatable // implements MustVerifyEmail
     {
         return $this->belongsTo(Address::class);
     }
-//    TODO check if phone verification is necessary
-    public function userPhoneVerified()
-    {
-        return ! is_null($this->phone_verified_at);
-    }
 
-    public function phoneVerifiedAt()
+    public function deliverableParcels()
     {
-        return $this->forceFill([
-            'phone_verified_at' => $this->freshTimestamp(),
-        ])->save();
-    }
-
-    public function current_vehicle()
-    {
-        return $this->belongsTo(Vehicle::class, 'current_driver_id');
+        return $this->hasManyThrough(Parcel::class, Vehicle::class, 'current_driver_id', 'vehicle_id');
     }
 
     public function vehicles()

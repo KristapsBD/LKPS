@@ -7,9 +7,6 @@
 @endsection
 
 @section('content')
-    {{--TODO ADD TRACKING CODE TO PARCEL--}}
-{{--    TODO FIX MISSING FOREIGN KEYS--}}
-
     <section class="bg-white dark:bg-gray-900">
         <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
             <form method="POST" action="{{ route('parcel.storeAllData') }}">
@@ -51,7 +48,7 @@
                     <div class="sm:col-span-2">
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Receiver Information</label>
                         <div class="flex">
-                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $step3Data ? $step3Data['receiver_name'] : '' }}, {{ $step3Data ? $step3Data['receiver_phone'] : '' }}" placeholder="Receiver information here..." required disabled>
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $step3Data ? $step3Data['receiver_name'] : '' }}, {{ $step3Data ? $step3Data['receiver_email'] : '' }}, {{ $step3Data ? $step3Data['receiver_phone'] : '' }}" placeholder="Receiver information here..." required disabled>
                             <a href="{{ route('parcel.step3') }}">
                                 <button type="button" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     Edit

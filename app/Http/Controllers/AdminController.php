@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Client;
+use App\Models\ParcelTracking;
 use App\Models\Tariff;
 use App\Rules\Phone;
 use Illuminate\Http\Request;
@@ -15,10 +16,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 // TODO implement driver can change status functionality -
-// Implement route generation functionality
 // Implement dividing client delivery addresses to couriers functionality
-// Implement email system for notifications
-// Implement payment system
 
 class AdminController extends Controller
 {
@@ -108,7 +106,9 @@ class AdminController extends Controller
     // Parcel Crud
     public function viewAllParcels()
     {
-        $parcels = Parcel::paginate(10);
+        $parcels = Parcel::with(['sender' => function ($query) {
+            $query->withTrashed();
+        }])->paginate(10);
         return view('admin.parcel.parcels', compact('parcels'));
     }
 
@@ -135,12 +135,13 @@ class AdminController extends Controller
             'size' => 'required|in:s,m,l,xl',
             'weight' => 'required|numeric|min:1|max:100',
             'notes' => 'nullable|string|max:255',
+            'status' => 'required|in:0,1,2,3,4,5',
             'sender' => 'required|exists:users,id',
             'source' => 'required|exists:addresses,id',
             'receiver' => 'required|exists:clients,id',
             'destination' => 'required|exists:addresses,id',
             'tariff' => 'required|exists:tariffs,id',
-            'vehicle' => 'required|exists:vehicles,id',
+            'vehicle' => 'nullable|exists:vehicles,id',
         ]);
 
         $sender = User::findOrFail($validatedData['sender']);
@@ -148,12 +149,12 @@ class AdminController extends Controller
         $source = Address::findOrFail($validatedData['source']);
         $destination = Address::findOrFail($validatedData['destination']);
         $tariff = Tariff::findOrFail($validatedData['tariff']);
-        $vehicle = Tariff::findOrFail($validatedData['vehicle']);
 
         $parcel = Parcel::create([
             'size' => $validatedData['size'],
             'weight' => $validatedData['weight'],
             'notes' => $validatedData['notes'],
+            'status' => $validatedData['status'],
         ]);
 
         //TODO calculate tariff automatically
@@ -164,7 +165,11 @@ class AdminController extends Controller
         $parcel->source()->associate($source);
         $parcel->destination()->associate($destination);
         $parcel->tariff()->associate($tariff);
-        $parcel->vehicle()->associate($vehicle);
+
+        if (isset($validatedData['vehicle'])) {
+            $vehicle = Vehicle::findOrFail($validatedData['vehicle']);
+            $parcel->vehicle()->associate($vehicle);
+        }
 
         $parcel->save();
 
@@ -189,7 +194,7 @@ class AdminController extends Controller
             'receiver' => 'required|exists:clients,id',
             'destination' => 'required|exists:addresses,id',
             'tariff' => 'required|exists:tariffs,id',
-            'vehicle' => 'required|exists:vehicles,id',
+            'vehicle' => 'nullable|exists:vehicles,id',
         ]);
 
         $sender = User::findOrFail($validatedData['sender']);
@@ -197,9 +202,10 @@ class AdminController extends Controller
         $source = Address::findOrFail($validatedData['source']);
         $destination = Address::findOrFail($validatedData['destination']);
         $tariff = Tariff::findOrFail($validatedData['tariff']);
-        $vehicle = Tariff::findOrFail($validatedData['vehicle']);
 //        $tariff = getTariffIdBySize($validatedData['size']);
 //        $parcel->tariff()->associate($tariff);
+
+        $oldStatus = $parcel->status;
 
         $parcel->update([
             'size' => $validatedData['size'],
@@ -213,11 +219,15 @@ class AdminController extends Controller
         $parcel->source()->associate($source);
         $parcel->destination()->associate($destination);
         $parcel->tariff()->associate($tariff);
-        $parcel->vehicle()->associate($vehicle);
+
+        if (isset($validatedData['vehicle'])) {
+            $vehicle = Vehicle::findOrFail($validatedData['vehicle']);
+            $parcel->vehicle()->associate($vehicle);
+        }
 
         $parcel->save();
 
-        event(new \App\Events\ParcelStatusUpdated($parcel));
+        event(new \App\Events\ParcelStatusUpdated($parcel, $oldStatus));
 
         return redirect()->route('admin.parcels')->with('success', 'Parcel updated successfully.');
     }
@@ -256,11 +266,13 @@ class AdminController extends Controller
             'type' => (int)$validatedData['type'],
         ];
 
-        if (isset($validatedData['current_driver'])) {
-            $vehicleData['current_driver'] = $validatedData['current_driver'];
-        }
-
         $vehicle = Vehicle::create($vehicleData);
+
+        if (isset($validatedData['current_driver'])) {
+            $driver = User::findOrFail($validatedData['current_driver']);
+            $vehicle->current_driver()->associate($driver);
+            $vehicle->save();
+        }
 
         return redirect()->route('admin.vehicles')->with('success', 'Vehicle created successfully.');
     }
@@ -276,12 +288,14 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'registration_number' => ['required','string', 'max:12',  Rule::unique('vehicles')->ignore($vehicle->id)],
             'type' => 'required|in:1,2,3',
+            'status' => 'required|in:0,1',
             'current_driver' => 'nullable|exists:users,id'
         ]);
 
         $vehicle->update([
             'registration_number' => $validatedData['registration_number'],
             'type' => (int)$validatedData['type'],
+            'status' => (int)$validatedData['status'],
         ]);
 
         if (isset($validatedData['current_driver'])) {
@@ -436,11 +450,13 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => ['required', new Phone, 'unique:'.Client::class],
+            'email' => 'required|email',
+            'phone' => ['required', new Phone],
         ]);
 
-        $client = Client::create([
+        $client = Client::firstOrCreate([
             'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
             'phone' => $validatedData['phone'],
         ]);
 
@@ -456,11 +472,13 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => ['required', new Phone, Rule::unique('clients')->ignore($client->id)],
+            'email' => ['required', 'email'],
+            'phone' => ['required', new Phone],
         ]);
 
         $client->update([
             'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
             'phone' => $validatedData['phone'],
         ]);
 
@@ -472,5 +490,12 @@ class AdminController extends Controller
         $client->delete();
         session()->flash('success', 'Client deleted successfully.');
         return response()->json();
+    }
+
+    public function parcelTracking()
+    {
+        $parcelTrackings = ParcelTracking::paginate(10);
+
+        return view('admin.parcel.tracking', compact('parcelTrackings'));
     }
 }

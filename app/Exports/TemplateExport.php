@@ -13,7 +13,7 @@ class TemplateExport implements FromCollection, WithHeadings
     public function collection()
     {
         return collect([
-            ['s', '33', 'This parcel is fragile.', '1', '2', '3', '4', '5', '6', '7', '1'],
+            ['s', '33', 'This parcel is fragile.', '1', '1234567890', '3', '4', '5', '6', '7', '1'],
         ]);
     }
 

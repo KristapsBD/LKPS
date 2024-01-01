@@ -44,7 +44,7 @@
                 <ul>
                     @if (session('importValueError'))
                         @foreach (session('importValueError') as $importError)
-                            <li><b>Errors:</b> Row {{ $importError['row'] }}: {{ implode(', ', $importError['errors']) }}</li>
+                            <li><b>Errors:</b> Row {{ $importError['row'] }}:<br>{!! implode('<br>', $importError['errors']) !!}</li>
                         @endforeach
                     @elseif (session('importHeaderError'))
                         <li>{{ session('importHeaderError') }}</li>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('registration_number');
             $table->integer('type');
+            $table->integer('status')->default(1);
             $table->unsignedBigInteger('current_driver_id')->nullable();
             $table->foreign('current_driver_id')
                 ->references('id')
