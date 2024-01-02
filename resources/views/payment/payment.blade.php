@@ -2,7 +2,7 @@
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ __('Step 5 - Payment') }}
+        {{ __('Step 4 - Payment') }}
     </h2>
 @endsection
 

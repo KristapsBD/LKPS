@@ -15,7 +15,7 @@
                     <div class="sm:col-span-2">
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Parcel Information</label>
                         <div class="flex">
-                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="Size {{ $step1Data ? $step1Data['size'] : '' }}, {{ $step1Data ? $step1Data['weight'] : '' }} kg" placeholder="Parcel information here..." required disabled>
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="{{ $step1Data ? mapParcelSizeToValue($step1Data['size']) : '' }} size, {{ $step1Data ? $step1Data['weight'] : '' }} kg" placeholder="Parcel information here..." required disabled>
                             <a href="{{ route('parcel.step1') }}">
                                 <button type="button" class="text-white ml-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     Edit

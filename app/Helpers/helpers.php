@@ -50,6 +50,20 @@ if (!function_exists('getTariffIdBySize')) {
     }
 }
 
+if (!function_exists('mapParcelSizeToValue')) {
+    function mapParcelSizeToValue($status)
+    {
+        $statusMapping = [
+            's' => 'Small',
+            'm' => 'Medium',
+            'l' => 'Large',
+            'xl' => 'Extra Large',
+        ];
+
+        return $statusMapping[$status] ?? 'Unknown Size';
+    }
+}
+
 if (!function_exists('mapParcelStatusToValue')) {
     function mapParcelStatusToValue($status) {
         $statusMapping = [

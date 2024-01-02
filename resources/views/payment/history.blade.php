@@ -39,7 +39,7 @@
                             {{ $parcel->receiver->name}}
                         </th>
                         <td class="px-6 py-4">
-                            {{ optional($parcel->payment)->sum }}
+                            {{ "$" . optional($parcel->payment)->sum }}
                         </td>
                         <td class="px-6 py-4">
                             {{ optional($parcel->payment)->status ? 'Paid' : 'Unpaid' }}
