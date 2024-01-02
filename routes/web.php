@@ -48,11 +48,9 @@ Route::middleware('auth')->group( function () {
     Route::get('/create-parcel/cancel', [ParcelController::class, 'cancel'])->name('parcel.cancel');
     Route::get('/create-parcel', [ParcelController::class, 'step1'])->name('parcel.step1');
     Route::post('/create-parcel', [ParcelController::class, 'storeStep1'])->name('parcel.storeStep1');
-    Route::get('/create-parcel/contact-sender', [ParcelController::class, 'step2'])->name('parcel.step2');
-    Route::post('/create-parcel/contact-sender', [ParcelController::class, 'storeStep2'])->name('parcel.storeStep2');
-    Route::get('/create-parcel/contact-receiver', [ParcelController::class, 'step3'])->name('parcel.step3');
-    Route::post('/create-parcel/contact-receiver', [ParcelController::class, 'storeStep3'])->name('parcel.storeStep3');
-    Route::get('/create-parcel/overview', [ParcelController::class, 'step4'])->name('parcel.step4');
+    Route::get('/create-parcel/contact-receiver', [ParcelController::class, 'step2'])->name('parcel.step2');
+    Route::post('/create-parcel/contact-receiver', [ParcelController::class, 'storeStep2'])->name('parcel.storeStep2');
+    Route::get('/create-parcel/overview', [ParcelController::class, 'step3'])->name('parcel.step3');
     Route::post('/create-parcel/overview', [ParcelController::class, 'storeAllData'])->name('parcel.storeAllData');
 
     //Stripe routes

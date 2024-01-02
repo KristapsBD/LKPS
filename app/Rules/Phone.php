@@ -14,8 +14,8 @@ class Phone implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!preg_match('/^(\+371)?\d{8}$/', $value)) {
-            $fail('The :attribute must be a valid Latvian phone number.');
+        if (!preg_match('/^\+371\d{8}$/', $value)) {
+            $fail('The :attribute must be a valid Latvian phone number with the prefix +371.');
         }
     }
 }

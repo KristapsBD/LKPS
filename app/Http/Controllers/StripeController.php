@@ -58,7 +58,7 @@ class StripeController extends Controller
 //            event(new ParcelStatusUpdated($parcel, $oldStatus));
 
             $payment = new Payment([
-                'sum' => $parcel->tariff->price,
+                'sum' => calculateTotal($parcel),
                 'status' => 1,
             ]);
 
@@ -68,7 +68,7 @@ class StripeController extends Controller
             return redirect()->route('dashboard')->with('error', 'Something went wrong. Please try again.');
         }
 
-        $request->session()->forget(['step1Data', 'step2Data', 'step3Data', 'parcel']);
+        $request->session()->forget(['step1Data', 'step2Data', 'parcel']);
         return redirect()->route('dashboard')->with('success', 'Parcel created successfully.');
     }
 }

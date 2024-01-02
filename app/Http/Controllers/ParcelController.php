@@ -39,30 +39,7 @@ class ParcelController extends Controller
         return view('parcel.step2', compact('step2Data'));
     }
 
-    public function storeStep2(Request $request)
-    {
-        $validatedData = $this->validate($request, [
-            'sender_name' => 'required|string|max:255',
-            'sender_email' => ['required', Rule::unique('users', 'email')->ignore(Auth::user()->id)],
-            'sender_phone' => ['required', new Phone, Rule::unique('users', 'phone')->ignore(Auth::user()->id)],
-            'sender_street' => 'required|string|max:255',
-            'sender_city' => 'required|string|max:255',
-            'sender_postal_code' => 'required|string|max:10',
-        ]);
-
-        $request->session()->put('step2Data', $validatedData);
-
-        return redirect()->route('parcel.step3');
-    }
-
-    public function step3()
-    {
-        $step3Data = session('step3Data') ?? [];
-
-        return view('parcel.step3', compact('step3Data'));
-    }
-
-    public function storeStep3(Request $request)
+    public function storestep2(Request $request)
     {
         $validatedData = $this->validate($request, [
             'receiver_name' => 'required|string|max:255',
@@ -73,52 +50,51 @@ class ParcelController extends Controller
             'receiver_postal_code' => 'required|string|max:10',
         ]);
 
-        $request->session()->put('step3Data', $validatedData);
+        $request->session()->put('step2Data', $validatedData);
 
-        return redirect()->route('parcel.step4');
+        return redirect()->route('parcel.step3');
     }
 
-    public function step4(Request $request)
+    public function step3(Request $request)
     {
         $step1Data = $request->session()->get('step1Data', []);
+        $userData = [
+            'sender_name' => auth()->user()->name,
+            'sender_email' => auth()->user()->email,
+            'sender_phone' => auth()->user()->phone,
+            'sender_street' => auth()->user()->address->street ?? '',
+            'sender_city' => auth()->user()->address->city ?? '',
+            'sender_postal_code' => auth()->user()->address->postal_code ?? '',
+        ];
         $step2Data = $request->session()->get('step2Data', []);
-        $step3Data = $request->session()->get('step3Data', []);
 
-        return view('parcel.step4', [
+        return view('parcel.step3', [
             'step1Data' => $step1Data,
+            'userData' => $userData,
             'step2Data' => $step2Data,
-            'step3Data' => $step3Data,
         ]);
     }
 
     public function storeAllData(Request $request)
     {
         $step1Data = $request->session()->get('step1Data', []);
+        $userData = $request->session()->get('userData', []);
         $step2Data = $request->session()->get('step2Data', []);
-        $step3Data = $request->session()->get('step3Data', []);
 
-        $sender = User::firstOrCreate([
-            'name' => $step2Data['sender_name'],
-            'email' => $step2Data['sender_email'],
-            'phone' => $step2Data['sender_phone'],
-        ]);
+        $sender = auth()->user();
 
-        $senderAddress = Address::firstOrCreate([
-            'street' => $step2Data['sender_street'],
-            'city' => $step2Data['sender_city'],
-            'postal_code' => $step2Data['sender_postal_code'],
-        ]);
+        $senderAddress = auth()->user()->address;
 
         $receiver = Client::firstOrCreate([
-            'name' => $step3Data['receiver_name'],
-            'email' => $step3Data['receiver_email'],
-            'phone' => $step3Data['receiver_phone'],
+            'name' => $step2Data['receiver_name'],
+            'email' => $step2Data['receiver_email'],
+            'phone' => $step2Data['receiver_phone'],
         ]);
 
         $receiverAddress = Address::firstOrCreate([
-            'street' => $step3Data['receiver_street'],
-            'city' => $step3Data['receiver_city'],
-            'postal_code' => $step3Data['receiver_postal_code'],
+            'street' => $step2Data['receiver_street'],
+            'city' => $step2Data['receiver_city'],
+            'postal_code' => $step2Data['receiver_postal_code'],
         ]);
 
         $parcel = new Parcel([
@@ -142,7 +118,7 @@ class ParcelController extends Controller
 
     public function  cancel(Request $request)
     {
-        $request->session()->forget(['step1Data', 'step2Data', 'step3Data']);
+        $request->session()->forget(['step1Data', 'step2Data']);
 
         return redirect()->route('dashboard');
     }
