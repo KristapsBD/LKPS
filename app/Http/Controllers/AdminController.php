@@ -37,7 +37,7 @@ class AdminController extends Controller
      */
     public function viewAllUsers()
     {
-        $users = User::paginate(10);
+        $users = User::withTrashed()->paginate(10);
         return view('admin.user.users', compact('users'));
     }
 
@@ -144,13 +144,13 @@ class AdminController extends Controller
     /**
      * Delete a user.
      *
-     * @param \App\Models\User $user
+     * @param int $userId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteUser(User $user)
+    public function deleteUser($userId)
     {
-        // Implement delete user functionality
-        $user->delete();
+        $user = User::withTrashed()->findOrFail($userId);
+        $user->forceDelete();
         session()->flash('success', 'User deleted successfully.');
         return response()->json();
     }

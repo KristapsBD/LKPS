@@ -50,7 +50,7 @@
 
     <p>Your parcel has been created!</p>
 
-    <p>You can use this tracking code {{ $parcel->tracking_code }}, to track your parcel on <a href="https://logistics.local/track">https://logistics.local/track</a>.</p>
+    <p>You can use this tracking code {{ $parcel->tracking_code }}, to track your parcel on <a href="https://logisticsandcourier.com/track">the tracking page</a>.</p>
 
     <p>Thank you and have a nice day!</p>
 </div>
