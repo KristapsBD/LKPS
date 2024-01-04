@@ -8,8 +8,10 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class TemplateExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * Retrieve the data for the export.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return collect([
@@ -17,6 +19,11 @@ class TemplateExport implements FromCollection, WithHeadings
         ]);
     }
 
+    /**
+     * Define the headings for the exported data.
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [

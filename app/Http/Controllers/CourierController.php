@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
-use App\Models\Client;
 use App\Models\Parcel;
-use App\Models\User;
-use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CourierController extends Controller
 {
+    /**
+     * Display the courier dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('courier.dashboard');
     }
 
     // Parcel Methods
+
+    /**
+     * Display all parcels assigned to the current courier with pagination.
+     *
+     * @return \Illuminate\View\View
+     */
     public function viewAllParcels()
     {
         $user = Auth::user();
@@ -25,11 +32,24 @@ class CourierController extends Controller
         return view('courier.parcel.parcels', compact('parcels'));
     }
 
+    /**
+     * Display the form for editing a specific parcel.
+     *
+     * @param \App\Models\Parcel $parcel
+     * @return \Illuminate\View\View
+     */
     public function editParcelForm(Parcel $parcel)
     {
-        return view('courier.parcel.editParcel', compact('parcel' ));
+        return view('courier.parcel.editParcel', compact('parcel'));
     }
 
+    /**
+     * Update the status of a specific parcel.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Parcel $parcel
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function editParcel(Request $request, Parcel $parcel)
     {
         $validatedData = $request->validate([

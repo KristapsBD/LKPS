@@ -8,18 +8,34 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 
 class ParcelsExport implements FromCollection, WithHeadings, WithMapping
 {
+    /**
+     * The parcels to be exported.
+     *
+     * @var array
+     */
     protected $parcels;
 
+    /**
+     * ParcelsExport constructor.
+     *
+     * @param array $parcels
+     */
     public function __construct($parcels)
     {
         $this->parcels = $parcels;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return collect($this->parcels);
     }
 
+    /**
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -45,6 +61,12 @@ class ParcelsExport implements FromCollection, WithHeadings, WithMapping
         ];
     }
 
+    /**
+     * Map the given parcel data.
+     *
+     * @param mixed $parcel
+     * @return array
+     */
     public function map($parcel): array
     {
         return [

@@ -1,5 +1,6 @@
 <?php
 
+// Function to map user role to string representation
 if (!function_exists('mapUserRoleToString')) {
     function mapUserRoleToString($role) {
         $roleMapping = [
@@ -12,29 +13,32 @@ if (!function_exists('mapUserRoleToString')) {
     }
 }
 
+// Function to map vehicle type to string representation
 if (!function_exists('mapVehicleTypeToString')) {
     function mapVehicleTypeToString($type) {
-        $roleMapping = [
+        $typeMapping = [
             1 => 'Moped',
             2 => 'Van',
             3 => 'Truck',
         ];
 
-        return $roleMapping[$type] ?? 'Unknown Vehicle Type';
+        return $typeMapping[$type] ?? 'Unknown Vehicle Type';
     }
 }
 
+// Function to map vehicle status to string representation
 if (!function_exists('mapVehicleStatusToString')) {
     function mapVehicleStatusToString($status) {
-        $roleMapping = [
+        $statusMapping = [
             0 => 'Out Of Order',
             1 => 'Operational',
         ];
 
-        return $roleMapping[$status] ?? 'Unknown Status';
+        return $statusMapping[$status] ?? 'Unknown Status';
     }
 }
 
+// Function to get tariff ID by parcel size
 if (!function_exists('getTariffIdBySize')) {
     function getTariffIdBySize($size)
     {
@@ -50,20 +54,22 @@ if (!function_exists('getTariffIdBySize')) {
     }
 }
 
+// Function to map parcel size to string representation
 if (!function_exists('mapParcelSizeToValue')) {
-    function mapParcelSizeToValue($status)
+    function mapParcelSizeToValue($size)
     {
-        $statusMapping = [
+        $sizeMapping = [
             's' => 'Small',
             'm' => 'Medium',
             'l' => 'Large',
             'xl' => 'Extra Large',
         ];
 
-        return $statusMapping[$status] ?? 'Unknown Size';
+        return $sizeMapping[$size] ?? 'Unknown Size';
     }
 }
 
+// Function to map parcel status to string representation
 if (!function_exists('mapParcelStatusToValue')) {
     function mapParcelStatusToValue($status) {
         $statusMapping = [
@@ -78,13 +84,18 @@ if (!function_exists('mapParcelStatusToValue')) {
         return $statusMapping[$status] ?? 'Unknown Status';
     }
 
+    // Function to calculate the total cost of a parcel
     if (!function_exists('calculateTotal')) {
         function calculateTotal($parcel)
         {
-            $tariffPrice = optional($parcel->tariff)->price ?? 0;
-            $weightMultiplier = round($parcel->weight * 0.1, 2);
-
-            return $tariffPrice + $weightMultiplier;
+            // Check if $parcel is not null and is an object
+            if ($parcel && is_object($parcel)) {
+                $tariffPrice = optional($parcel->tariff)->price ?? 0;
+                $weightMultiplier = round($parcel->weight * 0.1, 2);
+                return $tariffPrice + $weightMultiplier;
+            }
+            // Default value if $parcel is not defined or doesn't have the expected structure
+            return 0;
         }
     }
 }
