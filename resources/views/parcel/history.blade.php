@@ -42,10 +42,10 @@
                             {{ $parcel->receiver->name }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $parcel->size }}
+                            {{ mapParcelSizeToValue($parcel->size) }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $parcel->weight }}
+                            {{ $parcel->weight . " kg" }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $parcel->created_at }}

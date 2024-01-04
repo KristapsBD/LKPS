@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CourierMiddleware
+class CheckParcelSessionData
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,14 @@ class CourierMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && (auth()->user()->role === 2 || auth()->user()->role === 1)) {
+        // Check if the required session data exists
+        if (session()->has('step1Data')) {
             return $next($request);
         }
 
-        return back()->with('error', '403 Forbidden. You have no access to this route.');
+        session()->flash('error', 'Please create a parcel before accessing this page.');
+
+        // Redirect or respond accordingly if session data is missing
+        return redirect()->route('parcel.step1');
     }
 }
