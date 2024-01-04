@@ -41,7 +41,7 @@ class GoogleMapsController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */
-    public function generateOptimizedRoute(Request $request)
+    public function generateOptimizedRoute(Request $request): \Illuminate\View\View
     {
         // Decode the selected parcel IDs from the request
         $selectedParcelIds = json_decode($request->input('selected_parcels'));
@@ -56,14 +56,14 @@ class GoogleMapsController extends Controller
             })
             ->toArray();
 
-        // Set your origin and destination coordinates
+        // Set origin and destination coordinates
         $origin = '56.99650445542381, 24.268376560174552';
         $destination = '56.99660445542381, 24.268476560174552';
 
         // Call the Google Maps service to get the optimized route
         $optimizedRoute = $this->googleMapsService->getOptimizedRoute($origin, $destination, $waypoints);
 
-        // Return the optimized route to the view or handle as needed
+        // Return the optimized route to the view
         return view('googlemaps.maps', compact('optimizedRoute'));
     }
 }

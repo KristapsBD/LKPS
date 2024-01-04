@@ -25,7 +25,7 @@ class ImportController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function import(Request $request)
+    public function import(Request $request): \Illuminate\Http\RedirectResponse
     {
         try {
             $request->validate([

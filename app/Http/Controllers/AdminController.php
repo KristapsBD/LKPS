@@ -201,7 +201,7 @@ class AdminController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createParcel(Request $request)
+    public function createParcel(Request $request): \Illuminate\Http\RedirectResponse
     {
         // Validate parcel input
         $validatedData = $request->validate([
@@ -232,7 +232,6 @@ class AdminController extends Controller
             'status' => $validatedData['status'],
         ]);
 
-        //TODO calculate tariff automatically
         // Add foreign key relationships
         $parcel->sender()->associate($sender);
         $parcel->receiver()->associate($receiver);

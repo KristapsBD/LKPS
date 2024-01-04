@@ -29,7 +29,7 @@ class StripeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function session(Request $request)
+    public function session(Request $request): \Illuminate\Http\RedirectResponse
     {
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
