@@ -10,7 +10,6 @@ $(document).ready(function () {
 
     // Handle the "Confirm Delete" button click within the modal
     $('#confirmDelete').on('click', function () {
-
         $.ajax({
             url: deleteRoute,
             type: 'DELETE',

@@ -64,7 +64,7 @@
                         {{ mapUserRoleToString($user->role) }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $user->address->street . ', ' . $user->address->city . ', ' . $user->address->postal_code }}
+                        {{ $user->address ? $user->address->street . ', ' . $user->address->city . ', ' . $user->address->postal_code : 'Default address not set' }}
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <div class="flex items-center">
