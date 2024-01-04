@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'courier' => \App\Http\Middleware\CourierMiddleware::class,
+        'parcel.session' => \App\Http\Middleware\CheckParcelSessionData::class,
     ];
 }

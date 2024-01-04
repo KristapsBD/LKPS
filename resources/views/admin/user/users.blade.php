@@ -32,7 +32,7 @@
                     Role
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Address
+                    Default Address
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Action
@@ -64,7 +64,7 @@
                         {{ mapUserRoleToString($user->role) }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $user->address_id }}
+                        {{ $user->address->street . ', ' . $user->address->city . ', ' . $user->address->postal_code }}
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <div class="flex items-center">

@@ -13,13 +13,23 @@ use Illuminate\Validation\Rule;
 
 class ParcelController extends Controller
 {
+    /**
+     * Display the step 1 form view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function step1()
     {
         $step1Data = session('step1Data') ?? [];
-
         return view('parcel.step1', compact('step1Data'));
     }
 
+    /**
+     * Store data from step 1 and redirect to step 2.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function storeStep1(Request $request)
     {
         $validatedData = $this->validate($request, [
@@ -32,37 +42,24 @@ class ParcelController extends Controller
         return redirect()->route('parcel.step2');
     }
 
+    /**
+     * Display the step 2 form view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function step2()
     {
         $step2Data = session('step2Data') ?? [];
-
         return view('parcel.step2', compact('step2Data'));
     }
 
+    /**
+     * Store data from step 2 and redirect to step 3.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function storeStep2(Request $request)
-    {
-        $validatedData = $this->validate($request, [
-            'sender_name' => 'required|string|max:255',
-            'sender_email' => ['required', Rule::unique('users', 'email')->ignore(Auth::user()->id)],
-            'sender_phone' => ['required', new Phone, Rule::unique('users', 'phone')->ignore(Auth::user()->id)],
-            'sender_street' => 'required|string|max:255',
-            'sender_city' => 'required|string|max:255',
-            'sender_postal_code' => 'required|string|max:10',
-        ]);
-
-        $request->session()->put('step2Data', $validatedData);
-
-        return redirect()->route('parcel.step3');
-    }
-
-    public function step3()
-    {
-        $step3Data = session('step3Data') ?? [];
-
-        return view('parcel.step3', compact('step3Data'));
-    }
-
-    public function storeStep3(Request $request)
     {
         $validatedData = $this->validate($request, [
             'receiver_name' => 'required|string|max:255',
@@ -73,52 +70,62 @@ class ParcelController extends Controller
             'receiver_postal_code' => 'required|string|max:10',
         ]);
 
-        $request->session()->put('step3Data', $validatedData);
-
-        return redirect()->route('parcel.step4');
+        $request->session()->put('step2Data', $validatedData);
+        return redirect()->route('parcel.step3');
     }
 
-    public function step4(Request $request)
+    /**
+     * Display the step 3 form view.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
+    public function step3(Request $request)
     {
         $step1Data = $request->session()->get('step1Data', []);
+        $userData = [
+            'sender_name' => auth()->user()->name,
+            'sender_email' => auth()->user()->email,
+            'sender_phone' => auth()->user()->phone,
+            'sender_street' => auth()->user()->address->street ?? '',
+            'sender_city' => auth()->user()->address->city ?? '',
+            'sender_postal_code' => auth()->user()->address->postal_code ?? '',
+        ];
         $step2Data = $request->session()->get('step2Data', []);
-        $step3Data = $request->session()->get('step3Data', []);
 
-        return view('parcel.step4', [
+        return view('parcel.step3', [
             'step1Data' => $step1Data,
+            'userData' => $userData,
             'step2Data' => $step2Data,
-            'step3Data' => $step3Data,
         ]);
     }
 
+    /**
+     * Store all data from steps and redirect to payment.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function storeAllData(Request $request)
     {
         $step1Data = $request->session()->get('step1Data', []);
+        $userData = $request->session()->get('userData', []);
         $step2Data = $request->session()->get('step2Data', []);
-        $step3Data = $request->session()->get('step3Data', []);
 
-        $sender = User::firstOrCreate([
-            'name' => $step2Data['sender_name'],
-            'email' => $step2Data['sender_email'],
-            'phone' => $step2Data['sender_phone'],
-        ]);
+        $sender = auth()->user();
 
-        $senderAddress = Address::firstOrCreate([
-            'street' => $step2Data['sender_street'],
-            'city' => $step2Data['sender_city'],
-            'postal_code' => $step2Data['sender_postal_code'],
-        ]);
+        $senderAddress = auth()->user()->address;
 
         $receiver = Client::firstOrCreate([
-            'name' => $step3Data['receiver_name'],
-            'email' => $step3Data['receiver_email'],
-            'phone' => $step3Data['receiver_phone'],
+            'name' => $step2Data['receiver_name'],
+            'email' => $step2Data['receiver_email'],
+            'phone' => $step2Data['receiver_phone'],
         ]);
 
         $receiverAddress = Address::firstOrCreate([
-            'street' => $step3Data['receiver_street'],
-            'city' => $step3Data['receiver_city'],
-            'postal_code' => $step3Data['receiver_postal_code'],
+            'street' => $step2Data['receiver_street'],
+            'city' => $step2Data['receiver_city'],
+            'postal_code' => $step2Data['receiver_postal_code'],
         ]);
 
         $parcel = new Parcel([
@@ -140,36 +147,59 @@ class ParcelController extends Controller
         return redirect()->route('stripe.payment');
     }
 
-    public function  cancel(Request $request)
+    /**
+     * Cancel the parcel creation process and redirect to the dashboard.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancel(Request $request)
     {
-        $request->session()->forget(['step1Data', 'step2Data', 'step3Data']);
-
+        $request->session()->forget(['step1Data', 'step2Data']);
         return redirect()->route('dashboard');
     }
 
+    /**
+     * Display the parcel history view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function parcelHistory()
     {
         $user = Auth::user();
         $parcels = $user->parcels()->paginate(10);
-
         return view('parcel.history', compact('parcels'));
     }
 
+    /**
+     * Display the payment history view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function paymentHistory()
     {
         $user = Auth::user();
-
         // Load parcels with their associated payments and receivers
         $parcels = $user->parcels()->with('payment')->paginate(10);
-
         return view('payment.history', compact('parcels'));
     }
 
+    /**
+     * Display the parcel tracking view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function trackingView()
     {
         return view('parcel.track');
     }
 
+    /**
+     * Track a parcel based on the provided tracking code.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function track(Request $request)
     {
         $request->validate([

@@ -41,11 +41,14 @@
         // Use Ajax to fetch tracking information
         $('#track-form').submit(function (e) {
             e.preventDefault();
+
+            // Hide any previous validation and tracking errors
             $('#validation-error').addClass('hidden');
             $('#tracking-error').addClass('hidden');
 
             var trackingCode = $('#tracking_code').val();
 
+            // Perform an Ajax request to fetch tracking information
             $.ajax({
                 url: '{{ route("parcel.track") }}',
                 type: 'POST',
@@ -53,22 +56,25 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
+
+                // Data to be sent in the request body, formatted as JSON
                 data: JSON.stringify({ tracking_code: trackingCode }),
                 dataType: 'json',
                 success: function (data) {
+                    // Show the tracking card and update tracking information
                     $('#tracking-card').removeClass('hidden');
-                    $('#tracking-info').html(`
-                        <p class="font-semibold dark:text-white">Status: ${data.status}</p>
-                    `);
+                    $('#tracking-info').html(`<p class="font-semibold dark:text-white">Status: ${data.status}</p>`);
                 },
                 error: function (error) {
                     console.error('Error:', error);
 
+                    // Hide the tracking card and display error messages
                     $('#tracking-card').addClass('hidden');
+
+                    // Show custom error based on error status
                     if (error.status === 422) {
                         $('#validation-error').removeClass('hidden').text(error.responseJSON.message);
-                    }
-                    else if (error.status === 404) {
+                    } else if (error.status === 404) {
                         $('#tracking-error').removeClass('hidden');
                         $('#tracking-error').html('<p class="dark:text-white">' + error.responseJSON.error + '</p>');
                     } else {

@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class StripeController extends Controller
 {
+    /**
+     * Display the payment view for the specified parcel.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
     public function payment(Request $request)
     {
         $parcel = $request->session()->get('parcel', []);
@@ -17,7 +23,13 @@ class StripeController extends Controller
         return view('payment.payment', compact('parcel'));
     }
 
-    public function session(Request $request)
+    /**
+     * Create a new payment session with Stripe and redirect to payment page.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function session(Request $request): \Illuminate\Http\RedirectResponse
     {
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -44,6 +56,12 @@ class StripeController extends Controller
         return redirect()->away($session->url);
     }
 
+    /**
+     * Handle a successful payment and update parcel status.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function success(Request $request)
     {
         $parcel = $request->session()->get('parcel', []);
@@ -55,10 +73,9 @@ class StripeController extends Controller
             $parcel->save();
 
             event(new ParcelCreationEvent($parcel));
-//            event(new ParcelStatusUpdated($parcel, $oldStatus));
 
             $payment = new Payment([
-                'sum' => $parcel->tariff->price,
+                'sum' => calculateTotal($parcel),
                 'status' => 1,
             ]);
 
@@ -68,7 +85,7 @@ class StripeController extends Controller
             return redirect()->route('dashboard')->with('error', 'Something went wrong. Please try again.');
         }
 
-        $request->session()->forget(['step1Data', 'step2Data', 'step3Data', 'parcel']);
+        $request->session()->forget(['step1Data', 'step2Data', 'parcel']);
         return redirect()->route('dashboard')->with('success', 'Parcel created successfully.');
     }
 }
