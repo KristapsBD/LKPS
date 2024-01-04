@@ -21,8 +21,8 @@ class ParcelTrackingFactory extends Factory
 
         return [
             'parcel_id' => $parcel->id,
-            'old_status' => $parcel->status,
-            'new_status' => $parcel->status + 1,
+            'old_status' => $this->faker->randomElement([0, 1, 2, 3, 4, 5]),
+            'new_status' => $this->faker->randomElement([0, 1, 2, 3, 4, 5]),
             'location' => $this->faker->city,
         ];
     }
