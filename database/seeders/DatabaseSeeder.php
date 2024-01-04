@@ -21,37 +21,46 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $smallTariff = Tariff::factory()->create([
+        // Create tariffs
+        $smallTariff = Tariff::create([
             'name' => 'Small Tariff',
             'price' => 5.00,
             'extra_information' => 'Tariff only applies to small size packages',
             'is_public' => 1,
         ]);
 
-        $mediumTariff = Tariff::factory()->create([
+        $mediumTariff = Tariff::create([
             'name' => 'Medium Tariff',
             'price' => 7.50,
             'extra_information' => 'Tariff only applies to medium size packages',
             'is_public' => 1,
         ]);
 
-        $largeTariff = Tariff::factory()->create([
+        $largeTariff = Tariff::create([
             'name' => 'Large Tariff',
             'price' => 12.00,
             'extra_information' => 'Tariff only applies to large size packages',
             'is_public' => 1,
         ]);
 
-        $largeTariff = Tariff::factory()->create([
-            'name' => 'Extra Large Tariff',
-            'price' => 20.00,
-            'extra_information' => 'Tariff only applies to extra large size packages',
-            'is_public' => 1,
+        $privateTariff = Tariff::create([
+            'name' => 'Private Tariff',
+            'price' => 1.99,
+            'extra_information' => 'Tariff only applies to loyal clients',
+            'is_public' => 0,
         ]);
 
-        $users = User::factory(10)->create();
+        $latvianAddresses = include('latvian_addresses.php');
+        foreach ($latvianAddresses as $latvianAddress) {
+            Address::create([
+                'street' => $latvianAddress['street'],
+                'city' => $latvianAddress['city'],
+                'postal_code' => $latvianAddress['postal_code'],
+            ]);
+        }
+
+        User::factory(10)->create();
         Client::factory(10)->create();
-        Address::factory(10)->create();
         User::where('id', '<=', 5)->update(['role' => 2]);
         $vehicles = Vehicle::factory(10)->create();
         Tariff::factory(10)->create();
@@ -65,39 +74,39 @@ class DatabaseSeeder extends Seeder
             $vehicle->drivers()->attach($usersToAttach);
         }
 
-        $sender = User::factory()->create([
+        $sender = User::create([
             'name' => 'Kristaps Briks',
             'email' => 'kristaps.briks@inbox.lv',
-            'phone' => '20289000',
+            'phone' => '+37120289000',
             'password' => bcrypt('password'),
             'role' => 1,
         ]);
 
-        $receiver = Client::factory()->create([
-            'name' => 'Kristaps Briks',
-            'email' => 'kristaps.briks@inbox.lv',
-            'phone' => '20289000',
+        $receiver = Client::create([
+            'name' => 'Janis Klavins',
+            'email' => 'kristaps.briks3@gmail.com',
+            'phone' => '+37120289000',
         ]);
 
-        $address_ozolnieki = Address::factory()->create([
+        $address_ozolnieki = Address::create([
             'street' => 'Iecavas 5',
             'city' => 'Ozolnieki',
             'postal_code' => 'LV-3018',
         ]);
 
-        $address_riga = Address::factory()->create([
-            'street' => 'Raina Bulvaris 19',
-            'city' => 'Riga',
+        $address_riga = Address::create([
+            'street' => 'Raiņa Bulvāris 19',
+            'city' => 'Rīga',
             'postal_code' => 'LV-1050',
         ]);
 
-        $address_ogre = Address::factory()->create([
+        $address_ogre = Address::create([
             'street' => 'Upes prospekts 11',
             'city' => 'Ogre',
             'postal_code' => 'LV-5001',
         ]);
 
-        $parcel_ozolnieki = Parcel::factory()->create([
+        $parcel_ozolnieki = Parcel::create([
             'size' => 's',
             'weight' => 10.0,
             'notes' => 'Sample parcel Ozolnieki',
@@ -109,7 +118,7 @@ class DatabaseSeeder extends Seeder
 
         $randomReceiver = Client::inRandomOrder()->first();
 
-        $parcel_riga = Parcel::factory()->create([
+        $parcel_riga = Parcel::create([
             'size' => 'm',
             'weight' => 15.0,
             'notes' => 'Sample parcel Riga',
@@ -121,7 +130,7 @@ class DatabaseSeeder extends Seeder
 
         $randomReceiver = Client::inRandomOrder()->first();
 
-        $parcel_ogre = Parcel::factory()->create([
+        $parcel_ogre = Parcel::create([
             'size' => 'l',
             'weight' => 20.0,
             'notes' => 'Sample parcel Ogre',
@@ -131,19 +140,19 @@ class DatabaseSeeder extends Seeder
             'destination_id' => $address_ogre->id,
         ]);
 
-        $payment_ozolnieki = Payment::factory()->create([
+        $payment_ozolnieki = Payment::create([
             'parcel_id' => $parcel_ozolnieki->id,
             'sum' => 20,
             'status' => 1,
         ]);
 
-        $payment_riga = Payment::factory()->create([
+        $payment_riga = Payment::create([
             'parcel_id' => $parcel_riga->id,
             'sum' => 55,
             'status' => 1,
         ]);
 
-        $payment_ogre = Payment::factory()->create([
+        $payment_ogre = Payment::create([
             'parcel_id' => $parcel_ogre->id,
             'sum' => 75,
             'status' => 1,
