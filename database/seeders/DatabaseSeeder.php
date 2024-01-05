@@ -22,34 +22,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create tariffs
-        $smallTariff = Tariff::create([
-            'name' => 'Small Tariff',
-            'price' => 5.00,
-            'extra_information' => 'Tariff only applies to small size packages',
-            'is_public' => 1,
-        ]);
+        $tariffs = include('tariffs.php');
+        foreach ($tariffs as $tariff) {
+            Tariff::create([
+                'name' => $tariff['name'],
+                'price' => $tariff['price'],
+                'extra_information' => $tariff['extra_information'],
+                'is_public' => $tariff['is_public'],
+            ]);
+        }
 
-        $mediumTariff = Tariff::create([
-            'name' => 'Medium Tariff',
-            'price' => 7.50,
-            'extra_information' => 'Tariff only applies to medium size packages',
-            'is_public' => 1,
-        ]);
-
-        $largeTariff = Tariff::create([
-            'name' => 'Large Tariff',
-            'price' => 12.00,
-            'extra_information' => 'Tariff only applies to large size packages',
-            'is_public' => 1,
-        ]);
-
-        $privateTariff = Tariff::create([
-            'name' => 'Private Tariff',
-            'price' => 1.99,
-            'extra_information' => 'Tariff only applies to loyal clients',
-            'is_public' => 0,
-        ]);
-
+        // Create addresses
         $latvianAddresses = include('latvian_addresses.php');
         foreach ($latvianAddresses as $latvianAddress) {
             Address::create([
@@ -63,7 +46,6 @@ class DatabaseSeeder extends Seeder
         Client::factory(10)->create();
         User::where('id', '<=', 5)->update(['role' => 2]);
         $vehicles = Vehicle::factory(10)->create();
-        Tariff::factory(10)->create();
         Parcel::factory(10)->create();
         ParcelTracking::factory(10)->create();
         Payment::factory(10)->create();
