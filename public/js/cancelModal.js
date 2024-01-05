@@ -18,6 +18,9 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('#confirmDeleteModal').css('display', 'none');
+                // var parcelId = $('.delete-element[data-delete-route="' + deleteRoute + '"]').data('element-id');
+                // removeCheckboxFromLocalStorage(parcelId);
+
                 location.reload();
             },
             error: function (data) {

@@ -68,5 +68,6 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/cancelModal.js') }}" defer></script>
     <script src="{{ asset('js/checkAllFormCheckboxes.js') }}" defer></script>
 @endsection
