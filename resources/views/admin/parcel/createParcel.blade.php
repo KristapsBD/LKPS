@@ -45,7 +45,7 @@
                             <select id="source" name="source" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a source</option>
                                 @foreach($formData['addresses'] as $address)
-                                    <option value="{{ $address->id }}" {{ old('source') == $address->id ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->post_code }}</option>
+                                    <option value="{{ $address->id }}" {{ old('source') == $address->id ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->postal_code }}</option>
                                 @endforeach
                             </select>
                             @error('source')
@@ -57,7 +57,7 @@
                             <select id="receiver" name="receiver" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a receiver</option>
                                 @foreach($formData['clients'] as $receiver)
-                                    <option value="{{ $receiver->id }}" {{ old('receiver') == $receiver->id ? 'selected' : '' }}>{{ $receiver->name }}, {{ $receiver->phone }}</option>
+                                    <option value="{{ $receiver->id }}" {{ old('receiver') == $receiver->id ? 'selected' : '' }}>{{ $receiver->name }}, {{ $receiver->email }}, {{ $receiver->phone }}</option>
                                 @endforeach
                             </select>
                             @error('receiver')
@@ -69,7 +69,7 @@
                             <select id="destination" name="destination" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a destination</option>
                                 @foreach($formData['addresses'] as $address)
-                                    <option value="{{ $address->id }}" {{ old('destination') == $address->id ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->post_code }}</option>
+                                    <option value="{{ $address->id }}" {{ old('destination') == $address->id ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->postal_code }}</option>
                                 @endforeach
                             </select>
                             @error('destination')
@@ -108,7 +108,7 @@
                             <select id="tariff" name="tariff" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                 <option value="" disabled selected>Select a tariff</option>
                                 @foreach($formData['tariffs'] as $tariff)
-                                    <option value="{{ $tariff->id }}" {{ old('tariff') == $tariff->id ? 'selected' : '' }}>{{ $tariff->name }}, {{ $tariff->extra_information }}</option>
+                                    <option value="{{ $tariff->id }}" {{ old('tariff') == $tariff->id ? 'selected' : '' }}>{{ $tariff->name }}: {{ $tariff->extra_information }}</option>
                                 @endforeach
                             </select>
                             @error('tariff')
