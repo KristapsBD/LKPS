@@ -23,6 +23,9 @@
                     Name
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Email
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Phone
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -44,6 +47,9 @@
                     </th>
                     <td class="px-6 py-4">
                         {{ $client->name }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $client->email }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $client->phone }}
@@ -68,5 +74,6 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/cancelModal.js') }}" defer></script>
     <script src="{{ asset('js/checkAllFormCheckboxes.js') }}" defer></script>
 @endsection

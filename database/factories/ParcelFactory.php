@@ -32,7 +32,7 @@ class ParcelFactory extends Factory
         return [
             'size' => $this->faker->randomElement(['s', 'm', 'l', 'xl']),
             'weight' => $this->faker->numberBetween(1, 100),
-            'notes' => $this->faker->text,
+            'notes' => $this->faker->text(50),
             'status' => $this->faker->randomElement([0, 1, 2, 3, 4, 5]),
             'tracking_code' => Str::random(10),
             'sender_id' => $sender->id,

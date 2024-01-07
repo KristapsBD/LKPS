@@ -27,7 +27,6 @@ class SendParcelStatusNotification implements ShouldQueue
         $parcel = $event->parcel;
         $senderEmail = $parcel->sender->email;
 
-//        TODO UNCOMMENT FOR PROUCTION
         Mail::to($senderEmail)->send(new \App\Mail\ParcelStatusUpdated($parcel));
     }
 }

@@ -46,7 +46,7 @@
                             <select id="source" name="source" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected>Select a source</option>
                                 @foreach($formData['addresses'] as $address)
-                                    <option value="{{ $address->id }}" {{ (old('source') == $address->id || $parcel->source->id == $address->id) ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->post_code }}</option>
+                                    <option value="{{ $address->id }}" {{ (old('source') == $address->id || $parcel->source->id == $address->id) ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->postal_code }}</option>
                                 @endforeach
                             </select>
                             @error('source')
@@ -70,7 +70,7 @@
                             <select id="destination" name="destination" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected>Select a destination</option>
                                 @foreach($formData['addresses'] as $address)
-                                    <option value="{{ $address->id }}" {{ (old('destination') == $address->id || $parcel->destination->id == $address->id) ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->post_code }}</option>
+                                    <option value="{{ $address->id }}" {{ (old('destination') == $address->id || $parcel->destination->id == $address->id) ? 'selected' : '' }}>{{ $address->street }}, {{ $address->city }}, {{ $address->postal_code }}</option>
                                 @endforeach
                             </select>
                             @error('destination')
@@ -97,7 +97,6 @@
                             <select id="vehicle" name="vehicle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected>Select a vehicle</option>
                                 @foreach($formData['vehicles'] as $vehicle)
-{{--                                    <option value="{{ $vehicle->id }}" {{ (old('vehicle') == $vehicle->id || $parcel->vehicle->id == $vehicle->id) ? 'selected' : '' }}>{{ $vehicle->registration_number }}, {{ mapVehicleTypeToString($vehicle->type) }}</option>--}}
                                     <option value="{{ optional($vehicle)->id }}" {{ (old('vehicle') == optional($vehicle)->id || optional($parcel->vehicle)->id == optional($vehicle)->id) ? 'selected' : '' }}>
                                         {{ optional($vehicle)->registration_number }}, {{ optional($vehicle) ? mapVehicleTypeToString($vehicle->type) : 'N/A' }}
                                     </option>
@@ -112,7 +111,7 @@
                             <select id="tariff" name="tariff" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option value="" disabled selected>Select a tariff</option>
                                 @foreach($formData['tariffs'] as $tariff)
-                                    <option value="{{ $tariff->id }}" {{ (old('tariff') == $tariff->id || $parcel->tariff->id == $tariff->id) ? 'selected' : '' }}>{{ $tariff->name }}, {{ $tariff->extra_information }}</option>
+                                    <option value="{{ $tariff->id }}" {{ (old('tariff') == $tariff->id || $parcel->tariff->id == $tariff->id) ? 'selected' : '' }}>{{ $tariff->name }}: {{ $tariff->extra_information }}</option>
                                 @endforeach
                             </select>
                             @error('tariff')

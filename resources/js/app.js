@@ -1,5 +1,4 @@
 import './bootstrap';
-import './cancelModal.js';
 
 import Alpine from 'alpinejs';
 

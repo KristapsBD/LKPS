@@ -15,7 +15,9 @@ class CourierController extends Controller
      */
     public function index()
     {
-        return view('courier.dashboard');
+        $user = Auth::user();
+        $parcelCount = $user->deliverableParcels()->count();
+        return view('courier.dashboard', compact('parcelCount'));
     }
 
     // Parcel Methods
