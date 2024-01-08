@@ -164,7 +164,8 @@ class AdminController extends Controller
     {
         $parcels = Parcel::with(['sender' => function ($query) {
             $query->withTrashed();
-        }])->paginate(10);
+        }])->orderBy('id', 'desc')->paginate(10);
+
         return view('admin.parcel.parcels', compact('parcels'));
     }
 
