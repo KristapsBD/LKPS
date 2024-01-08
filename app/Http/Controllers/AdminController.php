@@ -37,7 +37,7 @@ class AdminController extends Controller
      */
     public function viewAllUsers()
     {
-        $users = User::withTrashed()->paginate(10);
+        $users = User::withTrashed()->orderBy('id', 'desc')->paginate(10);
         return view('admin.user.users', compact('users'));
     }
 
@@ -665,7 +665,7 @@ class AdminController extends Controller
      */
     public function viewAllClients()
     {
-        $clients = Client::paginate(10);
+        $clients = Client::orderBy('id', 'desc')->paginate(10);
         return view('admin.client.clients', compact('clients'));
     }
 
