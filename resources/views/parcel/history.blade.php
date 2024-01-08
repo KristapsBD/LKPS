@@ -33,6 +33,9 @@
                     <th scope="col" class="px-6 py-3">
                         Status
                     </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tracking Code
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,6 +55,9 @@
                         </td>
                         <td class="px-6 py-4">
                             {{ mapParcelStatusToValue($parcel->status) }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $parcel->tracking_code }}
                         </td>
                     </tr>
                 @endforeach
