@@ -145,6 +145,16 @@
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
+                    @if (auth()->user()->role === 1)
+                        <x-responsive-nav-link :href="route('admin.dashboard')">
+                            {{ __('Admin Panel') }}
+                        </x-responsive-nav-link>
+                    @elseif (auth()->user()->role === 2)
+                        <x-responsive-nav-link :href="route('courier.dashboard')">
+                            {{ __('Courier Panel') }}
+                        </x-responsive-nav-link>
+                    @endif
+
                     <x-responsive-nav-link :href="route('payment.history')">
                         {{ __('Payment History') }}
                     </x-responsive-nav-link>
